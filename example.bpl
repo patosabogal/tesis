@@ -44,7 +44,6 @@ procedure Pop() returns (top: Ref);
   modifies StackPointer;
   ensures StackPointer == old(StackPointer) - 1;
   ensures top == old(Stack[old(StackPointer)]);
-  ensures (forall i: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
 implementation Pop() returns (top: Ref){
   top := Stack[StackPointer];
   StackPointer := StackPointer - 1;
@@ -61,7 +60,9 @@ procedure Store(i: int);
   ensures ScratchSpaceAlloc[i] == true;
   ensures ScratchSpace[i] == Stack[old(StackPointer)];
   ensures StackPointer == old(StackPointer) - 1;
-  ensures (forall j: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
+  ensures (forall j: int:: -1 < j && j <= StackPointer ==> Stack[j] == old(Stack[j]));
+  ensures (forall j: int:: 0 < j && j < 64 && i != j ==> ScratchSpace[j] == old(ScratchSpace[j]));
+  ensures (forall j: int:: 0 < j && j < 64 && i != j ==> ScratchSpaceAlloc[j] == old(ScratchSpaceAlloc[j]));
 implementation Store(i: int) {
   var value: Ref;
   call value := Pop();
@@ -77,7 +78,8 @@ procedure Load(i: int);
   modifies StackPointer;
   ensures Stack[StackPointer] == ScratchSpace[i];
   ensures StackPointer == old(StackPointer)+1;
-  ensures (forall j: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
+  ensures (forall j: int:: -1 < j && j < StackPointer ==> Stack[j] == old(Stack[j]));
+  ensures (forall j: int:: 0 < j && j < 64 && i != j ==> ScratchSpaceAlloc[j] == old(ScratchSpaceAlloc[j]));
 implementation Load(i: int) {
   call Push(ScratchSpace[i]);
   }
@@ -86,7 +88,7 @@ procedure AppGlobalGet();
   requires StackPointer >= 0;
   modifies Stack;
   modifies StackPointer;
-  ensures (GlobalsAlloc[old(Stack[old(StackPointer)])] == true && Stack[StackPointer] == Globals[old(Stack[old(StackPointer)])]) || Stack[StackPointer] == zero;
+  ensures (GlobalsAlloc[old(Stack)[old(StackPointer)]] == true && Stack[StackPointer] == Globals[old(Stack)[old(StackPointer)]]) || Stack[StackPointer] == zero;
   ensures StackPointer == old(StackPointer);
   ensures (forall i: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
 implementation AppGlobalGet() {
@@ -109,8 +111,9 @@ procedure AppGlobalPut();
   ensures GlobalsAlloc[old(Stack[old(StackPointer)-1])] == true;
   ensures Globals[old(Stack[old(StackPointer)-1])] == old(Stack[old(StackPointer)]);
   ensures StackPointer == old(StackPointer) - 2;
-  ensures (forall i: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
+  ensures (forall i: int:: -1 < i && i <= StackPointer ==> Stack[i] == old(Stack[i]));
   ensures (forall ref: Ref :: ref != old(Stack[old(StackPointer)-1]) ==> Globals[ref] == old(Globals[ref]));
+  ensures (forall ref: Ref :: ref != old(Stack[old(StackPointer)-1]) ==> GlobalsAlloc[ref] == old(GlobalsAlloc[ref]));
 implementation AppGlobalPut() {
   var value: Ref;
   var key: Ref;
@@ -174,6 +177,8 @@ procedure Sum();
   ensures RefToInt[Stack[StackPointer]] == old(RefToInt[old(Stack[old(StackPointer)])]) + old(RefToInt[old(Stack[old(StackPointer)-1])]);
   ensures StackPointer == old(StackPointer) - 1;
   ensures (forall i: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
+  ensures (forall ref: Ref :: ref != old(Stack[old(StackPointer)]) && ref != old(Stack[old(StackPointer)-1]) && ref != Stack[StackPointer] ==> RefToInt[ref] == old(RefToInt[ref]));
+  ensures (forall ref: Ref :: ref != old(Stack[old(StackPointer)]) && ref != old(Stack[old(StackPointer)-1]) && ref != Stack[StackPointer] ==> IsInt[ref] == old(IsInt[ref]));
 implementation Sum() {
   var aRef: Ref;
   var bRef: Ref;
@@ -187,9 +192,13 @@ procedure Byte() returns (ref: Ref);
   modifies StackPointer;
   modifies Alloc;
   modifies IsInt;
+  ensures ref != zero;
+  ensures IsInt[ref] == false;
+  ensures IsInt[Stack[StackPointer]] == false;
   ensures Stack[StackPointer] == ref;
   ensures StackPointer == old(StackPointer) + 1;
   ensures (forall i: int:: -1 < i && i < StackPointer ==> Stack[i] == old(Stack[i]));
+  ensures (forall ref': Ref:: ref != ref' ==> IsInt[ref'] == old(IsInt[ref']));
 implementation Byte() returns (ref: Ref) {
   call ref := FreshRefGenerator();
   call Push(ref);
@@ -200,6 +209,11 @@ procedure Return();
 implementation Return(){}
 
 procedure contract();
+  requires StackPointer == -1;
+  requires (forall ref: Ref:: IsInt[ref] == false);
+  requires (forall ref: Ref:: GlobalsAlloc[ref] == false);
+  requires (forall ref: Ref:: Alloc[ref] == false);
+  requires (forall i: int:: ScratchSpaceAlloc[i] == false);
   modifies Alloc;
   modifies ScratchSpace;
   modifies ScratchSpaceAlloc;
@@ -210,24 +224,18 @@ procedure contract();
   modifies GlobalsAlloc;
   modifies RefToInt;
 
-// TODO RUN
-// TODO ensure other stack elements stay the same
 implementation contract() {
   var counter: Ref;
-  StackPointer := -1;
   IsInt[zero] := true;
   RefToInt[zero] := 0;
   call counter := Byte();
   call Dup();
   call AppGlobalGet();
   call Int(1);
-  assume(IsInt[Stack[StackPointer]] && IsInt[Stack[StackPointer-1]]);
-  assume(RefToInt[Stack[StackPointer]] >= 0 && RefToInt[Stack[StackPointer-1]]>= 0);
   call Sum();
   call Dup();
   call Store(0);
   call AppGlobalPut();
   call Load(0);
-  call Return();
   }
 
