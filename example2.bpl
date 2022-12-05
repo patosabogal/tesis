@@ -4,6 +4,8 @@ const unique zero: Ref;
 const unique OptIn: int;
 const unique Noop : int;
 const unique CloseOut: int;
+const unique DeleteApplication: int;
+const unique UpdateApplication: int;
 var Alloc: [Ref] bool;
 var Globals: [Ref] Ref;
 var GlobalsAlloc: [Ref] bool;
@@ -13,6 +15,9 @@ var StackPointer: int;
 var Stack: [int] Ref;
 var IsInt: [Ref] bool;
 var RefToInt: [Ref] int;
+
+const unique GlobalRound: int;
+
 
 // Modeling txns as refs
 var CurrentTxn: Ref;
@@ -302,6 +307,7 @@ procedure contract();
   modifies ApplicationID;
 
 implementation contract() {
+  var _: Ref;
   // declare srings
   var creator: Ref;
   var regBegin: Ref;
@@ -340,7 +346,7 @@ implementation contract() {
   call Equal();
   // bz label === if RefToInt(stack[stackpoint]) == 0 gotolabel
   if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
-    goto failed; // TODO: Change back to not_creation
+    goto not_creation;
   }
   call Byte(creator);
   call Txn(Sender);
@@ -372,7 +378,190 @@ implementation contract() {
   call Int(1);
   call Return();
   return;
-  goto finished;
+  not_creation:
+    call Int(DeleteApplication);
+    call Txn(OnCompletion);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto not_deletion; 
+    }
+    call Byte(creator);
+    call AppGlobalGet();
+    call Txn(Sender);
+    call Equal()
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(1);
+    call Return();
+    return;
+  not_deletion:
+    call Int(UpdateApplication);
+    call Txn(OnCompletion);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto not_update;
+    }
+    call Byte(creator);
+    call AppGlobalGet();
+    call Txn(Sender);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(1);
+    call Return();
+    return;
+  not_update:
+    call Int(CloseOut);
+    call Txn(OnCompletion);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
+      goto close_out;
+    }
+    call Txna(ApplicationArgs,0);
+    call Byte(register)
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
+      goto register;
+    }
+    call Txna(ApplicationArgs,0);
+    call Byte(vote)
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
+      goto vote;
+    }
+    call Int(0);
+    call Return();
+    call return;
+  vote:
+    // global Round
+    call Int(GlobalRound);
+    call Byte(voteBegin);
+    call AppGlobalGet();
+    call GreatOrEqual() // TODO: Implement
+    call Int(GlobalRound);
+    call Byte(voteEnd);
+    call LessOrEqual(); // TODO: Implement
+    call And(); // TODO: Implement
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(0);
+    call Txn(ApplicationID);
+    call AppOptedIn(); // TODO: Implement
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(0);
+    call Int(2);
+    call AssetHoldingGet(AssetBalance); // TODO: Implement
+    call _ := call Pop();
+    call Int(1);
+    call GreatOrEqual();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(GroupSize); // TODO: Implement
+    call Int(2);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call GTxn(1,TypeEnum); // TODO: Implement
+    call Int(4);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Byte(creator);
+    call AppGlobalGet();
+    GTxn(1,AssetReceiver); // TODO: Implement
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call GTxn(1,XferAsset); // TODO: Implement
+    call Int(2);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call GTxn(1,AssetAmount); // TODO: Implement
+    call Int(1);
+    call Equal();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(0);
+    call Txn(ApplicationID);
+    call Byte(voted);
+    call AppGlobalGetEx(); // TODO: Implement
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
+      goto voted;
+    }
+    call _ := Pop();
+    call Txna(ApplicationArgs, 1);
+    call Byte(candidatea);
+    call Equal();
+    call Txna(ApplicationArgs, 1);
+    call Byte(candidateb);
+    call Equal();
+    call Or();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(0);
+    call Txna(ApplicationArgs,1);
+    call AppGlobalGetEx();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
+      goto increment_existing;
+    }
+    call _:= Pop();
+    call Int(0);
+  increment_existing:
+    call Int(1);
+    call Sum();
+    call Store(1);
+    call Txna(ApplicationArgs,1);
+    call Load(1);
+    call AppGlobalPut();
+    call Int(0);
+    call Byte(voted);
+    call Txna(ApplicationArgs,1);
+    call AppGlobalPut();
+    call Int(1);
+    call Return();
+    return;
+  voted:
+    call _ := Pop();
+    call Int(1);
+    call Return();
+    return;
+  register:
+    call Int(GlobalRound);
+    call Byte(regBegin);
+    call AppGlobalGet();
+    call GreatOrEqual();
+    call Int(GlobalRound);
+    call Byte(regEnd);
+    call AppGlobalGet();
+    call LessOrEqual();
+    call And();
+    call Int(OptIn);
+    call Txn(OnCompletion);
+    call Equal();
+    call And();
+    if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
+      goto failed;
+    }
+    call Int(1);
+    call Return();
+    return;
+  close_out:
+    call Int(1)
+    call Return();
+    return;
   failed:
     call Int(0);
     call Return();
