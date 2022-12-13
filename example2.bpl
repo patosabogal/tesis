@@ -1,5 +1,5 @@
 type Ref;
-type Txn;
+type Transaction;
 const unique zero: Ref;
 const unique OptIn: int;
 const unique Noop : int;
@@ -20,23 +20,23 @@ var AssetFrozen: [Ref] [int] int; // account, assetId
 var OptedInApp: [Ref] [int] int; // account, appId
 var OptedInAsset: [Ref] [int] int; // account, assetId
 
-const unique GroupSize: int;
-const unique Round: int;
+var GroupSize: int;
+var Round: int;
 
 // Modeling txns
-var GroupIndex: [Txn] int;
-var CurrentTxn: Txn;
-var GroupTransaction: [int] Txn;
-var Sender : [Txn] Ref;
-var NumAppArgs : [Txn] Ref;
-var ApplicationArgs : [Txn] [int] Ref;
-var OnCompletion : [Txn] Ref;
-var Accounts : [Txn] [int] Ref;
-var ApplicationID : [Txn] Ref;
-var TypeEnum: [Txn] Ref;
-var AssetReceiver: [Txn] Ref;
-var XferAsset: [Txn] Ref;
-var AssetAmount: [Txn] Ref;
+var GroupIndex: [Transaction] int;
+var CurrentTxn: Transaction;
+var GroupTransaction: [int] Transaction;
+var Sender : [Transaction] Ref;
+var NumAppArgs : [Transaction] Ref;
+var ApplicationArgs : [Transaction] [int] Ref;
+var OnCompletion : [Transaction] Ref;
+var Accounts : [Transaction] [int] Ref;
+var ApplicationID : [Transaction] Ref;
+var TypeEnum: [Transaction] Ref;
+var AssetReceiver: [Transaction] Ref;
+var XferAsset: [Transaction] Ref;
+var AssetAmount: [Transaction] Ref;
 
 procedure FreshRefGenerator() returns (newRef: Ref);
   modifies Alloc;
@@ -247,35 +247,33 @@ implementation Byte(ref : Ref) {
 procedure Btoi();
 implementation Btoi() {
   var top : Ref;
+  var n: int;
   call top := Pop();
   call Int(RefToInt[top]);
 }
 
 procedure Return();
-  requires !IsInt[Stack[StackPointer]] || RefToInt[Stack[StackPointer]] > 0;
-implementation Return(){}
+implementation Return(){
+  assert !IsInt[Stack[StackPointer]] || RefToInt[Stack[StackPointer]] > 0;
+}
 
-procedure GTxn(index:int, field: [Txn] Ref);
-  requires 0 <= index;
-  requires 0 < GroupSize;
-  modifies Stack;
-  modifies StackPointer;
-implementation GTxn(index: int, field: [Txn] Ref) {
+procedure GTxn(index:int, field: [Transaction] Ref);
+implementation GTxn(index: int, field: [Transaction] Ref) {
   call Push(field[GroupTransaction[index]]);
   }
 
-procedure Txn(field: [Txn] Ref);
-implementation Txn(field: [Txn] Ref) {
+procedure Txn(field: [Transaction] Ref);
+implementation Txn(field: [Transaction] Ref) {
   call GTxn(GroupIndex[CurrentTxn], field);
   }
 
-procedure Txna(arrayField: [Txn][int] Ref, index: int);
+procedure Txna(arrayField: [Transaction][int] Ref, index: int);
   modifies Stack;
   modifies StackPointer;
   //ensures StackPointer == old(StackPointer) + 1;
   //ensures Stack[StackPointer] == arrayField[CurrentTxn][index];
   //ensures (forall i: int:: -1 <= i && i < StackPointer ==> Stack[i] == old(Stack[i]));
-implementation Txna(arrayField: [Txn][int] Ref, index: int) {
+implementation Txna(arrayField: [Transaction][int] Ref, index: int) {
   call Push(arrayField[CurrentTxn][index]);
   }
 
@@ -429,27 +427,6 @@ implementation AssetHoldingGet(field: [Ref][int]int) {
 
 
 procedure contract();
-  requires StackPointer == -1;
-  requires (forall ref: Ref:: ref != zero ==> IsInt[ref] == false);
-  requires (forall ref: Ref:: ref != zero ==> GlobalsAlloc[ref] == false);
-  requires (forall ref: Ref:: ref != zero ==> Alloc[ref] == false);
-  requires (forall i: int:: ScratchSpaceAlloc[i] == false);
-  requires (forall i: int:: Stack[i] == zero);
-  requires GroupTransaction[GroupIndex[CurrentTxn]] == CurrentTxn;
-  requires GroupSize > 0;
-  requires (forall txn: Txn:: 0 <= GroupIndex[txn]);
-  requires (forall txn: Txn:: GroupIndex[txn] < GroupSize);
-  modifies Alloc;
-  modifies ScratchSpace;
-  modifies ScratchSpaceAlloc;
-  modifies Stack;
-  modifies StackPointer;
-  modifies IsInt;
-  modifies Globals;
-  modifies GlobalsAlloc;
-  modifies RefToInt;
-  modifies ApplicationID;
-
 implementation contract() {
   var _: Ref;
   // declare srings
@@ -703,29 +680,67 @@ implementation contract() {
   }
 
 procedure verify();
+  requires GroupSize > 0;
+  requires (forall txn: Transaction:: 0 <= GroupIndex[txn]);
+  requires (forall txn: Transaction:: GroupIndex[txn] < GroupSize);
+  requires GroupTransaction[GroupIndex[CurrentTxn]] == CurrentTxn;
+  requires OptIn > 0;
+  requires Noop  > 0;
+  requires CloseOut > 0;
+  requires DeleteApplication > 0;
+  requires UpdateApplication > 0;
+  requires StackPointer == -1;
 implementation verify() {
-  assume StackPointer == -1;
-  assume IsInt[zero] == true;
-  assume RefToInt[zero] == 0;
-  assume Alloc[zero];
-  assume ApplicationID[CurrentTxn] == zero;
-  assume (forall ref: Ref:: ref != zero ==> IsInt[ref] == false);
-  assume (forall ref: Ref:: ref != zero ==> GlobalsAlloc[ref] == false);
-  assume (forall ref: Ref:: ref != zero ==> Alloc[ref] == false);
-  assume (forall i: int:: ScratchSpaceAlloc[i] == false);
-  assume (forall i: int:: Stack[i] == zero);
-  assume GroupSize > 0;
-  assume (forall txn: Txn:: 0 <= GroupIndex[txn]);
-  assume (forall txn: Txn:: GroupIndex[txn] < GroupSize);
-  assume GroupTransaction[GroupIndex[CurrentTxn]] == CurrentTxn;
-  assume (forall txn: Txn:: IsInt[NumAppArgs[txn]]);
-
   call verifyConstructor();
 }
 
 procedure verifyConstructor();
 implementation verifyConstructor() {
-  assume ApplicationID[CurrentTxn] == zero;
-  assume RefToInt[NumAppArgs[CurrentTxn]] == 4;
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var sender : Ref;
+  var applicationArgs0 : Ref;
+  var applicationArgs1 : Ref;
+  var applicationArgs2 : Ref;
+  var applicationArgs3 : Ref;
+  var applicationId : Ref;
+
+  call numAppArgs := FreshRefGenerator();
+  call applicationArgs0 := FreshRefGenerator();
+  call applicationArgs1 := FreshRefGenerator();
+  call applicationArgs2 := FreshRefGenerator();
+  call applicationArgs3 := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+  call sender := FreshRefGenerator();
+
+  assume IsInt[zero] == true;
+  assume RefToInt[zero] == 0;
+  assume Alloc[zero];
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  RefToInt[ApplicationID[CurrentTxn]] := 0;
+
+  Sender[CurrentTxn] := sender;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 4;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := DeleteApplication;
+
+  ApplicationArgs[CurrentTxn][0] := applicationArgs0;
+  RefToInt[ApplicationArgs[CurrentTxn][0]] := 42;
+  ApplicationArgs[CurrentTxn][1] := applicationArgs1;
+  RefToInt[ApplicationArgs[CurrentTxn][1]] := 42;
+  ApplicationArgs[CurrentTxn][2] := applicationArgs2;
+  RefToInt[ApplicationArgs[CurrentTxn][2]] := 42;
+  ApplicationArgs[CurrentTxn][3] := applicationArgs3;
+  RefToInt[ApplicationArgs[CurrentTxn][3]] := 42;
+   
+  assume GroupSize == 1;
   call contract();
 }
