@@ -7,8 +7,14 @@ const unique CloseOut: int;
 const unique DeleteApplication: int;
 const unique UpdateApplication: int;
 var Alloc: [Ref] bool;
-var Globals: [Ref] Ref;
 var GlobalsAlloc: [Ref] bool;
+var Globals: [Ref] Ref;
+var GlobalsExAlloc: [Ref][Ref] bool;
+var GlobalsEx: [Ref][Ref] Ref;
+var LocalsAlloc: [Ref][Ref] bool;
+var Locals: [Ref][Ref] Ref;
+var LocalsExAlloc: [Ref][Ref][Ref] bool;
+var LocalsEx: [Ref][Ref][Ref] Ref;
 var ScratchSpace: [int] Ref;
 var ScratchSpaceAlloc: [int] bool;
 var StackPointer: int;
@@ -19,6 +25,9 @@ var AssetBalance: [Ref] [int] int; // account, assetId
 var AssetFrozen: [Ref] [int] int; // account, assetId
 var OptedInApp: [Ref] [int] int; // account, appId
 var OptedInAsset: [Ref] [int] int; // account, assetId
+
+// transaction types
+var AssetTransfer: Ref;
 
 var GroupSize: int;
 var Round: int;
@@ -37,6 +46,23 @@ var TypeEnum: [Transaction] Ref;
 var AssetReceiver: [Transaction] Ref;
 var XferAsset: [Transaction] Ref;
 var AssetAmount: [Transaction] Ref;
+
+const unique Creator : Ref;
+const unique NotCreator : Ref;
+
+var _: Ref;
+
+// declare srings
+var creator: Ref;
+var regBegin: Ref;
+var regEnd: Ref;
+var voteBegin: Ref;
+var voteEnd: Ref;
+var register: Ref;
+var vote: Ref;
+var voted: Ref;
+var candidatea: Ref;
+var candidateb: Ref;
 
 procedure FreshRefGenerator() returns (newRef: Ref);
   modifies Alloc;
@@ -115,12 +141,27 @@ implementation Load(i: int) {
 procedure AppGlobalGetEx();
   requires StackPointer > 0;
 implementation AppGlobalGetEx() {
-  var value: Ref;
-  var _: Ref;
-  havoc value;
-  call _ := Pop();
-  call _ := Pop();
-  call Push(value);
+  //var value: Ref;
+  //var _: Ref;
+  //havoc value;
+  //call _ := Pop();
+  //call _ := Pop();
+  //call Push(value);
+  call Int(1);
+  }
+
+// Returns any Ref
+procedure AppLocalGetEx();
+  requires StackPointer > 0;
+implementation AppLocalGetEx() {
+  //var value: Ref;
+  //var _: Ref;
+  //havoc value;
+  //call _ := Pop();
+  //call _ := Pop();
+  //call _ := Pop();
+  //call Push(value);
+  call Int(0);
   }
 
 procedure AppGlobalGet();
@@ -428,30 +469,6 @@ implementation AssetHoldingGet(field: [Ref][int]int) {
 
 procedure contract();
 implementation contract() {
-  var _: Ref;
-  // declare srings
-  var creator: Ref;
-  var regBegin: Ref;
-  var regEnd: Ref;
-  var voteBegin: Ref;
-  var voteEnd: Ref;
-  var register: Ref;
-  var vote: Ref;
-  var voted: Ref;
-  var candidatea: Ref;
-  var candidateb: Ref;
-
-  // get string refs
-  call creator := FreshRefGenerator();
-  call regBegin := FreshRefGenerator();
-  call regEnd := FreshRefGenerator();
-  call voteBegin := FreshRefGenerator();
-  call voteEnd := FreshRefGenerator();
-  call register := FreshRefGenerator();
-  call vote := FreshRefGenerator();
-  call voted := FreshRefGenerator();
-  call candidatea := FreshRefGenerator();
-  call candidateb := FreshRefGenerator();
 
   // contract starts
   call Int(0);
@@ -607,7 +624,7 @@ implementation contract() {
     call Int(0);
     call Txn(ApplicationID);
     call Byte(voted);
-    call AppGlobalGetEx();
+    call AppLocalGetEx();
     if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] != 0) {
       goto voted;
     }
@@ -691,14 +708,39 @@ procedure verify();
   requires UpdateApplication > 0;
   requires StackPointer == -1;
 implementation verify() {
-  call verifyConstructor();
+  // get string refs
+  call creator := FreshRefGenerator();
+  call regBegin := FreshRefGenerator();
+  call regEnd := FreshRefGenerator();
+  call voteBegin := FreshRefGenerator();
+  call voteEnd := FreshRefGenerator();
+  call register := FreshRefGenerator();
+  call vote := FreshRefGenerator();
+  call voted := FreshRefGenerator();
+  call candidatea := FreshRefGenerator();
+  call candidateb := FreshRefGenerator();
+
+  assume IsInt[zero] == true;
+  assume RefToInt[zero] == 0;
+  assume Alloc[zero];
+  assume Alloc[Creator];
+  assume Alloc[NotCreator];
+  assume Alloc[AssetTransfer];
+  assume IsInt[AssetTransfer];
+  assume RefToInt[AssetTransfer] == 4;
+
+  call verifyCreation();
+  //call verifyDeleteApplication();
+  //call verifyUpdateApplication();
+  //call verifyCloseOut();
+  call verifyRegister();
+  assert false;
 }
 
-procedure verifyConstructor();
-implementation verifyConstructor() {
+procedure verifyCreation();
+implementation verifyCreation() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var sender : Ref;
   var applicationArgs0 : Ref;
   var applicationArgs1 : Ref;
   var applicationArgs2 : Ref;
@@ -712,17 +754,12 @@ implementation verifyConstructor() {
   call applicationArgs3 := FreshRefGenerator();
   call applicationId := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
-  call sender := FreshRefGenerator();
-
-  assume IsInt[zero] == true;
-  assume RefToInt[zero] == 0;
-  assume Alloc[zero];
 
   IsInt[applicationId] := true;
   ApplicationID[CurrentTxn] := applicationId;
   RefToInt[ApplicationID[CurrentTxn]] := 0;
 
-  Sender[CurrentTxn] := sender;
+  Sender[CurrentTxn] := Creator;
   
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
@@ -730,17 +767,190 @@ implementation verifyConstructor() {
 
   IsInt[onCompletion] := true;
   OnCompletion[CurrentTxn] := onCompletion;
-  RefToInt[OnCompletion[CurrentTxn]] := DeleteApplication;
 
-  ApplicationArgs[CurrentTxn][0] := applicationArgs0;
+  ApplicationArgs[CurrentTxn][0] := applicationArgs0; // regBegin
   RefToInt[ApplicationArgs[CurrentTxn][0]] := 42;
-  ApplicationArgs[CurrentTxn][1] := applicationArgs1;
+  ApplicationArgs[CurrentTxn][1] := applicationArgs1; // regEnd
   RefToInt[ApplicationArgs[CurrentTxn][1]] := 42;
-  ApplicationArgs[CurrentTxn][2] := applicationArgs2;
+  ApplicationArgs[CurrentTxn][2] := applicationArgs2; // voteBegin
   RefToInt[ApplicationArgs[CurrentTxn][2]] := 42;
-  ApplicationArgs[CurrentTxn][3] := applicationArgs3;
+  ApplicationArgs[CurrentTxn][3] := applicationArgs3; // voteEnd
   RefToInt[ApplicationArgs[CurrentTxn][3]] := 42;
    
   assume GroupSize == 1;
+  call contract();
+}
+
+procedure verifyDeleteApplication();
+implementation verifyDeleteApplication() {
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var applicationId : Ref;
+
+  call numAppArgs := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  Sender[CurrentTxn] := Creator;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 0;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := DeleteApplication;
+
+  assume GroupSize == 1;
+  call contract();
+}
+
+procedure verifyUpdateApplication();
+implementation verifyUpdateApplication() {
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var applicationId : Ref;
+
+  call numAppArgs := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  Sender[CurrentTxn] := Creator;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 0;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := UpdateApplication;
+
+  assume GroupSize == 1;
+  call contract();
+}
+
+procedure verifyCloseOut();
+implementation verifyCloseOut() {
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var applicationId : Ref;
+
+  call numAppArgs := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  Sender[CurrentTxn] := Creator;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 0;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := CloseOut;
+
+  assume GroupSize == 1;
+  call contract();
+}
+
+procedure verifyRegister();
+implementation verifyRegister() {
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var applicationId : Ref;
+
+  call numAppArgs := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  Sender[CurrentTxn] := NotCreator;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 1;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := OptIn;
+
+  ApplicationArgs[CurrentTxn][0] := register;
+
+  assume RefToInt[Globals[regBegin]] >= Round;
+  assume RefToInt[Globals[regEnd]] <= Round;
+
+  assume GroupSize == 1;
+  call contract();
+}
+
+procedure verifyVote();
+implementation verifyVote() {
+  var numAppArgs : Ref;
+  var onCompletion : Ref;
+  var applicationId : Ref;
+  var harcodedToken: Ref;
+  var assetAmount: Ref;
+
+  assume GroupSize == 2;
+  assume GroupIndex[CurrentTxn] == 0;
+ 
+  // first tx
+  call numAppArgs := FreshRefGenerator();
+  call applicationId := FreshRefGenerator();
+  call onCompletion := FreshRefGenerator();
+
+  IsInt[applicationId] := true;
+  ApplicationID[CurrentTxn] := applicationId;
+  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  Sender[CurrentTxn] := NotCreator;
+  
+  IsInt[numAppArgs] := true;
+  NumAppArgs[CurrentTxn] := numAppArgs;
+  RefToInt[NumAppArgs[CurrentTxn]] := 1;
+
+  IsInt[onCompletion] := true;
+  OnCompletion[CurrentTxn] := onCompletion;
+  RefToInt[OnCompletion[CurrentTxn]] := OptIn;
+
+  ApplicationArgs[CurrentTxn][0] := vote;
+  ApplicationArgs[CurrentTxn][1] := candidatea;
+
+  assume RefToInt[Globals[voteBegin]] >= Round;
+  assume RefToInt[Globals[voteEnd]] <= Round;
+
+  // second tx
+  TypeEnum[GroupTransaction[1]] := AssetTransfer;
+
+  AssetReceiver[GroupTransaction[1]] := Creator;
+
+  call harcodedToken := FreshRefGenerator();
+  IsInt[harcodedToken] := true;
+  RefToInt[harcodedToken] := 2;
+  XferAsset[GroupTransaction[1]] := harcodedToken;
+
+  call assetAmount := FreshRefGenerator();
+  IsInt[assetAmount] := true;
+  RefToInt[assetAmount] := 1;
+  AssetAmount[GroupTransaction[1]] := assetAmount;
+
+  //TODO: not_voted
+  assume App
+
   call contract();
 }
