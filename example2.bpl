@@ -13,7 +13,6 @@ var ApplicationCall: Ref;
 
 
 // OnComplete constants
-// These are configured on the 'verify' procedur. TODO: Configure all
 const Noop : int;
 const OptIn: int;
 const CloseOut: int;
@@ -404,7 +403,7 @@ implementation GreatOrEqual() {
     var bRef: Ref;
     call bRef := Pop();
     call aRef := Pop();
-    if (IsInt[aRef] && IsInt[bRef] && RefToInt[aRef] >=  RefToInt[bRef]) {
+    if (RefToInt[aRef] >= RefToInt[bRef]) {
       call Int(1);
       return;
     }
@@ -473,7 +472,7 @@ implementation AssetHoldingGet(field: [Ref][int]int) {
     assert Accounts[CurrentTxn][RefToInt[accountsIndexRef]] == Sender[CurrentTxn];
     assert NotCreator == Sender[CurrentTxn];
     accountRef := Accounts[CurrentTxn][RefToInt[accountsIndexRef]];
-
+    assert field[accountRef][assetId]>= 1;
     call Int(field[accountRef][assetId]);
     if (OptedInAsset[accountRef][assetId] > 0) {
       call Int(1);
@@ -617,6 +616,7 @@ implementation contract() {
     if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
       goto failed;
     }
+    // TODO: should fail here
     call GTxn(1,TypeEnum);
     call Int(4);
     call Equal();
@@ -961,11 +961,12 @@ implementation verifyVote() {
   assume RefToInt[Globals[voteBegin]] >= Round;
   assume RefToInt[Globals[voteEnd]] <= Round;
   assume OptedInApp[NotCreator][RefToInt[applicationID]] >  0;
-  assume AssetBalance[NotCreator][RefToInt[hardcodedToken]] > 0;
+  assume AssetBalance[NotCreator][RefToInt[hardcodedToken]] >= 1;
   assume Accounts[CurrentTxn][0] == Sender[CurrentTxn];
   assume RefToInt[hardcodedToken] == 2;
 
-  GroupSize := 1;
+  GroupSize := 2;
+  // TODO: implement 2nd tx
   call contract();
 
   //var numAppArgs : Ref;
