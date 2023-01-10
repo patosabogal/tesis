@@ -1,11 +1,27 @@
 type Ref;
 type Transaction;
 const unique zero: Ref;
-const unique OptIn: int;
-const unique Noop : int;
-const unique CloseOut: int;
-const unique DeleteApplication: int;
-const unique UpdateApplication: int;
+
+// TypeEnum constants
+// These are configured on the 'verify' procedur. TODO: Configure all
+var Payment: Ref;
+var KeyRegistration: Ref;
+var AssetConfig: Ref;
+var AssetTransfer: Ref;
+var AssetFreeze: Ref;
+var ApplicationCall: Ref;
+
+
+// OnComplete constants
+// These are configured on the 'verify' procedur. TODO: Configure all
+const Noop : int;
+const OptIn: int;
+const CloseOut: int;
+const ClearState: int;
+const UpdateApplication: int;
+const DeleteApplication: int;
+
+// tx state
 var Alloc: [Ref] bool;
 var GlobalsAlloc: [Ref] bool;
 var Globals: [Ref] Ref;
@@ -25,9 +41,6 @@ var AssetBalance: [Ref] [int] int; // account, assetId
 var AssetFrozen: [Ref] [int] int; // account, assetId
 var OptedInApp: [Ref] [int] int; // account, appId
 var OptedInAsset: [Ref] [int] int; // account, assetId
-
-// transaction types
-var AssetTransfer: Ref;
 
 var GroupSize: int;
 var Round: int;
@@ -421,18 +434,18 @@ procedure AppOptedIn();
   requires IsInt[Stack[StackPointer]];
   requires IsInt[Stack[StackPointer-1]];
 implementation AppOptedIn() {
-    var applicationIdRef: Ref;
+    var applicationIDRef: Ref;
     var accountsIndexRef: Ref;
     var accountRef: Ref;
-    var applicationId: int;
+    var applicationID: int;
 
-    call applicationIdRef := Pop();
+    call applicationIDRef := Pop();
     call accountsIndexRef := Pop();
 
-    applicationId := RefToInt[applicationIdRef];
+    applicationID := RefToInt[applicationIDRef];
     accountRef := Accounts[CurrentTxn][RefToInt[accountsIndexRef]];
 
-    if (OptedInApp[accountRef][applicationId] > 0) {
+    if (OptedInApp[accountRef][applicationID] > 0) {
       call Int(1);
       return;
     }
@@ -450,10 +463,15 @@ implementation AssetHoldingGet(field: [Ref][int]int) {
     var accountRef: Ref;
     var assetId: int;
 
+    call accountRef := FreshRefGenerator();
     call assetIdRef := Pop();
     call accountsIndexRef := Pop();
-
+    
     assetId := RefToInt[assetIdRef];
+    assert RefToInt[accountsIndexRef] == 0;
+    assert Accounts[CurrentTxn][0] == Sender[CurrentTxn];
+    assert Accounts[CurrentTxn][RefToInt[accountsIndexRef]] == Sender[CurrentTxn];
+    assert NotCreator == Sender[CurrentTxn];
     accountRef := Accounts[CurrentTxn][RefToInt[accountsIndexRef]];
 
     call Int(field[accountRef][assetId]);
@@ -569,7 +587,10 @@ implementation contract() {
     call AppGlobalGet();
     call GreatOrEqual();
     call Int(Round);
+    assert voteEnd != zero;
+    assert !IsInt[voteEnd];
     call Byte(voteEnd);
+    call AppGlobalGet();
     call LessOrEqual();
     call And();
     if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
@@ -700,9 +721,9 @@ procedure verify();
   requires GroupSize > 0;
   requires (forall txn: Transaction:: 0 <= GroupIndex[txn]);
   requires (forall txn: Transaction:: GroupIndex[txn] < GroupSize);
-  requires GroupTransaction[GroupIndex[CurrentTxn]] == CurrentTxn;
+  requires (forall txn: Transaction:: GroupTransaction[GroupIndex[txn]] == txn);
+  requires Accounts[CurrentTxn][0] == Sender[CurrentTxn];
   requires OptIn > 0;
-  requires Noop  > 0;
   requires CloseOut > 0;
   requires DeleteApplication > 0;
   requires UpdateApplication > 0;
@@ -729,11 +750,19 @@ implementation verify() {
   assume IsInt[AssetTransfer];
   assume RefToInt[AssetTransfer] == 4;
 
+  assume Noop == 0;
+  assume OptIn == 1;
+  assume CloseOut == 2;
+  assume ClearState == 3;
+  assume UpdateApplication == 4;
+  assume DeleteApplication == 5;
+
   call verifyCreation();
-  //call verifyDeleteApplication();
-  //call verifyUpdateApplication();
-  //call verifyCloseOut();
-  call verifyRegister();
+  // call verifyDeleteApplication();
+  // call verifyUpdateApplication();
+  // call verifyCloseOut();
+  // call verifyRegister();
+  call verifyVote();
   assert false;
 }
 
@@ -745,18 +774,18 @@ implementation verifyCreation() {
   var applicationArgs1 : Ref;
   var applicationArgs2 : Ref;
   var applicationArgs3 : Ref;
-  var applicationId : Ref;
+  var applicationID : Ref;
 
   call numAppArgs := FreshRefGenerator();
   call applicationArgs0 := FreshRefGenerator();
   call applicationArgs1 := FreshRefGenerator();
   call applicationArgs2 := FreshRefGenerator();
   call applicationArgs3 := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   RefToInt[ApplicationID[CurrentTxn]] := 0;
 
   Sender[CurrentTxn] := Creator;
@@ -777,7 +806,7 @@ implementation verifyCreation() {
   ApplicationArgs[CurrentTxn][3] := applicationArgs3; // voteEnd
   RefToInt[ApplicationArgs[CurrentTxn][3]] := 42;
    
-  assume GroupSize == 1;
+  GroupSize := 1;
   call contract();
 }
 
@@ -785,14 +814,14 @@ procedure verifyDeleteApplication();
 implementation verifyDeleteApplication() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var applicationId : Ref;
+  var applicationID : Ref;
 
   call numAppArgs := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
@@ -805,7 +834,7 @@ implementation verifyDeleteApplication() {
   OnCompletion[CurrentTxn] := onCompletion;
   RefToInt[OnCompletion[CurrentTxn]] := DeleteApplication;
 
-  assume GroupSize == 1;
+  GroupSize := 1;
   call contract();
 }
 
@@ -813,14 +842,14 @@ procedure verifyUpdateApplication();
 implementation verifyUpdateApplication() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var applicationId : Ref;
+  var applicationID : Ref;
 
   call numAppArgs := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
@@ -833,7 +862,7 @@ implementation verifyUpdateApplication() {
   OnCompletion[CurrentTxn] := onCompletion;
   RefToInt[OnCompletion[CurrentTxn]] := UpdateApplication;
 
-  assume GroupSize == 1;
+  GroupSize := 1;
   call contract();
 }
 
@@ -841,14 +870,14 @@ procedure verifyCloseOut();
 implementation verifyCloseOut() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var applicationId : Ref;
+  var applicationID : Ref;
 
   call numAppArgs := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
@@ -861,7 +890,7 @@ implementation verifyCloseOut() {
   OnCompletion[CurrentTxn] := onCompletion;
   RefToInt[OnCompletion[CurrentTxn]] := CloseOut;
 
-  assume GroupSize == 1;
+  GroupSize := 1;
   call contract();
 }
 
@@ -869,14 +898,14 @@ procedure verifyRegister();
 implementation verifyRegister() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var applicationId : Ref;
+  var applicationID : Ref;
 
   call numAppArgs := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := NotCreator;
@@ -894,7 +923,7 @@ implementation verifyRegister() {
   assume RefToInt[Globals[regBegin]] >= Round;
   assume RefToInt[Globals[regEnd]] <= Round;
 
-  assume GroupSize == 1;
+  GroupSize := 1;
   call contract();
 }
 
@@ -902,27 +931,25 @@ procedure verifyVote();
 implementation verifyVote() {
   var numAppArgs : Ref;
   var onCompletion : Ref;
-  var applicationId : Ref;
-  var harcodedToken: Ref;
-  var assetAmount: Ref;
+  var applicationID : Ref;
+  var hardcodedToken : Ref;
+  var assetAmount : Ref;
 
-  assume GroupSize == 2;
-  assume GroupIndex[CurrentTxn] == 0;
- 
-  // first tx
   call numAppArgs := FreshRefGenerator();
-  call applicationId := FreshRefGenerator();
+  call applicationID := FreshRefGenerator();
   call onCompletion := FreshRefGenerator();
+  call hardcodedToken := FreshRefGenerator();
+  call assetAmount := FreshRefGenerator();
 
-  IsInt[applicationId] := true;
-  ApplicationID[CurrentTxn] := applicationId;
+  IsInt[applicationID] := true;
+  ApplicationID[CurrentTxn] := applicationID;
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := NotCreator;
   
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
-  RefToInt[NumAppArgs[CurrentTxn]] := 1;
+  RefToInt[NumAppArgs[CurrentTxn]] := 2;
 
   IsInt[onCompletion] := true;
   OnCompletion[CurrentTxn] := onCompletion;
@@ -933,24 +960,65 @@ implementation verifyVote() {
 
   assume RefToInt[Globals[voteBegin]] >= Round;
   assume RefToInt[Globals[voteEnd]] <= Round;
+  assume OptedInApp[NotCreator][RefToInt[applicationID]] >  0;
+  assume AssetBalance[NotCreator][RefToInt[hardcodedToken]] > 0;
+  assume Accounts[CurrentTxn][0] == Sender[CurrentTxn];
+  assume RefToInt[hardcodedToken] == 2;
 
-  // second tx
-  TypeEnum[GroupTransaction[1]] := AssetTransfer;
-
-  AssetReceiver[GroupTransaction[1]] := Creator;
-
-  call harcodedToken := FreshRefGenerator();
-  IsInt[harcodedToken] := true;
-  RefToInt[harcodedToken] := 2;
-  XferAsset[GroupTransaction[1]] := harcodedToken;
-
-  call assetAmount := FreshRefGenerator();
-  IsInt[assetAmount] := true;
-  RefToInt[assetAmount] := 1;
-  AssetAmount[GroupTransaction[1]] := assetAmount;
-
-  //TODO: not_voted
-  assume App
-
+  GroupSize := 1;
   call contract();
+
+  //var numAppArgs : Ref;
+  //var onCompletion : Ref;
+  //var applicationID : Ref;
+  //var hardcodedToken: Ref;
+  //var assetAmount: Ref;
+
+  //GroupSize := 2;
+  //GroupIndex[CurrentTxn] := 0;
+  //GroupTransaction[0] := CurrentTxn;
+
+  //call numAppArgs := FreshRefGenerator();
+  //call applicationID := FreshRefGenerator();
+  //call onCompletion := FreshRefGenerator();
+  //call hardcodedToken := FreshRefGenerator();
+  //call assetAmount := FreshRefGenerator();
+ 
+  //// first tx
+  //IsInt[applicationID] := true;
+  //ApplicationID[CurrentTxn] := applicationID;
+  //assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+
+  //Sender[CurrentTxn] := NotCreator;
+  //
+  //IsInt[numAppArgs] := true;
+  //NumAppArgs[CurrentTxn] := numAppArgs;
+  //RefToInt[NumAppArgs[CurrentTxn]] := 1;
+
+  //IsInt[onCompletion] := true;
+  //OnCompletion[CurrentTxn] := onCompletion;
+  //RefToInt[OnCompletion[CurrentTxn]] := OptIn;
+
+  //ApplicationArgs[CurrentTxn][0] := vote;
+  //ApplicationArgs[CurrentTxn][1] := candidatea;
+
+  //assume RefToInt[Globals[voteBegin]] >= Round;
+  //assume RefToInt[Globals[voteEnd]] <= Round;
+  //assume OptedInApp[NotCreator][RefToInt[applicationID]] >  0;
+  //assume AssetBalance[NotCreator][RefToInt[hardcodedToken]] > 0;
+
+  ////// second tx
+  ////TypeEnum[GroupTransaction[1]] := AssetTransfer;
+
+  ////AssetReceiver[GroupTransaction[1]] := Creator;
+
+  ////IsInt[hardcodedToken] := true;
+  ////RefToInt[hardcodedToken] := 2;
+  ////XferAsset[GroupTransaction[1]] := hardcodedToken;
+
+  ////IsInt[assetAmount] := true;
+  ////RefToInt[assetAmount] := 1;
+  ////AssetAmount[GroupTransaction[1]] := assetAmount;
+
+  //call contract();
 }
