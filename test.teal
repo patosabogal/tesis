@@ -1,0 +1,12 @@
+int 1
+int 1
+int 1
+int 1
+&&
+&&
+bnz label
+int 1
+label:
+int 1
+&&
+return
