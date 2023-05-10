@@ -1,0 +1,141 @@
+{
+    "hints": {
+        "add(uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CREATE"
+            }
+        },
+        "sub(uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "div(uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "mul(uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "add_n(uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMQpieXRlY2Jsb2NrIDB4MTUxZjdjNzUKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhmZTZiZGY2OSAvLyAiYWRkKHVpbnQ2NCx1aW50NjQpdWludDY0Igo9PQpibnogbWFpbl9sMTAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHg3OGI0ODhiNyAvLyAic3ViKHVpbnQ2NCx1aW50NjQpdWludDY0Igo9PQpibnogbWFpbl9sOQp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDE2ZTgwZjA4IC8vICJkaXYodWludDY0LHVpbnQ2NCl1aW50NjQiCj09CmJueiBtYWluX2w4CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4ZTJmMTg4YzUgLy8gIm11bCh1aW50NjQsdWludDY0KXVpbnQ2NCIKPT0KYm56IG1haW5fbDcKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhiYTkzM2FiNyAvLyAiYWRkX24odWludDY0KXVpbnQ2NCIKPT0KYm56IG1haW5fbDYKZXJyCm1haW5fbDY6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CnR4bmEgQXBwbGljYXRpb25BcmdzIDEKYnRvaQpjYWxsc3ViIGFkZG5fNApzdG9yZSAxMgpieXRlY18wIC8vIDB4MTUxZjdjNzUKbG9hZCAxMgppdG9iCmNvbmNhdApsb2cKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDc6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CnR4bmEgQXBwbGljYXRpb25BcmdzIDEKYnRvaQpzdG9yZSA5CnR4bmEgQXBwbGljYXRpb25BcmdzIDIKYnRvaQpzdG9yZSAxMApsb2FkIDkKbG9hZCAxMApjYWxsc3ViIG11bF8zCnN0b3JlIDExCmJ5dGVjXzAgLy8gMHgxNTFmN2M3NQpsb2FkIDExCml0b2IKY29uY2F0CmxvZwppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sODoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpidG9pCnN0b3JlIDYKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgpidG9pCnN0b3JlIDcKbG9hZCA2CmxvYWQgNwpjYWxsc3ViIGRpdl8yCnN0b3JlIDgKYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CmxvYWQgOAppdG9iCmNvbmNhdApsb2cKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDk6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CnR4bmEgQXBwbGljYXRpb25BcmdzIDEKYnRvaQpzdG9yZSAzCnR4bmEgQXBwbGljYXRpb25BcmdzIDIKYnRvaQpzdG9yZSA0CmxvYWQgMwpsb2FkIDQKY2FsbHN1YiBzdWJfMQpzdG9yZSA1CmJ5dGVjXzAgLy8gMHgxNTFmN2M3NQpsb2FkIDUKaXRvYgpjb25jYXQKbG9nCmludGNfMSAvLyAxCnJldHVybgptYWluX2wxMDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAo9PQomJgphc3NlcnQKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpidG9pCnN0b3JlIDAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgpidG9pCnN0b3JlIDEKbG9hZCAwCmxvYWQgMQpjYWxsc3ViIGFkZF8wCnN0b3JlIDIKYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CmxvYWQgMgppdG9iCmNvbmNhdApsb2cKaW50Y18xIC8vIDEKcmV0dXJuCgovLyBhZGQKYWRkXzA6CnByb3RvIDIgMQppbnRjXzAgLy8gMApmcmFtZV9kaWcgLTIKZnJhbWVfZGlnIC0xCisKZnJhbWVfYnVyeSAwCnJldHN1YgoKLy8gc3ViCnN1Yl8xOgpwcm90byAyIDEKaW50Y18wIC8vIDAKZnJhbWVfZGlnIC0yCmZyYW1lX2RpZyAtMQotCmZyYW1lX2J1cnkgMApyZXRzdWIKCi8vIGRpdgpkaXZfMjoKcHJvdG8gMiAxCmludGNfMCAvLyAwCmZyYW1lX2RpZyAtMgpmcmFtZV9kaWcgLTEKLwpmcmFtZV9idXJ5IDAKcmV0c3ViCgovLyBtdWwKbXVsXzM6CnByb3RvIDIgMQppbnRjXzAgLy8gMApmcmFtZV9kaWcgLTIKZnJhbWVfZGlnIC0xCioKZnJhbWVfYnVyeSAwCnJldHN1YgoKLy8gYWRkX24KYWRkbl80Ogpwcm90byAxIDEKaW50Y18wIC8vIDAKZnJhbWVfZGlnIC0xCnB1c2hpbnQgNSAvLyA1CisKZnJhbWVfYnVyeSAwCnJldHN1Yg==",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "blueprint",
+        "methods": [
+            {
+                "name": "add",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "a"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "b"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "Add b to a"
+            },
+            {
+                "name": "sub",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "a"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "b"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "Subtract b from a"
+            },
+            {
+                "name": "div",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "a"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "b"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "Divide a by b"
+            },
+            {
+                "name": "mul",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "a"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "b"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "Multiply a and b"
+            },
+            {
+                "name": "add_n",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "a"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "Add n to a"
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}

@@ -3,7 +3,7 @@ from constants import *
 from sys import argv
 from algosdk import abi
 from Crypto.Hash import keccak
-from algokit_utils import MethodConfigDict
+from algokit_utils import MethodConfigDict, MethodHints, OnCompleteActionName
 
 
 def method_initialization(method: abi.Method):
@@ -82,50 +82,24 @@ def method_variables_assigment(method: abi.Method):
 
     return procedure_variables
 
-def method_procedure(method: abi.Method):
-    #TODO: Handle creation and bare calls
+def hint_on_completion_int(hint: MethodHints) -> str:
+    #TODO: support multiple on_completion opcodes
+    return list(hint.call_config.keys())[0]
+
+# TODO: MERGE METHOD_PROCEDURE AND BARE_CALL_PROCEDURE
+def method_procedure(method: abi.Method, hint: MethodHints) ->str:
     # TWO OPTIONS: with selector I may be able to recongnize the label called and based off that I can try to create a boogie version of it, calling in it with the arguments, VeriSol style. Or keep it simple and just call the parsed teal contract, and keep the variables global.
     procedure = method_initialization(method)
     #procedure += procedure_variables_declaration(method) # Not necessary given that variables are global
     procedure += method_variables_assigment(method)
+    procedure += VARIABLE_ASSIGMENT.format(ON_COMPLETION_VARIABLE_NAME.format(CURRENT_TRANSACTION_INDEX ),opcode_to_int[hint_on_completion_int(hint)])
     procedure += method_closure()
     return procedure
 
-def to_camel_case(snake_str):
-    return "".join(x.capitalize() for x in snake_str.lower().split("_"))
-
-def to_lower_camel_case(snake_str):
-    # We capitalize the first letter of each component except the first one
-    # with the 'capitalize' method and join them together.
-    camel_string = to_camel_case(snake_str)
-    return snake_str[0].lower() + camel_string[1:]
-
-def bare_call_procedures(bare_call_config: MethodConfigDict):
-    procedures = ""
-    for op_code in bare_call_config:
-        procedure_name = to_lower_camel_case(op_code)
-        procedure = PROCEDURE_DECLARATION.format(procedure_name)
-        procedure += PROCEDURE_IMPLEMENTATION_BEGINNING.format(procedure_name)
-        procedure += VARIABLE_ASSIGMENT.format(ON_COMPLETION_VARIABLE_NAME.format(CURRENT_TRANSACTION_INDEX, op_code_to_int[op_code]))
-        procedure += CONTRACT_CALL
-        procedure += PROCEDURE_IMPLEMENTATION_CLOSURE
-        procedures += procedure
-    return procedures
-
-def main():
-    n = len(argv)
-    if (n <= 1):
-        print("Missing path to JSON.")
-        exit(-1)
-
-    with open(argv[1], "r") as f:
-        interface_json = f.read()
-
-    interface = abi.Interface.from_json(interface_json)
-
-    for method in interface.methods:
-        print(method_procedure(method))
-
-if __name__ == "__main__":
-    main()
-
+def bare_call_procedure(opcode: OnCompleteActionName):
+    procedure = PROCEDURE_DECLARATION.format(opcode)
+    procedure += PROCEDURE_IMPLEMENTATION_BEGINNING.format(opcode)
+    procedure += VARIABLE_ASSIGMENT.format(ON_COMPLETION_VARIABLE_NAME.format(CURRENT_TRANSACTION_INDEX ), opcode_to_int[opcode])
+    procedure += CONTRACT_CALL
+    procedure += PROCEDURE_IMPLEMENTATION_CLOSURE
+    return procedure
