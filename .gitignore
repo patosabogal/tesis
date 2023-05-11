@@ -2,3 +2,4 @@ corral_out.bpl
 error.bpl
 test.bpl
 corral_out_trace.txt
+__pycache__/
