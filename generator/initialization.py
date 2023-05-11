@@ -11,31 +11,26 @@ from algokit_utils import OnCompleteActionName
 # TODO: find values to initialize vars
 VERIFY_PROCEDURE = "verify"
 def verifier_procedure_declaration():
-    procedure = PROCEDURE_DECLARATION.format(VERIFY_PROCEDURE)
-    procedure += PROCEDURE_IMPLEMENTATION_BEGINNING.format(VERIFY_PROCEDURE)
+    procedure = procedure_declaration(VERIFY_PROCEDURE)
+    procedure += procedure_implementation_beginning(VERIFY_PROCEDURE)
     return procedure
-
-def verifier_procedure_closure():
-    procedure = PROCEDURE_IMPLEMENTATION_CLOSURE
-    return procedure
-
 
 def global_variables_initialization(contract: abi.Contract) -> str:
     (max_arguments, max_transactions, max_applications, max_assets, max_accounts) = max_variables_values(contract.methods)
     max_transactions = 1 # Hardcoded for now. TODO: Handle group transactions
     global_variables = ""
     for transaction in range(max_transactions):
-        global_variables += INT_VARIABLE_DECLARATION.format(ON_COMPLETION_VARIABLE_NAME.format(transaction))
+        global_variables += int_variable_declaration(on_completion_variable_name(transaction))
         for index in range(max_arguments):
-            global_variables += INT_VARIABLE_DECLARATION.format(ARGUMENTS_VARIABLE_NAME.format(transaction, index))
+            global_variables += int_variable_declaration(arguments_variable_name(transaction, index))
         for index in range(max_accounts):
-            global_variables += INT_VARIABLE_DECLARATION.format(ACCOUNTS_VARIABLE_NAME.format(transaction, index))
+            global_variables += int_variable_declaration(accounts_variable_name(transaction, index))
         for index in range(max_applications):
-            global_variables += INT_VARIABLE_DECLARATION.format(APPLICATIONS_VARIABLE_NAME.format(transaction, index))
+            global_variables += int_variable_declaration(applications_variable_name(transaction, index))
         for index in range(max_assets):
-            global_variables += INT_VARIABLE_DECLARATION.format(ASSETS_VARIABLE_NAME.format(transaction, index))
+            global_variables += int_variable_declaration(assets_variable_name(transaction, index))
 
-    global_variables +=INT_VARIABLE_DECLARATION.format(CHOICE_VARIABLE_NAME)
+    global_variables +=int_variable_declaration(CHOICE_VARIABLE_NAME)
     global_variables +="\n"
     return global_variables
 
@@ -72,18 +67,18 @@ def max_variables_values(methods: List[abi.Method]) -> Tuple[int,int,int,int,int
 
 def methods_harness(methods: List[str]):
     harness = "while (true){\n"
-    harness += HAVOC_VARIABLE.format(CHOICE_VARIABLE_NAME)
+    harness += havoc_variable(CHOICE_VARIABLE_NAME)
     for index, method_name in enumerate(methods):
         harness += "if (({}) == {}) {{\n".format(CHOICE_VARIABLE_NAME, index)
-        harness += PROCEDURE_CALL.format(method_name)
+        harness += procedure_call(method_name)
         harness += "}\n"
     harness += "}\n"
     return harness
 
 def contract_procedure():
-    procedure = PROCEDURE_DECLARATION.format(MAIN_CONTRACT_PROCEDURE)
-    procedure += PROCEDURE_IMPLEMENTATION_BEGINNING.format(MAIN_CONTRACT_PROCEDURE)
-    procedure += PROCEDURE_IMPLEMENTATION_CLOSURE
+    procedure = procedure_declaration(MAIN_CONTRACT_PROCEDURE)
+    procedure += procedure_implementation_beginning(MAIN_CONTRACT_PROCEDURE)
+    procedure += procedure_implementation_closure()
     return procedure
 
 def main():
@@ -126,9 +121,9 @@ def main():
         creation_method_name = DEFAULT_CONTRACT_CREATION_METHOD
     # TODO: figure out the conctract creation
     boogie += verifier_procedure_declaration()
-    boogie += PROCEDURE_CALL.format(creation_method_name)
+    boogie += procedure_call(creation_method_name)
     boogie += methods_harness(methods)
-    boogie += verifier_procedure_closure()
+    boogie += procedure_implementation_closure()
     boogie += contract_procedure()
     print(boogie)
 

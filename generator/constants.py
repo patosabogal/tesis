@@ -6,8 +6,8 @@ opcode_to_int = {
     "update_application": 4,
     "delete_application": 5
 }
-NO_OP = "no_op"
 
+NO_OP = "no_op"
 DEFAULT_CONTRACT_CREATION_METHOD = NO_OP
 CHOICE_VARIABLE_NAME = "choice"
  # Max arguments size is actually 16, but the 15th slot is supposed to be encoded in some way to allow more arguments. TODO: look that up.
@@ -16,43 +16,48 @@ ARGUMENTS_MAX_SIZE = 15
 # They can only have 8 values in total, between all of them. And the accounts array allows for a max of 4 accounts
 FOREIGNS_MAX_COMBINED_SIZE = 8
 ACCOUNTS_MAX_SIZE = 4
-
+SELECTOR_INDEX = 0
+CURRENT_TRANSACTION_INDEX = 0
 MAIN_CONTRACT_PROCEDURE = "contract"
 # TODO: Think if its worth to turn them into functions
 #expects procedure name
-def PROCEDURE_NAME(name):
+def procedure_name(name: str):
     return f"{name}_"
-def PROCEDURE_DECLARATION(name):
-    return f"procedure {PROCEDURE_NAME(name)}();\n"
-def PROCEDURE_IMPLEMENTATION_BEGINNING(name):
-    return f"implementation {PROCEDURE_NAME(name)}(){{\n"
+def procedure_declaration(name: str):
+    return f"procedure {procedure_name(name)}();\n"
+def procedure_implementation_beginning(name: str):
+    return f"implementation {procedure_name(name)}(){{\n"
 
-def PROCEDURE_IMPLEMENTATION_CLOSURE():
+def procedure_implementation_closure():
     return "}\n\n"
 
-PROCEDURE_CALL = "call {}();\n".format(PROCEDURE_NAME)
+def procedure_call(name: str):
+    return f"call {procedure_name(name)}();\n"
 
-CONTRACT_CALL = PROCEDURE_CALL.format(MAIN_CONTRACT_PROCEDURE)
+def main_contract_call():
+    return procedure_call(MAIN_CONTRACT_PROCEDURE)
 
-# expects variable name
-INT_VARIABLE_DECLARATION = "var {} : int;\n"
+def int_variable_declaration(var_name: str):
+    return f"var {var_name} : int;\n"
 
-# expects transaction
-ON_COMPLETION_VARIABLE_NAME = "on_complete_{}"
+def on_completion_variable_name(transaction_index: int):
+    return f"on_complete_{transaction_index}"
 
 # expects transaction and array index
-ARGUMENTS_VARIABLE_NAME = "arguments_{}_{}"
-ACCOUNTS_VARIABLE_NAME = "accounts_{}_{}"
-APPLICATIONS_VARIABLE_NAME = "applications_{}_{}"
-ASSETS_VARIABLE_NAME = "assets_{}_{}"
-TRANSACTIONS_VARIABLE_NAME = "transaction_{}_{}"
+def array_variable_name(array: str):
+    def fn(transaction_index: int, array_index: int):
+        return f"{array}_{transaction_index}_{array_index}"
+    return fn
 
-SELECTOR_INDEX = 0
-CURRENT_TRANSACTION_INDEX = 0
-
+arguments_variable_name = array_variable_name("arguments")
+accounts_variable_name = array_variable_name("accounts")
+applications_variable_name = array_variable_name("applications")
+assets_variable_name = array_variable_name("assets")
 # expects variable name
-HAVOC_VARIABLE = "havoc {};\n"
+def havoc_variable(var_name: str):
+    return f"havoc {var_name};\n"
 
 # expects variable name and value
-VARIABLE_ASSIGMENT = "{} := {};\n"
+def variable_assigment(var_name: str, value: int):
+    return f"{var_name} := {value};\n"
 
