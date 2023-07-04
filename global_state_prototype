@@ -1,0 +1,30 @@
+key1 = 0
+key1Set = False
+key1Slot = 0
+...
+
+isNewKey = newKey == key1 | ... | newKey == keyN
+setNextKey = if !key1Set:
+                key1Set = True
+                key1 = newKey
+              ...
+allKeysSetted = key1Set && ... && keyNSet
+storeSlot = if key == key1:
+            slot1 := value
+          ...
+         if key == keyN:
+            slotN := value
+getSlot: Same but returns
+
+store_reserved: if !isNewKey(newKey):
+                    storeSlot(newKey)
+                if !allKeysSetted:
+                    setNextKey(newKey)
+                    storeSlot(newKey)
+                error
+
+load_reserved: isNewKey(key)
+                  0
+                else 
+                getSlot(key)
+        
