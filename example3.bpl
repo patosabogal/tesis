@@ -436,43 +436,21 @@ implementation contract() {
   var s7 : int;
   var s8 : int;
   var s9 : int;
-  // contract starts
-  //call Int(0);
+  var condition: bool
   s0 := 0;
-  //call Txn(ApplicationID);
   s1 := ApplicationID[GroupTransaction[GroupIndex[CurrentTxn]]];
-  // call Equal();
-  if (s0 == s1) {
-    s0 := 1;
-  }
-  else {
-    s0 := 0;
-  }
-  // bz label === if RefToInt(stack[stackpoint]) == 0 gotolabel
-  if (s0 == 0) {
+  condition := s0 == s1;
+  if (!condition) {
     goto not_creation;
   }
-  //call Byte(creator);
   s0 := creator;
-  //call Txn(Sender);
   s1 := Sender[GroupTransaction[GroupIndex[CurrentTxn]]];
-  //call AppGlobalPut();
   Globals[s1] := s0;
-  //call Txn(NumAppArgs);
   s0 := NumAppArgs[GroupTransaction[GroupIndex[CurrentTxn]]];
-  //call Int(4);
   s1 := 4;
-  //call Equal();
-   if (s0 == s1) {
-    s0 := 1;
-  }
-  else {
-    s0 := 0;
-  } //if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
-  //  goto failed;
-  //}
-  if (s0 == 0) {
-    goto not_creation;
+  condition := s0 == s1
+  if (!condition) {
+    goto failed;
   }
   //call Byte(regBegin);
   s0 := regBegin;
@@ -511,7 +489,7 @@ implementation contract() {
   //  call Int(DeleteApplication);
     s0 := DeleteApplication;
   //  call Txn(OnCompletion);
-    s1 := OnCompletion[GroupTransaction[GroupIndex[CurrentTxn]]]
+    s1 := OnCompletion[GroupTransaction[GroupIndex[CurrentTxn]]];
   //  call Equal();
     if (s0 == s1) {
       s0 := 1;
@@ -526,9 +504,9 @@ implementation contract() {
         goto not_deletion;
     }
   //  call Byte(creator);
-    s0 := creator
+    s0 := creator;
   //  call AppGlobalGet();
-    s0 := Globals[s0]
+    s0 := Globals[s0];
   //  call Txn(Sender);
     s1 := Sender[GroupTransaction[GroupIndex[CurrentTxn]]];
   //  call Equal();
@@ -719,8 +697,8 @@ implementation contract() {
   //  call Return();
   //  return;
   failed:
-    s0 = 0;
-    call Return();
+    s0 := 0;
+    assert s0 == 1;
     return;
   }
 
@@ -813,8 +791,9 @@ implementation verifyCreation() {
 
 procedure verifyDeleteApplication();
 implementation verifyDeleteApplication() {
+  var applicationID : int;
+  assume applicationID != 0;
   ApplicationID[CurrentTxn] := applicationID;
-  assume ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
 
@@ -826,33 +805,33 @@ implementation verifyDeleteApplication() {
   call contract();
 }
 
-procedure verifyUpdateApplication();
-implementation verifyUpdateApplication() {
-  var numAppArgs : Ref;
-  var onCompletion : Ref;
-  var applicationID : Ref;
-
-  call numAppArgs := FreshRefGenerator();
-  call applicationID := FreshRefGenerator();
-  call onCompletion := FreshRefGenerator();
-
-  IsInt[applicationID] := true;
-  ApplicationID[CurrentTxn] := applicationID;
-  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
-
-  Sender[CurrentTxn] := Creator;
-
-  IsInt[numAppArgs] := true;
-  NumAppArgs[CurrentTxn] := numAppArgs;
-  RefToInt[NumAppArgs[CurrentTxn]] := 0;
-
-  IsInt[onCompletion] := true;
-  OnCompletion[CurrentTxn] := onCompletion;
-  RefToInt[OnCompletion[CurrentTxn]] := UpdateApplication;
-
-  GroupSize := 1;
-  call contract();
-}
+//procedure verifyUpdateApplication();
+//implementation verifyUpdateApplication() {
+//  var numAppArgs : Ref;
+//  var onCompletion : Ref;
+//  var applicationID : Ref;
+//
+//  call numAppArgs := FreshRefGenerator();
+//  call applicationID := FreshRefGenerator();
+//  call onCompletion := FreshRefGenerator();
+//
+//  IsInt[applicationID] := true;
+//  ApplicationID[CurrentTxn] := applicationID;
+//  assume RefToInt[ApplicationID[CurrentTxn]] != 0;
+//
+//  Sender[CurrentTxn] := Creator;
+//
+//  IsInt[numAppArgs] := true;
+//  NumAppArgs[CurrentTxn] := numAppArgs;
+//  RefToInt[NumAppArgs[CurrentTxn]] := 0;
+//
+//  IsInt[onCompletion] := true;
+//  OnCompletion[CurrentTxn] := onCompletion;
+//  RefToInt[OnCompletion[CurrentTxn]] := UpdateApplication;
+//
+//  GroupSize := 1;
+//  call contract();
+//}
 
 //procedure verifyCloseOut();
 //implementation verifyCloseOut() {

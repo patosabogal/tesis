@@ -5,6 +5,7 @@ int 1
 &&
 &&
 bnz label
+pop
 int 1
 label:
 int 1

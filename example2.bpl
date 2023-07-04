@@ -3,7 +3,7 @@ type Transaction;
 const unique zero: Ref;
 
 // TypeEnum constants
-// These are configured on the 'verify' procedure. TODO: Configure all
+// These are configured on the 'verify' procedur. TODO: Configure all
 var Payment: Ref;
 var KeyRegistration: Ref;
 var AssetConfig: Ref;
@@ -189,7 +189,7 @@ implementation AppGlobalGet() {
   value := zero;
   call key := Pop();
   if (GlobalsAlloc[key] == true) {
-    value := Globals[key];
+    value := Globals[key]; 
     }
   call Push(value);
   }
@@ -465,7 +465,7 @@ implementation AssetHoldingGet(field: [Ref][int]int) {
     call accountRef := FreshRefGenerator();
     call assetIdRef := Pop();
     call accountsIndexRef := Pop();
-
+    
     assetId := RefToInt[assetIdRef];
     assert RefToInt[accountsIndexRef] == 0;
     assert Accounts[CurrentTxn][0] == Sender[CurrentTxn];
@@ -528,7 +528,7 @@ implementation contract() {
     call Txn(OnCompletion);
     call Equal();
     if (IsInt[Stack[StackPointer]] && RefToInt[Stack[StackPointer]] == 0) {
-      goto not_deletion;
+      goto not_deletion; 
     }
     call Byte(creator);
     call AppGlobalGet();
@@ -762,7 +762,7 @@ implementation verify() {
   // call verifyUpdateApplication();
   // call verifyCloseOut();
   // call verifyRegister();
-  //call verifyVote();
+  call verifyVote();
   assert false;
 }
 
@@ -789,7 +789,7 @@ implementation verifyCreation() {
   RefToInt[ApplicationID[CurrentTxn]] := 0;
 
   Sender[CurrentTxn] := Creator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 4;
@@ -805,7 +805,7 @@ implementation verifyCreation() {
   RefToInt[ApplicationArgs[CurrentTxn][2]] := 42;
   ApplicationArgs[CurrentTxn][3] := applicationArgs3; // voteEnd
   RefToInt[ApplicationArgs[CurrentTxn][3]] := 42;
-
+   
   GroupSize := 1;
   call contract();
 }
@@ -825,7 +825,7 @@ implementation verifyDeleteApplication() {
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 0;
@@ -853,7 +853,7 @@ implementation verifyUpdateApplication() {
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 0;
@@ -881,7 +881,7 @@ implementation verifyCloseOut() {
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := Creator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 0;
@@ -909,7 +909,7 @@ implementation verifyRegister() {
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := NotCreator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 1;
@@ -946,7 +946,7 @@ implementation verifyVote() {
   assume RefToInt[ApplicationID[CurrentTxn]] != 0;
 
   Sender[CurrentTxn] := NotCreator;
-
+  
   IsInt[numAppArgs] := true;
   NumAppArgs[CurrentTxn] := numAppArgs;
   RefToInt[NumAppArgs[CurrentTxn]] := 2;
@@ -967,7 +967,6 @@ implementation verifyVote() {
   assume RefToInt[hardcodedToken] == 2;
 
   GroupSize := 2;
-  // TODO: implement 2nd tx
 
   TypeEnum[GroupTransaction[1]] := AssetTransfer;
   AssetReceiver[GroupTransaction[1]] := Creator;
