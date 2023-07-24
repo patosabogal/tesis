@@ -74,7 +74,7 @@ class Tealift:
 
     @classmethod
     def from_json(cls, json_string: str):
-        loaded_json = json.load(json_string)
+        loaded_json = json.loads(json_string)
         return cls.from_dict(loaded_json)
 
     @classmethod

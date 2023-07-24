@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schema for an application array",
+  "type": "array",
+  "items": {
+    "patternProperties": {
+      "[0-16]": {
+        "type": "string"
+      }
+    }
+  }
+}

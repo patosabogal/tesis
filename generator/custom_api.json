@@ -1,0 +1,20 @@
+{
+  "methods": [
+    {
+      "name": "constructor",
+      "opcode": 0,
+      "required": {
+        "arguments": [],
+        "accounts": [],
+        "applications": [],
+        "assets": []
+      },
+      "reserved": {
+        "arguments": [],
+        "accounts": [],
+        "applications": [],
+        "assets": []
+      }
+    }
+  ]
+}

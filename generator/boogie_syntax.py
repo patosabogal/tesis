@@ -143,12 +143,12 @@ class Function(BoogieSyntax):
 
     def _function_declaration(self):
         separator = ", "
-        parameters = separator.join(list(map(lambda parameter: str(parameter), self.parameters)))
+        parameters = separator.join(map(lambda parameter: str(parameter), self.parameters))
         return f"function {self.name}({parameters}) returns ({self.return_type});\n"
 
     def _axioms(self):
         separator = ""
-        return separator.join(list(map(lambda axiom: str(axiom), self.axioms)))
+        return separator.join(map(lambda axiom: str(axiom), self.axioms))
 
     def __str__(self):
         return self._function_declaration() + self._axioms()
@@ -164,20 +164,20 @@ class Procedure(BoogieSyntax):
 
     def _procedure_declaration(self):
         separator = ", "
-        parameters = separator.join(list(map(str, self.parameters)))
+        parameters = separator.join(map(str, self.parameters))
         return_string = f" returns ({self.return_var})" if self.return_var is not None else ""
         return f"procedure {self.name}({parameters}){return_string};\n"
 
     def _implementation_aperture(self):
         separator = ", "
-        parameters = separator.join(list(map(str, self.parameters)))
+        parameters = separator.join(map(str, self.parameters))
         return_string = f" returns ({self.return_var})" if self.return_var is not None else ""
         return f"implementation {self.name}({parameters}){return_string} {{\n"
 
     def _implementation_body(self):
-        variable_declarations_strings = list(map(str, self.variable_declarations))
-        instructions_strings = list(map(str, self.instructions))
-        return "".join(list(map(str, variable_declarations_strings + instructions_strings)))
+        variable_declarations_strings = map(str, self.variable_declarations)
+        instructions_strings = map(str, self.instructions)
+        return "".join(list(variable_declarations_strings) + list(instructions_strings))
 
     def _implementation_closure(self):
         return f"}}\n"
@@ -188,16 +188,17 @@ class Procedure(BoogieSyntax):
             + self._implementation_body()\
             + self._implementation_closure()
 
+
 class Boogie(BoogieSyntax):
     global_variables: List[VariableDeclaration] = []
     functions: List[Function] = []
     procedures: List[Procedure] = []
 
     def __str__(self):
-        globals = list(map(str, self.global_variables))
-        functions = list(map(str, self.functions))
-        procedures = list(map(str, self.procedures))
-        return  globals + functions + procedures
+        _globals = map(str, self.global_variables)
+        _functions = map(str, self.functions)
+        _procedures = map(str, self.procedures)
+        return _globals + _functions + _procedures
 
 # TODO: implement more instructions
 

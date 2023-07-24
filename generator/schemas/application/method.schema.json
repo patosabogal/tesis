@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Application call schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z]+(?:[A-Z][a-z]*)*$"
+    },
+    "opcode": {
+      "pattern": "[0-6]",
+      "type": "number"
+    },
+    "required": {
+      "type": "object",
+      "properties": {
+        "arguments": {
+          "type": "array",
+          "$ref": "required_array.schema.json"
+        },
+        "accounts": {
+          "type": "array",
+          "$ref": "required_array.schema.json"
+        },
+        "assets": {
+          "type": "array",
+          "$ref": "required_array.schema.json"
+        },
+        "applications": {
+          "type": "array",
+          "$ref": "required_array.schema.json"
+        }
+      }
+    },
+    "reserved": {
+      "type": "object",
+      "properties": {
+        "arguments": {
+          "type": "array",
+          "$ref": "reserved_array.schema.json"
+        },
+        "accounts": {
+          "type": "array",
+          "$ref": "reserved_array.schema.json"
+        },
+        "assets": {
+          "type": "array",
+          "$ref": "reserved_array.schema.json"
+        },
+        "applications": {
+          "type": "array",
+          "$ref": "reserved_array.schema.json"
+        }
+      }
+    }
+  },
+  "required": [
+    "opcode",
+    "required",
+    "reserved"
+  ]
+}
