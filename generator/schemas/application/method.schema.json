@@ -15,19 +15,19 @@
       "type": "object",
       "properties": {
         "arguments": {
-          "type": "array",
+          "type": "object",
           "$ref": "required_array.schema.json"
         },
         "accounts": {
-          "type": "array",
+          "type": "object",
           "$ref": "required_array.schema.json"
         },
         "assets": {
-          "type": "array",
+          "type": "object",
           "$ref": "required_array.schema.json"
         },
         "applications": {
-          "type": "array",
+          "type": "object",
           "$ref": "required_array.schema.json"
         }
       }

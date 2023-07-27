@@ -10,7 +10,7 @@ opcode_to_int = {
 }
 
 NO_OP = "no_op"
-DEFAULT_CONTRACT_CREATION_METHOD = NO_OP
+DEFAULT_CONTRACT_CREATION_METHOD = "constructor"
 CHOICE_VARIABLE_NAME = "choice"
 RETURN_VARIABLE_NAME = "return_variable"
 # Max arguments size is actually 16, but the 15th slot is supposed to be encoded in some way to allow more arguments. TODO: look that up.

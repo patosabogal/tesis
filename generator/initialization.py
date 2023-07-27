@@ -2,16 +2,17 @@ import argparse
 import subprocess
 import json
 import os
-from jsonschema import validate
-from jsonschema.exceptions import ValidationError
+from pathlib import Path
+
+import jsonschema
 
 from constants import *
 from tealift import Tealift
 from algosdk import abi
 from algokit_utils import ApplicationSpecification, CallConfig
 from instructions import ParsedInstruction, operation_class
-from methods import method_procedure, bare_call_procedure, Method
-from typing import List, Tuple, Type, Mapping
+from methods import method_procedure, Method
+from typing import List, Tuple, Type
 
 # TODO: This needs to be moved somewhere else
 VERIFY_PROCEDURE = "verify"
@@ -71,51 +72,69 @@ def max_variables_values(methods: List[Method]) -> Tuple[int, int, int, int, int
 
 
 # TODO: This needs to be moved somewhere else
-def max_variables_values(methods: List[abi.Method]) -> Tuple[int, int, int, int, int]:
-    max_arguments = 0
-    max_transactions = 0
-    max_accounts = 0
-    max_assets = 0
-    max_applications = 0
-    for method in methods:
-        arguments = 1  # 0 is selector.
-        transactions = 1  # 0 is current
-        accounts = 1  # 0 is sender
-        assets = 0
-        applications = 1  # 0 is current application
-        for argument in method.args:
-            match argument.type:
-                case abi.UintType() | abi.BoolType() | abi.StringType():
-                    arguments += 1
-                case abi.ABIReferenceType.ACCOUNT:
-                    accounts += 1
-                case abi.ABIReferenceType.APPLICATION:
-                    applications += 1
-                case abi.ABIReferenceType.ASSET:
-                    assets += 1
-                case abi.ABITransactionType.ANY | \
-                     abi.ABITransactionType.PAY | \
-                     abi.ABITransactionType.KEYREG | \
-                     abi.ABITransactionType.ACFG | \
-                     abi.ABITransactionType.AXFER | \
-                     abi.ABITransactionType.AFRZ | \
-                     abi.ABITransactionType.APPL:
-                    transactions += 1
-        max_arguments = min(max(max_arguments, arguments), ARGUMENTS_MAX_SIZE)
-        max_transactions = min(max(max_transactions, transactions), TRANSACTIONS_MAX_SIZE)
-        max_accounts = min(max(max_accounts, accounts), FOREIGNS_MAX_COMBINED_SIZE)
-        max_assets = min(max(max_assets, assets), FOREIGNS_MAX_COMBINED_SIZE)
-        max_applications = min(max(max_applications, applications), FOREIGNS_MAX_COMBINED_SIZE)
-    return max_arguments, max_transactions, max_applications, max_assets, max_accounts
+#def max_variables_values(methods: List[abi.Method]) -> Tuple[int, int, int, int, int]:
+#    max_arguments = 0
+#    max_transactions = 0
+#    max_accounts = 0
+#    max_assets = 0
+#    max_applications = 0
+#    for method in methods:
+#        arguments = 1  # 0 is selector.
+#        transactions = 1  # 0 is current
+#        accounts = 1  # 0 is sender
+#        assets = 0
+#        applications = 1  # 0 is current application
+#        for argument in method.args:
+#            match argument.type:
+#                case abi.UintType() | abi.BoolType() | abi.StringType():
+#                    arguments += 1
+#                case abi.ABIReferenceType.ACCOUNT:
+#                    accounts += 1
+#                case abi.ABIReferenceType.APPLICATION:
+#                    applications += 1
+#                case abi.ABIReferenceType.ASSET:
+#                    assets += 1
+#                case abi.ABITransactionType.ANY | \
+#                        abi.ABITransactionType.PAY | \
+#                        abi.ABITransactionType.KEYREG | \
+#                        abi.ABITransactionType.ACFG | \
+#                        abi.ABITransactionType.AXFER | \
+#                        abi.ABITransactionType.AFRZ | \
+#                        abi.ABITransactionType.APPL:
+#                    transactions += 1
+#
+#        max_arguments = min(max(max_arguments, arguments), ARGUMENTS_MAX_SIZE)
+#        max_transactions = min(max(max_transactions, transactions), TRANSACTIONS_MAX_SIZE)
+#        max_accounts = min(max(max_accounts, accounts), FOREIGNS_MAX_COMBINED_SIZE)
+#        max_assets = min(max(max_assets, assets), FOREIGNS_MAX_COMBINED_SIZE)
+#        max_applications = min(max(max_applications, applications), FOREIGNS_MAX_COMBINED_SIZE)
+#    return max_arguments, max_transactions, max_applications, max_assets, max_accounts
+
+def try_assert_condition_builder(condition_key):
+    def try_assert_condition(method_name, assertions):
+        assertion = ""
+        try:
+            condition = assertions[method_name][condition_key]
+            assertion = f"assert {condition};\n"
+        except KeyError:
+            pass
+        return assertion
+    return try_assert_condition
+
+
+try_assert_precondition = try_assert_condition_builder('precondition')
+try_assert_postcondition = try_assert_condition_builder('postcondition')
 
 
 # TODO: This needs to be moved somewhere else
-def methods_harness(methods: List[str]):
+def methods_harness(methods: List[str], assertions):
     harness = "while (true){\n"
     harness += havoc_variable(CHOICE_VARIABLE_NAME)
     for index, method_name in enumerate(methods):
         harness += "if (({}) == {}) {{\n".format(CHOICE_VARIABLE_NAME, index)
+        harness += try_assert_precondition(method_name, assertions)
         harness += procedure_call(method_name)
+        harness += try_assert_postcondition(method_name, assertions)
         harness += "}\n"
     harness += "}\n"
     return harness
@@ -181,7 +200,7 @@ def main_contract_procedure(tealift: Tealift):
 
 
 def run_tealift(teal_file_path):
-    with open('tealift.json', 'w+') as tealift_json:
+    with open('jsons/tealift.json', 'w+') as tealift_json:
         subprocess.run(["node", "../tealift/src/json.js", teal_file_path], stdout=tealift_json)
         json_file = tealift_json.seek(0)  # move file handle to begging of the file
         return Tealift.from_json(json_file)
@@ -201,9 +220,9 @@ def get_creation_method_name(contract, hints):
             creation_method_name = method.name
         except:
             pass
-    # Add documentation of this.
+    # If no constructor provider, no_op bare call is the default constructor
     if creation_method_name is None:
-        creation_method_name = DEFAULT_CONTRACT_CREATION_METHOD
+        creation_method_name = NO_OP
     return creation_method_name
 
 
@@ -216,13 +235,13 @@ def methods_procedures(methods: List[Method]):
     return procedures
 
 
-def methods_procedures(methods: List[abi.Method], hints):
-    procedures = ""
-    # Create method calls functions with the application.json
-    for method in methods:
-        hint = hints[method.get_signature()]
-        procedures += method_procedure(method, hint)
-    return procedures
+#def methods_procedures(methods: List[abi.Method], hints):
+#    procedures = ""
+#    # Create method calls functions with the application.json
+#    for method in methods:
+#        hint = hints[method.get_signature()]
+#        procedures += method_procedure(method, hint)
+#    return procedures
 
 
 # TODO: This needs to be moved somewhere else
@@ -235,19 +254,21 @@ def get_methods_names(contract, bare_call_config):
     return methods
 
 
-# TODO: This needs to be moved somewhere else
-def bare_call_procedures(bare_call_config):
-    procedures = ""
-    for opcode in bare_call_config:
-        procedures += bare_call_procedure(opcode)
-    return procedures
+## TODO: This needs to be moved somewhere else
+#def bare_call_procedures(bare_call_config):
+#    procedures = ""
+#    for opcode in bare_call_config:
+#        procedures += bare_call_procedure(opcode)
+#    return procedures
 
 
 # TODO: This needs to be moved somewhere else
-def verify_procedure(creation_method_name, methods):
+def verify_procedure(creation_method_name, methods, assertions):
     procedure = verifier_procedure_declaration()
+    procedure += try_assert_precondition(creation_method_name, assertions)
     procedure += procedure_call(creation_method_name)
-    procedure += methods_harness(methods)
+    procedure += try_assert_postcondition(creation_method_name, assertions)
+    procedure += methods_harness(methods, assertions)
     procedure += procedure_implementation_closure()
     return procedure
 
@@ -256,43 +277,57 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('teal_file', type=str, help='Path to teal file.')
     parser.add_argument('application_json', type=str, help='Path to the ABI JSON file.')
-    parser.add_argument('-c', '--custom', type=bool, help='Flag indicating that the JSON uses the custom VeriTeal '
-                                                          'Schema.', action="store_true")
+    parser.add_argument('asserts', type=str, help='Path to the assertions JSON file.')
+    parser.add_argument('-c', '--custom', help='Flag indicating that the JSON uses the custom VeriTeal schema.'
+                                               'Schema.', action="store_true")
     args = parser.parse_args()
 
-    with open('tealift.json', 'r') as tealift_json:
-        tealift = Tealift.from_json(tealift_json.read())
-
-    with open(args.application_json, "r") as f:
-        application_json = f.read()
+    with open('jsons/tealift.json', 'r') as file:
+        tealift = Tealift.from_json(file.read())
+    with open(args.application_json, "r") as file:
+        application_json = file.read()
+    with open('schemas/application.schema.json', 'r') as file:
+        application_schema = json.loads(file.read())
+    with open('schemas/assertions.schema.json', 'r') as file:
+        assertions_schema = json.loads(file.read())
+    with open(args.asserts, "r") as file:
+        assertions = json.loads(file.read())
+        jsonschema.validate(
+            assertions,
+            schema=assertions_schema,
+        )
 
     if not args.custom:
         application = ApplicationSpecification.from_json(application_json)
         contract = application.contract
-        methods = application.contract.methods
         hints = application.hints
         bare_call_config = application.bare_call_config
 
-        methods_declaration = bare_call_procedures(bare_call_config)
-        # Define method calls procedures
-        methods_declaration += methods_procedures(methods, hints)
+        methods = list(map(Method.from_abi_method, application.contract.methods))
+        methods += list(
+            map(
+                lambda opcode, config: Method.from_bare_call(
+                    opcode,
+                    config
+                ),
+                application.bare_call_config.items()
+            )
+        )
 
         creation_method_name = get_creation_method_name(contract, hints)
         methods_names = get_methods_names(contract, bare_call_config)
     else:
-        script_dir = os.path.dirname(__file__)
-        file_path = os.path.join(script_dir, 'schemas/application.schema.json')
-        with open(file_path, 'r') as file:
-            schema = json.load(file)
-        try:
-            validate(application_json, schema=schema)
-        except ValidationError:
-            print("Invalid custom schema. See schemas/ directory.")
 
         application = json.loads(application_json)
-        methods = application["methods"]
-        methods_declaration = methods_procedures(methods)
-        # TODO: Get constructor
+        jsonschema.validate(
+            application,
+            schema=application_schema,
+            resolver=jsonschema.RefResolver(
+                base_uri=f"{Path(__file__).parent.as_uri()}/schemas/",
+                referrer=application_schema,
+            ),
+        )
+        methods = list(map(Method.from_dict, application["methods"]))
         creation_method_name = DEFAULT_CONTRACT_CREATION_METHOD
         methods_names = list(map(lambda method: method.name, methods))
 
@@ -302,16 +337,16 @@ def main():
     # Add functions and axioms
     boogie += functions_declarations()
     # Define methods procedures
-    boogie += methods_declaration
+    boogie += methods_procedures(methods)
     # Create method harness
-    boogie += verify_procedure(creation_method_name, methods_names)
+    boogie += verify_procedure(creation_method_name, methods_names, assertions)
     # Translate main contract with tealift
     boogie += main_contract_procedure(tealift)
 
-    with open("output.bpl", "w") as output_file:
+    with open("artifacts/output.bpl", "w") as output_file:
         output_file.write(boogie)
     # Run Corral
-    subprocess.run(["corral", "output.bpl", f"/main:verify_"])
+    subprocess.run(["corral", "artifacts/output.bpl", "/main:verify_"])
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import unittest
-from boogie_syntax import *
+from generator.boogie.syntax import *
 
 
 class TestType(unittest.TestCase):

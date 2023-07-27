@@ -1,7 +1,5 @@
 var on_complete_0 : int;
 var arguments_0_0 : int;
-var arguments_0_1 : int;
-var arguments_0_2 : int;
 var accounts_0_0 : int;
 var applications_0_0 : int;
 var choice : int;
@@ -13,69 +11,23 @@ function to_int(x: bool) returns (int);
 axiom to_int(false) == 0;
 axiom to_int(true) == 1;
 
-procedure add_();
-implementation add_(){
-arguments_0_0 := 5675630968779434188477772362910438625249015836853771597901718535855005190167;
-havoc arguments_0_1;
-havoc arguments_0_2;
-on_complete_0 := 0;
-call contract_();
-}
-
-procedure sub_();
-implementation sub_(){
-arguments_0_0 := 97683292221467415895849119049791858608323619716901355206417505369266074403911;
-havoc arguments_0_1;
-havoc arguments_0_2;
-on_complete_0 := 0;
-call contract_();
-}
-
-procedure div_();
-implementation div_(){
-arguments_0_0 := 81780703314405585889233239203870720927139862378435693135684859115222397344564;
-havoc arguments_0_1;
-havoc arguments_0_2;
-on_complete_0 := 0;
-call contract_();
-}
-
-procedure mul_();
-implementation mul_(){
-arguments_0_0 := 54234213662080840067953318094965119764394243260767325613599977702755392238155;
-havoc arguments_0_1;
-havoc arguments_0_2;
-on_complete_0 := 0;
-call contract_();
-}
-
-procedure add_n_();
-implementation add_n_(){
-arguments_0_0 := 54618277432654078345054807582972379234579797765171563559473905395813683669417;
-havoc arguments_0_1;
+procedure constructor_();
+implementation constructor_(){
 on_complete_0 := 0;
 call contract_();
 }
 
 procedure verify_();
 implementation verify_(){
-call add_();
+assert false;
+call constructor_();
+assert false;
 while (true){
 havoc choice;
 if ((choice) == 0) {
-call add_();
-}
-if ((choice) == 1) {
-call sub_();
-}
-if ((choice) == 2) {
-call div_();
-}
-if ((choice) == 3) {
-call mul_();
-}
-if ((choice) == 4) {
-call add_n_();
+assert false;
+call constructor_();
+assert false;
 }
 }
 }
@@ -146,18 +98,18 @@ var scratch_60 : int;
 var scratch_61 : int;
 var scratch_62 : int;
 var scratch_63 : int;
-var phi_value_3_0 : int;
-var local_2 : int;
 var phi_value_1_0 : int;
-var phi_2_0 : int;
-var local_0 : int;
 var phi_1_0 : int;
-var phi_3_0 : int;
-var phi_value_2_1 : int;
-var local_1 : int;
+var phi_value_2_0 : int;
 var phi_2_1 : int;
 var local_3 : int;
-var phi_value_2_0 : int;
+var local_1 : int;
+var local_2 : int;
+var phi_3_0 : int;
+var local_0 : int;
+var phi_value_2_1 : int;
+var phi_value_3_0 : int;
+var phi_2_0 : int;
 label_0:
 local_0 := 1;
 phi_value_1_0 := local_0;
@@ -186,7 +138,7 @@ goto label_exit;
 label_3:
 phi_3_0 := phi_value_3_0;
 phi_value_2_0 := phi_3_0;
-local_0 := 5675630968779434188477772362910438625249015836853771597901718535855005190167;
+local_0 := 67014433506078229014566462452539377977627094848876531838216555602821724145961;
 phi_value_2_1 := local_0;
 goto label_2;
 label_exit:
