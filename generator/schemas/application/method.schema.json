@@ -7,10 +7,6 @@
       "type": "string",
       "pattern": "^[a-zA-Z]+(?:[A-Z][a-z]*)*$"
     },
-    "opcode": {
-      "pattern": "[0-6]",
-      "type": "number"
-    },
     "required": {
       "type": "object",
       "properties": {

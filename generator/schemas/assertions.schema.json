@@ -1,15 +1,23 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Schema for an application array",
+  "title": "Schema for assertions",
   "patternProperties": {
     "^[a-zA-Z]+(?:[A-Z][a-z]*)*$": {
       "type": "object",
       "properties": {
-        "precondition": {
-          "type": "string"
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "assertions/formula.schema.json"
+          }
         },
-        "postcondition": {
-          "type": "string"
+        "postconditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "assertions/formula.schema.json"
+          }
         }
       }
     }
