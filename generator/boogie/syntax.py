@@ -1,15 +1,14 @@
 from dataclasses import dataclass, field
 from typing import Union, List, Optional
 
-
-class BoogieSyntax:
+class BoogieSyntax():
     def __eq__(self, other):
         if isinstance(other, BoogieSyntax) or isinstance(other, str):
             return str(self) == other
         return False
 
-    def __str__(self):
-        pass
+    def __str__(self) -> str:
+        return ""
 
 
 class Type(BoogieSyntax):
@@ -44,22 +43,11 @@ class Variable(BoogieSyntax):
 
 
 @dataclass(eq=False)
-class MapVariableAccess(BoogieSyntax):
-    variable: Variable
+class MapVariableAccess(Variable):
     key: Variable
 
     def __str__(self):
-        return f"{self.variable}[{self.key}]"
-
-
-@dataclass(eq=False)
-class MapVariableAccess(BoogieSyntax):
-    variable: MapVariableAccess
-    key: Variable
-
-    def __str__(self):
-        return f"{self.variable}[{self.key}]"
-
+        return f"{self.name}[{self.key}]"
 
 Value = Union[Variable, int]
 
@@ -198,7 +186,8 @@ class Boogie(BoogieSyntax):
         _globals = map(str, self.global_variables)
         _functions = map(str, self.functions)
         _procedures = map(str, self.procedures)
-        return _globals + _functions + _procedures
+        separator = ""
+        return separator.join(list(_globals) + list(_functions) + list(_procedures))
 
 # TODO: implement more instructions
 

@@ -1,6 +1,5 @@
 import unittest
-from generator.boogie.syntax import *
-
+from boogie.syntax import *
 
 class TestType(unittest.TestCase):
     def test_int(self):
