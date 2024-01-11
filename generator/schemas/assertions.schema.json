@@ -5,18 +5,10 @@
     "^[a-zA-Z]+(?:[A-Z][a-z]*)*$": {
       "type": "object",
       "properties": {
-        "preconditions": {
+        "assertions": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "assertions/formula.schema.json"
-          }
-        },
-        "postconditions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "assertions/formula.schema.json"
+            "type": "string"
           }
         }
       }

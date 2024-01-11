@@ -7,9 +7,6 @@ class BoogieSyntax():
             return str(self) == other
         return False
 
-    def __str__(self) -> str:
-        return ""
-
 
 class Type(BoogieSyntax):
     pass

@@ -1,22 +1,17 @@
 import argparse
 import subprocess
 import json
-import os
 from pathlib import Path
 
 import jsonschema
+from assertions.parser import parser
 
 from constants import *
 from tealift import Tealift
-from algosdk import abi
 from algokit_utils import ApplicationSpecification, CallConfig
 from instructions import ParsedInstruction, operation_class
 from methods import method_procedure, Method
 from typing import List, Tuple, Type
-
-# TODO: This needs to be moved somewhere else
-VERIFY_PROCEDURE = "verify"
-
 
 # TODO: This needs to be moved somewhere else
 def verifier_procedure_declaration():
@@ -110,31 +105,24 @@ def max_variables_values(methods: List[Method]) -> Tuple[int, int, int, int, int
 #        max_applications = min(max(max_applications, applications), FOREIGNS_MAX_COMBINED_SIZE)
 #    return max_arguments, max_transactions, max_applications, max_assets, max_accounts
 
-def try_assert_condition_builder(condition_key):
-    def try_assert_condition(method_name, assertions):
-        assertion = ""
-        try:
-            condition = assertions[method_name][condition_key]
-            assertion = f"assert {condition};\n"
-        except KeyError:
-            pass
-        return assertion
-    return try_assert_condition
-
-
-try_assert_precondition = try_assert_condition_builder('precondition')
-try_assert_postcondition = try_assert_condition_builder('postcondition')
-
+def assert_assertions(method_name, assertions):
+    assertions_string = ""
+    try:
+        conditions = assertions[method_name]
+        for condition in conditions:
+            assertions_string += f"assert {parser.parse(condition)};\n"
+    except KeyError:
+        pass
+    return assertions
 
 # TODO: This needs to be moved somewhere else
-def methods_harness(methods: List[str], assertions):
+def methods_harness(methods: List[str], assertions_json):
     harness = "while (true){\n"
     harness += havoc_variable(CHOICE_VARIABLE_NAME)
     for index, method_name in enumerate(methods):
         harness += "if (({}) == {}) {{\n".format(CHOICE_VARIABLE_NAME, index)
-        harness += try_assert_precondition(method_name, assertions)
         harness += procedure_call(method_name)
-        harness += try_assert_postcondition(method_name, assertions)
+        harness += assert_assertions(method_name,  assertions_json)
         harness += "}\n"
     harness += "}\n"
     return harness
@@ -177,7 +165,7 @@ def main_contract_procedure(tealift: Tealift):
 
             main_procedure += parsed_instruction_boogie
             if (block_index, instruction_index) in phi_values:  # Check if value of a phi
-                values = phi_values.get((block_index, instruction_index))
+                values = phi_values.get((block_index, instruction_index), [])
                 for value in values:
                     phi_block_index, phi_index = value
                     phi_val_name = phi_value_name(phi_block_index, phi_index)
@@ -265,9 +253,8 @@ def get_methods_names(contract, bare_call_config):
 # TODO: This needs to be moved somewhere else
 def verify_procedure(creation_method_name, methods, assertions):
     procedure = verifier_procedure_declaration()
-    procedure += try_assert_precondition(creation_method_name, assertions)
     procedure += procedure_call(creation_method_name)
-    procedure += try_assert_postcondition(creation_method_name, assertions)
+    procedure += assert_assertions(creation_method_name, assertions)
     procedure += methods_harness(methods, assertions)
     procedure += procedure_implementation_closure()
     return procedure
@@ -303,12 +290,12 @@ def main():
         hints = application.hints
         bare_call_config = application.bare_call_config
 
-        methods = list(map(Method.from_abi_method, application.contract.methods))
+        methods = list(map(lambda method: Method.from_abi_method(method, hints[method.get_signature()]), application.contract.methods))
         methods += list(
             map(
-                lambda opcode, config: Method.from_bare_call(
-                    opcode,
-                    config
+                lambda tuple: Method.from_bare_call(
+                    tuple[0],
+                    tuple[1]
                 ),
                 application.bare_call_config.items()
             )

@@ -24,14 +24,14 @@ class ParsedInstruction:
 
     @staticmethod
     def operator() -> str:
-        pass
+        return ""
 
     @staticmethod
     def returns_value() -> bool:
-        pass
+        return False
 
-    def to_boogie(self):
-        pass
+    def to_boogie(self) -> str:
+        return ""
 
 
 def binary_operation_builder(_operator: str, boogie_symbol: str,_is_boolean: bool) -> Type[ParsedInstruction]:

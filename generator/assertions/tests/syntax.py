@@ -1,22 +1,14 @@
 import unittest
-from assertions.syntax import Constant
+from assertions.syntax import Assertions
 
 
-class TestOperations(unittest.TestCase):
-    def test_construct_equals(self):
-        self.assertTrue(True)
-
-
-class TestConstants(unittest.TestCase):
-    def test_construct_numeric_constant(self):
-        numeric_value = 123
-        const = Constant(numeric_value)
-        self.assertEqual(const.value, numeric_value)
-
-    def test_construct_boolean_constant(self):
-        boolean_value = True
-        const = Constant(boolean_value)
-        self.assertEqual(const.value, boolean_value)
+class TestAssertions(unittest.TestCase):
+    def test_constructor(self):
+        method_name = 'method'
+        assertions = ['1 == 1']
+        new_assertion = Assertions(method_name, assertions)
+        self.assertEqual(new_assertion.method_name, method_name)
+        self.assertEqual(len(new_assertion.assertions), 1)
 
 
 if __name__ == '__main__':

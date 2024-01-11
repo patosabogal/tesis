@@ -1,6 +1,6 @@
 {
   "constructor": {
-    "preconditions": [{"constant":true}],
-    "postconditions": [{"constant":true}]
+    "preconditions": [{"constant": {"value": true}}],
+    "postconditions": [{"constant": {"value": true}}]
   }
 }

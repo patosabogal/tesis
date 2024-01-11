@@ -4,7 +4,7 @@ from typing import List
 from constants import *
 from dataclasses import dataclass
 from algosdk import abi
-from Crypto.Hash import keccak, SHA512
+from Crypto.Hash import keccak
 from algokit_utils import MethodHints, OnCompleteActionName, CallConfig, MethodConfigDict
 
 ReservedApplicationArray = List[str]
@@ -86,7 +86,7 @@ class Method:
             method['reserved']['accounts'],
         )
         required = RequiredArrays(
-            list(map(lambda key, value: (int(key), value), method['required']['arguments'].items())),
+            list(map(lambda key, value: (int(key), string_to_int(value)), method['required']['arguments'].items())),
             list(map(lambda key, value: (int(key), value), method['required']['assets'].items())),
             list(map(lambda key, value: (int(key), value), method['required']['applications'].items())),
             list(map(lambda key, value: (int(key), value), method['required']['accounts'].items())),
@@ -111,9 +111,7 @@ def method_closure():
 
 
 def string_to_int(string: str):
-    hash_function = SHA512.new(truncate="256")
-    hash_function.update(string.encode("utf-8"))
-    return bytes_to_int(hash_function.digest()[:4])
+    return bytes_to_int(string.encode('raw_unicode_escape'))
 
 
 def bytes_to_int(bytes_string: bytes):
@@ -159,6 +157,7 @@ def method_variables_assigment(method: Method):
     def required_mapping_function_builder(variable_name):
         def required_mapping_function(current):
             index, value = current
+            #TODO: TEST, might not wrk, probably needs to cast to int
             return variable_assigment(variable_name(CURRENT_TRANSACTION_INDEX, index), value)
 
         return required_mapping_function

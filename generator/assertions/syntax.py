@@ -2,55 +2,45 @@ import json
 import argparse
 import jsonschema
 
-from typing import List, Any
+from typing import List
+from .parser import parser
 from pathlib import Path
 
-class Term:
-    value: Any
-
-    @classmethod
-    def from_json(cls, json_object: Any):
-        return cls(json_object['value'])
-
-class Operation:
-    lhs: Any
-    rhs: Any
-
-class Constant(Term):
-    value: bool | int
-    def __init__(self, value: bool | int):
-        self.value = value
-
-class Variable(Term):
-    value: str
-    def __init__(self, value: str):
-        self.value = value
-
-class Formula:
-    value: Operation | Constant | Variable
 
 class Assertions:
     mathod_name: str
-    preconditions: List[Formula]
-    postconditions: List[Formula]
+    assertions: List[str]
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('asserts', type=str, help='Path to the assertions JSON file.')
-    args = parser.parse_args()
+    def __init__(self, method_name: str, assertions: List[str]) -> None:
+        self.method_name = method_name
+        self.assertions = list(map(parser.parse, assertions))
 
-    with open('schemas/assertions.schema.json', 'r') as file:
-       assertions_schema = json.loads(file.read())
-    with open(args.asserts, "r") as file:
-       assertions = json.loads(file.read())
-       jsonschema.validate(
-           assertions,
-           schema=assertions_schema,
-           resolver=jsonschema.RefResolver(
-               base_uri=f"{Path(__file__).parent.as_uri()}/schemas/",
-               referrer=assertions_schema,
-           ),
-       )
+    @classmethod
+    def from_json(cls, json_object):
+        return cls(
+                json_object['method_name'],
+                json_object['assertions'],
+                )
 
-if __name__ == "__main__":
-    main()
+#def main():
+#    arg_parser = argparse.ArgumentParser()
+#    arg_parser.add_argument('asserts', type=str, help='Path to the assertions JSON file.')
+#    args = arg_parser.parse_args()
+#
+#    with open('schemas/assertions.schema.json', 'r') as file:
+#       assertions_schema = json.loads(file.read())
+#    with open(args.asserts, "r") as file:
+#       assertions = json.loads(file.read())
+#       jsonschema.validate(
+#           assertions,
+#           schema=assertions_schema,
+#           resolver=jsonschema.RefResolver(
+#               base_uri=f"{Path(__file__).parent.as_uri()}/schemas/",
+#               referrer=assertions_schema,
+#           ),
+#       )
+#    for assertion in assertions:
+#
+#
+#if __name__ == "__main__":
+#    main()

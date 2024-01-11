@@ -9,6 +9,7 @@ opcode_to_int = {
     "delete_application": 5
 }
 
+VERIFY_PROCEDURE = "verify"
 NO_OP = "no_op"
 DEFAULT_CONTRACT_CREATION_METHOD = "constructor"
 CHOICE_VARIABLE_NAME = "choice"
@@ -76,7 +77,7 @@ def on_completion_variable_name(transaction_index: int):
     return f"on_complete_{transaction_index}"
 
 
-def scratch_slot_variable_name(slot_index: int):
+def scratch_slot_variable_name(slot_index: int | str):
     return f"scratch_{slot_index}"
 
 
