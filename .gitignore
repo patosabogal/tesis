@@ -7,3 +7,4 @@ tealift
 _tealift
 .idea/
 __pycache__/
+generator/artifacts
