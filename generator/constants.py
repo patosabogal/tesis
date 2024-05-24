@@ -138,6 +138,13 @@ def havoc_variable(var_name: str):
 def variable_assigment(var_name: str, value: int | str):
     return f"{var_name} := {value};\n"
 
+def assume_global_slots_zero():
+    return f"assume (forall key: int :: {GLOBAL_SLOTS}[key] == 0);\n"
+
+def assume_default_theories():
+    #TODO: assume scratch_slots 0 by default?
+    return assume_global_slots_zero()
+
 
 def functions_declarations() -> str:
     return """function to_int(x: bool) returns (int);

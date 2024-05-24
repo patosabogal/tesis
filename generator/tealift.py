@@ -105,7 +105,6 @@ class Tealift:
                     values = phis_dict.get((incoming_edge, phi[incoming_edges_index]), [])
                     values.append((basic_block_index, phi_index))
                     phis_dict[(incoming_edge, phi[incoming_edges_index])] = values
-        print(phis_dict)
         return phis_dict
 
     @property

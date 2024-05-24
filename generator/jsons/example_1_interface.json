@@ -1,0 +1,36 @@
+{
+  "methods": [
+		{
+			"opcode": 0,
+      "name": "constructor",
+      "required": {
+        "arguments": {},
+        "accounts": {},
+        "applications": {},
+        "assets": {}
+      },
+      "reserved": {
+        "arguments": [],
+        "accounts": [],
+        "applications": [],
+        "assets": []
+      }
+    },
+    {
+			"opcode": 0,
+      "name": "counter",
+      "required": {
+        "arguments": {},
+        "accounts": {},
+        "applications": {},
+        "assets": {}
+      },
+      "reserved": {
+        "arguments": [],
+        "accounts": [],
+        "applications": [],
+        "assets": []
+      }
+    }
+  ]
+}

@@ -3,7 +3,8 @@ import subprocess
 import json
 from pathlib import Path
 
-import jsonschema
+from jsonschema import Draft7Validator
+from referencing import Registry
 from assertions.parser import parser
 
 from constants import *
@@ -105,15 +106,27 @@ def max_variables_values(methods: List[Method]) -> Tuple[int, int, int, int, int
 #        max_applications = min(max(max_applications, applications), FOREIGNS_MAX_COMBINED_SIZE)
 #    return max_arguments, max_transactions, max_applications, max_assets, max_accounts
 
-def assert_assertions(method_name, assertions):
+def assert_postconditions(method_name, assertions):
     assertions_string = ""
     try:
-        conditions = assertions[method_name]
+        conditions = assertions[method_name]["postconditions"]
         for condition in conditions:
             assertions_string += f"assert {parser.parse(condition)};\n"
     except KeyError:
         pass
-    return assertions
+    return assertions_string
+
+def assume_preconditions(method_name, assertions):
+    assumptions_string = ""
+    try:
+        conditions = assertions[method_name]["preconditions"]
+        for condition in conditions:
+            assumptions_string += f"assume {parser.parse(condition)};\n"
+    except KeyError:
+        pass
+    return assumptions_string
+
+
 
 # TODO: This needs to be moved somewhere else
 def methods_harness(methods: List[str], assertions_json):
@@ -121,8 +134,9 @@ def methods_harness(methods: List[str], assertions_json):
     harness += havoc_variable(CHOICE_VARIABLE_NAME)
     for index, method_name in enumerate(methods):
         harness += "if (({}) == {}) {{\n".format(CHOICE_VARIABLE_NAME, index)
+        harness += assume_preconditions(method_name,  assertions_json)
         harness += procedure_call(method_name)
-        harness += assert_assertions(method_name,  assertions_json)
+        harness += assert_postconditions(method_name,  assertions_json)
         harness += "}\n"
     harness += "}\n"
     return harness
@@ -188,10 +202,10 @@ def main_contract_procedure(tealift: Tealift):
 
 
 def run_tealift(teal_file_path):
-    with open('jsons/tealift.json', 'w+') as tealift_json:
-        subprocess.run(["node", "../tealift/src/json.js", teal_file_path], stdout=tealift_json)
-        json_file = tealift_json.seek(0)  # move file handle to begging of the file
-        return Tealift.from_json(json_file)
+    with open('artifacts/tealift.json', 'w+') as tealift_json:
+        subprocess.run(["npx","-y","ts-node", "../algorand-tealift/tealift/src/print.ts", teal_file_path], stdout=tealift_json)
+        tealift_json.seek(0)  # move file handle to begging of the file
+        return Tealift.from_json(tealift_json.read())
 
 
 # TODO: This needs to be moved somewhere else
@@ -253,8 +267,10 @@ def get_methods_names(contract, bare_call_config):
 # TODO: This needs to be moved somewhere else
 def verify_procedure(creation_method_name, methods, assertions):
     procedure = verifier_procedure_declaration()
+    procedure += assume_default_theories()
+    procedure += assume_preconditions(creation_method_name, assertions)
     procedure += procedure_call(creation_method_name)
-    procedure += assert_assertions(creation_method_name, assertions)
+    procedure += assert_postconditions(creation_method_name, assertions)
     procedure += methods_harness(methods, assertions)
     procedure += procedure_implementation_closure()
     return procedure
@@ -265,12 +281,11 @@ def main():
     parser.add_argument('teal_file', type=str, help='Path to teal file.')
     parser.add_argument('application_json', type=str, help='Path to the ABI JSON file.')
     parser.add_argument('asserts', type=str, help='Path to the assertions JSON file.')
+    parser.add_argument('-rb','--recursionBound', type=int, default=1000, help='Set recursion depth bound. Defaults to 1000.')
     parser.add_argument('-c', '--custom', help='Flag indicating that the JSON uses the custom VeriTeal schema.'
                                                'Schema.', action="store_true")
     args = parser.parse_args()
-
-    with open('jsons/tealift.json', 'r') as file:
-        tealift = Tealift.from_json(file.read())
+    tealift = run_tealift(args.teal_file)
     with open(args.application_json, "r") as file:
         application_json = file.read()
     with open('schemas/application.schema.json', 'r') as file:
@@ -279,10 +294,8 @@ def main():
         assertions_schema = json.loads(file.read())
     with open(args.asserts, "r") as file:
         assertions = json.loads(file.read())
-        jsonschema.validate(
-            assertions,
-            schema=assertions_schema,
-        )
+        validator=Draft7Validator(assertions_schema)
+        validator.validate(assertions)
 
     if not args.custom:
         application = ApplicationSpecification.from_json(application_json)
@@ -304,17 +317,20 @@ def main():
         creation_method_name = get_creation_method_name(contract, hints)
         methods_names = get_methods_names(contract, bare_call_config)
     else:
-
         application = json.loads(application_json)
-        jsonschema.validate(
-            application,
-            schema=application_schema,
-            resolver=jsonschema.RefResolver(
-                base_uri=f"{Path(__file__).parent.as_uri()}/schemas/",
-                referrer=application_schema,
-            ),
+        registry=Registry().with_resource(
+            f"{Path(__file__).parent.as_uri()}/schemas/",
+            application_schema,
         )
+        validator = Draft7Validator(application_schema,registry=registry)
         methods = list(map(Method.from_dict, application["methods"]))
+        has_constructor = False
+        for method in methods:
+            if method.name == DEFAULT_CONTRACT_CREATION_METHOD:
+                has_constructor = True
+        if not has_constructor:
+            raise Exception("Constructor method missing from interface schema. Please provide constructor interaface.")
+
         creation_method_name = DEFAULT_CONTRACT_CREATION_METHOD
         methods_names = list(map(lambda method: method.name, methods))
 
@@ -333,7 +349,7 @@ def main():
     with open("artifacts/output.bpl", "w") as output_file:
         output_file.write(boogie)
     # Run Corral
-    subprocess.run(["corral", "artifacts/output.bpl", "/main:verify_"])
+    subprocess.run(["corral", "artifacts/output.bpl", "/main:verify_" ,f"/recursionBound:{args.recursionBound}"])
 
 
 if __name__ == "__main__":

@@ -11,43 +11,137 @@ tokens = (
    'DIVIDE',
    'LPAREN',
    'RPAREN',
+   'QUOTE',
+   'DOUBLE_QUOTE',
    'EQUALS',
+   'LESSER',
+   'LESSER_OR_EQUALS',
+   'GREATER',
+   'GREATER_OR_EQUALS',
    'AND',
    'OR',
    'LOCAL',
    'LBRACKET',
    'RBRACKET',
-   'KEY',
+   'STRING',
    'GLOBAL',
-   'ADDRESS'
+   'ADDRESS',
+   'CURRENT_TX',
+   'DOT',
+   'SENDER',
+   'APPLICATION_ARGS'
 )
 
 # Regular expression rules for simple tokens
 # Tokens can also be defined as functio.
 # A regular expression rule with some action code:
 
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
-t_LBRACKET  = r'\['
-t_RBRACKET  = r'\]'
-t_EQUALS  = r'\=\='
-t_AND  = r'\&\&'
-t_OR  = r'or'
-t_BOOL  = r'(true|false)'
-t_NUMBER  = r'\d+'
-t_GLOBAL = r'global'
-t_LOCAL = r'local'
-
-def t_ADDRESS(t):
-    r'(\"(?:[A-Z2-7]{64})\"|\'(?:[A-Z2-7]{64})\')'
+def t_PLUS(t):
+    r'\+'
     return t
 
-def t_KEY(t):
-    r'(\"(?:[a-zA-Z0-9]+)\"|\'(?:[a-zA-Z0-9]+)\')'
+def t_MINUS(t):
+    r'-'
+    return t
+
+def t_TIMES(t):
+    r'\*'
+    return t
+
+def t_DIVIDE(t):
+    r'/'
+    return t
+
+def t_LPAREN(t):
+    r'\('
+    return t
+
+def t_RPAREN(t):
+    r'\)'
+    return t
+
+def t_LBRACKET(t):
+    r'\['
+    return t
+
+def t_RBRACKET(t):
+    r'\]'
+    return t
+
+def t_QUOTE(t):
+    r'\''
+    return t
+
+def t_DOUBLE_QUOTE(t):
+    r'\"'
+    return t
+
+def t_DOT(t):
+    r'\.'
+    return t
+
+def t_EQUALS(t):
+    r'\=\='
+    return t
+
+def t_LESSER(t):
+    r'\<'
+    return t
+
+def t_LESSER_OR_EQUALS(t):
+    r'\<\='
+    return t
+
+def t_GREATER(t):
+    r'\>'
+    return t
+
+def t_GREATER_OR_EQUALS(t):
+    r'\>\='
+    return t
+
+def t_AND(t):
+    r'\&\&'
+    return t
+
+def t_OR(t):
+    r'or'
+    return t
+
+def t_BOOL(t):
+    r'(true|false)'
+    return t
+
+def t_NUMBER(t):
+    r'\d+'
+    return t
+
+def t_GLOBAL(t):
+    r'Global'
+    return t
+
+def t_LOCAL(t):
+    r'Local'
+    return t
+
+def t_SENDER(t):
+    r'Sender'
+    return t
+
+def t_APPLICATION_ARGS(t):
+    r'ApplicationArgs'
+    return t
+
+def t_CURRENT_TX(t):
+    r'CurrentTx'
+    return t
+
+def t_ADDRESS(t):
+    r'(?:[A-Z2-7]{64})'
+    return t
+
+def t_STRING(t):
+    r'(?:[a-zA-Z0-9]+)'
     return t
 
 

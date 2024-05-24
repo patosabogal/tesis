@@ -1,0 +1,10 @@
+{
+  "constructor": {
+    "preconditions": ["true"],
+    "postconditions": ["true"]
+  },
+	"counter": {
+    "preconditions": ["true"],
+    "postconditions": ["Global['counter'] < 5"]
+  }
+}
