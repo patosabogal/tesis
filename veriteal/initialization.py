@@ -1,6 +1,7 @@
 import argparse
 import subprocess
 import json
+import os
 from pathlib import Path
 
 from jsonschema import Draft7Validator
@@ -20,23 +21,28 @@ def verifier_procedure_declaration():
     procedure += procedure_implementation_beginning(VERIFY_PROCEDURE)
     return procedure
 
+def array_access_prodecures():
+    procedures = ""
+    for field in transaction_fields:
+        procedures += transaction_field_access_procedure(field)
+    for field in transaction_array_fields:
+        procedures += transaction_array_field_access_procedure(field)
+    return procedures
 
 # TODO: This needs to be moved somewhere else
 # TODO: This is a mock. Needs to be implemented.
 def global_variables_initialization(variables: Tuple[int, int, int, int, int]) -> str:
+    # For now we are initializing all variables
     (max_arguments, max_transactions, max_applications, max_assets, max_accounts) = variables
-    max_transactions = 1  # Hardcoded for now. TODO: Handle group transactions
+    max_transactions = TRANSACTIONS_MAX_SIZE  # Hardcoded for now. TODO: Handle group transactions
     global_variables = ""
-    for transaction in range(max_transactions):
-        global_variables += int_variable_declaration(on_completion_variable_name(transaction))
-        for index in range(max_arguments):
-            global_variables += int_variable_declaration(arguments_variable_name(transaction, index))
-        for index in range(max_accounts):
-            global_variables += int_variable_declaration(accounts_variable_name(transaction, index))
-        for index in range(max_applications):
-            global_variables += int_variable_declaration(applications_variable_name(transaction, index))
-        for index in range(max_assets):
-            global_variables += int_variable_declaration(assets_variable_name(transaction, index))
+    max_array_slots = TRANSACTIONS_ARRAYS_SIZE
+    for transaction_index in range(max_transactions):
+        for field in transaction_fields:
+            global_variables += int_variable_declaration(transaction_field_variable_name(field, transaction_index))
+        for array_field in transaction_array_fields:
+            for array_index in range(max_array_slots):
+                global_variables += int_variable_declaration(transaction_array_variable_name(array_field,transaction_index, array_index))
 
     global_variables += int_variable_declaration(CHOICE_VARIABLE_NAME)
     global_variables += int_variable_declaration(RETURN_VARIABLE_NAME)
@@ -59,6 +65,9 @@ def max_variables_values(methods: List[Method]) -> Tuple[int, int, int, int, int
     accounts = 1  # 0 is sender
     assets = 0
     applications = 1  # 0 is current application
+
+    #TODO: There's room for ooptimization based on variables used in arguments
+
     max_arguments = min(max(max_arguments, arguments), ARGUMENTS_MAX_SIZE)
     max_transactions = min(max(max_transactions, transactions), TRANSACTIONS_MAX_SIZE)
     max_accounts = min(max(max_accounts, accounts), FOREIGNS_MAX_COMBINED_SIZE)
@@ -106,27 +115,20 @@ def max_variables_values(methods: List[Method]) -> Tuple[int, int, int, int, int
 #        max_applications = min(max(max_applications, applications), FOREIGNS_MAX_COMBINED_SIZE)
 #    return max_arguments, max_transactions, max_applications, max_assets, max_accounts
 
-def assert_postconditions(method_name, assertions):
-    assertions_string = ""
-    try:
-        conditions = assertions[method_name]["postconditions"]
-        for condition in conditions:
-            assertions_string += f"assert {parser.parse(condition)};\n"
-    except KeyError:
-        pass
-    return assertions_string
+def conditions_handler_builder(operation: str, invariant: str):
+    def fn(method_name, assertions):
+        assertions_string = ""
+        try:
+            conditions = assertions[method_name][invariant]
+            for condition in conditions:
+                assertions_string += f"{operation} {parser.parse(condition)};\n"
+        except KeyError:
+            print(f"Method {method_name} not found in {invariant}")
+        return assertions_string
+    return fn
 
-def assume_preconditions(method_name, assertions):
-    assumptions_string = ""
-    try:
-        conditions = assertions[method_name]["preconditions"]
-        for condition in conditions:
-            assumptions_string += f"assume {parser.parse(condition)};\n"
-    except KeyError:
-        pass
-    return assumptions_string
-
-
+assert_postconditions = conditions_handler_builder("assert", "postconditions")
+assume_preconditions = conditions_handler_builder("assume", "preconditions")
 
 # TODO: This needs to be moved somewhere else
 def methods_harness(methods: List[str], assertions_json):
@@ -150,7 +152,7 @@ def main_contract_procedure(tealift: Tealift):
 
     for block_index, block in enumerate(tealift.basic_blocks):
         main_procedure += label_declaration(block_index)
-        for phi_index, phi in enumerate(block.phis):  # Assign value to the phi
+        for phi_index, _ in enumerate(block.phis):  # Assign value to the phi
             phi_var_name = phi_variable_name(block_index, phi_index)
             phi_val_name = phi_value_name(block_index, phi_index)
             var_names.add(phi_var_name)
@@ -268,6 +270,7 @@ def get_methods_names(contract, bare_call_config):
 def verify_procedure(creation_method_name, methods, assertions):
     procedure = verifier_procedure_declaration()
     procedure += assume_default_theories()
+    #procedure += default_procedures()
     procedure += assume_preconditions(creation_method_name, assertions)
     procedure += procedure_call(creation_method_name)
     procedure += assert_postconditions(creation_method_name, assertions)
@@ -279,51 +282,53 @@ def verify_procedure(creation_method_name, methods, assertions):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('teal_file', type=str, help='Path to teal file.')
-    parser.add_argument('application_json', type=str, help='Path to the ABI JSON file.')
-    parser.add_argument('asserts', type=str, help='Path to the assertions JSON file.')
+    parser.add_argument('interface_json', nargs='?', type=str, default=None, help='Path to the ABI JSON file.')
+    parser.add_argument('assertions_json', nargs='?', type=str, default=None, help='Path to the assertions JSON file.')
     parser.add_argument('-rb','--recursionBound', type=int, default=1000, help='Set recursion depth bound. Defaults to 1000.')
     parser.add_argument('-c', '--custom', help='Flag indicating that the JSON uses the custom VeriTeal schema.'
                                                'Schema.', action="store_true")
     args = parser.parse_args()
     tealift = run_tealift(args.teal_file)
-    with open(args.application_json, "r") as file:
-        application_json = file.read()
-    with open('schemas/application.schema.json', 'r') as file:
-        application_schema = json.loads(file.read())
+    interface_json_path = args.interface_json if args.interface_json else f"{os.path.splitext(args.teal_file)[0]}_interface.json"
+    assertions_json_path = args.assertions_json if args.assertions_json  else f"{os.path.splitext(args.teal_file)[0]}_assertions.json"
+    with open(interface_json_path, "r") as file:
+        interface_json = file.read()
+    with open('schemas/interface.schema.json', 'r') as file:
+        interface_schema = json.loads(file.read())
     with open('schemas/assertions.schema.json', 'r') as file:
         assertions_schema = json.loads(file.read())
-    with open(args.asserts, "r") as file:
+    with open(assertions_json_path, "r") as file:
         assertions = json.loads(file.read())
         validator=Draft7Validator(assertions_schema)
         validator.validate(assertions)
 
     if not args.custom:
-        application = ApplicationSpecification.from_json(application_json)
-        contract = application.contract
-        hints = application.hints
-        bare_call_config = application.bare_call_config
+        interface = ApplicationSpecification.from_json(interface_json)
+        contract = interface.contract
+        hints = interface.hints
+        bare_call_config = interface.bare_call_config
 
-        methods = list(map(lambda method: Method.from_abi_method(method, hints[method.get_signature()]), application.contract.methods))
+        methods = list(map(lambda method: Method.from_abi_method(method, hints[method.get_signature()]), interface.contract.methods))
         methods += list(
             map(
                 lambda tuple: Method.from_bare_call(
                     tuple[0],
                     tuple[1]
                 ),
-                application.bare_call_config.items()
+                interface.bare_call_config.items()
             )
         )
 
         creation_method_name = get_creation_method_name(contract, hints)
         methods_names = get_methods_names(contract, bare_call_config)
     else:
-        application = json.loads(application_json)
+        interface = json.loads(interface_json)
         registry=Registry().with_resource(
             f"{Path(__file__).parent.as_uri()}/schemas/",
-            application_schema,
+            interface_schema,
         )
-        validator = Draft7Validator(application_schema,registry=registry)
-        methods = list(map(Method.from_dict, application["methods"]))
+        validator = Draft7Validator(interface_schema,registry=registry)
+        methods = list(map(Method.from_dict, interface["methods"]))
         has_constructor = False
         for method in methods:
             if method.name == DEFAULT_CONTRACT_CREATION_METHOD:
@@ -340,6 +345,7 @@ def main():
     # Add functions and axioms
     boogie += functions_declarations()
     # Define methods procedures
+    boogie += array_access_prodecures()
     boogie += methods_procedures(methods)
     # Create method harness
     boogie += verify_procedure(creation_method_name, methods_names, assertions)

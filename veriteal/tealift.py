@@ -102,7 +102,9 @@ class Tealift:
         for basic_block_index, basic_block in enumerate(self.basic_blocks):
             for phi_index, phi in enumerate(basic_block.phis):
                 for incoming_edges_index, incoming_edge in enumerate(basic_block.incoming_edges):
+                    # Get values already processed.
                     values = phis_dict.get((incoming_edge, phi[incoming_edges_index]), [])
+                    # Append new value
                     values.append((basic_block_index, phi_index))
                     phis_dict[(incoming_edge, phi[incoming_edges_index])] = values
         return phis_dict

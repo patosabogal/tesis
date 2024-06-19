@@ -227,7 +227,7 @@ def method_procedure(method: Method) -> str:
     procedure = method_initialization(method.name)
     procedure += method_variables_assigment(method)
     procedure += variable_assigment(
-        on_completion_variable_name(CURRENT_TRANSACTION_INDEX),
+        on_completion_variable_name,
         method.opcode
     )
     procedure += method_closure()

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Dict, Type
 
-from constants import label_name, local_variable_name, phi_variable_name, scratch_slot_variable_name, \
-    variable_assigment, global_map_access, local_map_access, RETURN_VARIABLE_NAME, EXIT_LABEL
+from constants import CURRENT_TRANSACTION_INDEX, label_name, local_variable_name, phi_variable_name, scratch_slot_variable_name, transaction_field_access, transaction_array_field_access, \
+    variable_assigment, global_map_access, local_map_access, RETURN_VARIABLE_NAME, EXIT_LABEL, transaction_fields, transaction_array_fields
 from methods import string_to_int
 from tealift import Instruction, BasicBlock
 
@@ -28,7 +28,7 @@ class ParsedInstruction:
 
     @staticmethod
     def returns_value() -> bool:
-        return False
+        return ""
 
     def to_boogie(self) -> str:
         return ""
@@ -65,6 +65,7 @@ def binary_operation_builder(_operator: str, boogie_symbol: str,_is_boolean: boo
 
 Add = binary_operation_builder('add', '+' ,False)
 And = binary_operation_builder('and', '&&',True)
+Equals = binary_operation_builder('eq', '==',True)
 LowerThan = binary_operation_builder('lt', '<',True)
 
 
@@ -87,6 +88,77 @@ class Const(ParsedInstruction):
 
     def to_boogie(self):
         return f"{self.returned_variable}"
+
+@dataclass
+class ExtConst(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'ext_const'
+
+    @staticmethod
+    def returns_value():
+        return True
+
+    @property
+    def returned_variable(self):
+        # Its a transaction field access, aka, txn.
+        return transaction_field_access(self.instruction.arguments[1], CURRENT_TRANSACTION_INDEX)
+    def to_boogie(self):
+        return f"{self.returned_variable}"
+
+@dataclass
+class ExtConstArray(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'ext_const_array'
+
+    @staticmethod
+    def returns_value():
+        return True
+
+    @property
+    def returned_variable(self):
+        # Its a group transaction field access, aka, gtxn.
+        if self.instruction.arguments[0] in transaction_fields:
+            return transaction_field_access(self.instruction.arguments[0], self._get_variable(self.instruction.consumes[0]))
+        else:
+        # Its a transaction array field access, aka, txna.
+            return transaction_array_field_access(self.instruction.arguments[0], CURRENT_TRANSACTION_INDEX, self._get_variable(self.instruction.consumes[0]))
+    def to_boogie(self):
+        return f"{self.returned_variable}"
+
+#TODO: Add support
+#@dataclass
+#class ExtConstArrayArray(ParsedInstruction):
+#    @staticmethod
+#    def operator():
+#        return 'ext_const_array_array'
+#
+#    @staticmethod
+#    def returns_value():
+#        return True
+#
+#    @property
+#    def returned_variable(self):
+#        # Its a group transaction array field access, aka, gtxna.
+#        if self.instruction.arguments[0] in transaction_array_fields:
+#            return transaction_array_field_access(self.instruction.arguments[0], CURRENT_TRANSACTION_INDEX, self._get_variable(self.instruction.consumes[0]))
+#    def to_boogie(self):
+#        return f"{self.returned_variable}"
+
+@dataclass
+class Assert(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'assert'
+
+    @staticmethod
+    def returns_value():
+        return False
+
+    def to_boogie(self):
+        return f"assume {self._get_variable(self.instruction.consumes[0])} != 0;\n"
+
 
 
 @dataclass
@@ -240,19 +312,52 @@ class LoadLocal(ParsedInstruction):
     def to_boogie(self):
         return f"{local_map_access(self._get_variable(self.instruction.consumes[0]), self._get_variable(self.instruction.consumes[1]))}"
 
+@dataclass
+class DivModWHiQuo(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'divmodw_hi_q'
 
-operation_class: Dict[str, Type[ParsedInstruction]] = {
-    Add.operator(): Add,
-    And.operator(): And,
-    Const.operator(): Const,
-    Exit.operator(): Exit,
-    Jump.operator(): Jump,
-    LowerThan.operator(): LowerThan,
-    SwitchOnZero.operator(): SwitchOnZero,
-    StoreScratch.operator(): StoreScratch,
-    LoadScratch.operator(): LoadScratch,
-    StoreGlobal.operator(): StoreGlobal,
-    LoadGlobal.operator(): LoadGlobal,
-    StoreLocal.operator(): StoreLocal,
-    LoadLocal.operator(): LoadLocal,
-}
+    @staticmethod
+    def returns_value():
+        return True
+
+
+
+    def to_boogie(self):
+        return f"{local_map_access(self._get_variable(self.instruction.consumes[0]), self._get_variable(self.instruction.consumes[1]))}"
+
+#@dataclass
+#class DivModWLoRem(ParsedInstruction):
+#    @staticmethod
+#    def operator():
+#        return 'divmodw_lo_rem'
+#
+#    @staticmethod
+#    def returns_value():
+#        return True
+#
+#    def to_boogie(self):
+#        return f"{self._get_variable(self.instruction.consumes[0])}*340282366920938463463374607431768211456+{self._get_variable(self.instruction.consumes[1])}"
+
+operations = [Add,
+              Equals,
+              Assert,
+              And,
+              Const,
+              Exit,
+              Jump,
+              LowerThan,
+              SwitchOnZero,
+              StoreScratch,
+              LoadScratch,
+              StoreGlobal,
+              LoadGlobal,
+              StoreLocal,
+              LoadLocal,
+              ExtConstArray
+              ]
+
+operation_class: Dict[str, Type[ParsedInstruction]] = {}
+for operation in operations:
+    operation_class[operation.operator()] = operation

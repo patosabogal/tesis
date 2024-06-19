@@ -1,0 +1,6 @@
+{
+  "constructor": {
+    "preconditions": ["true"],
+    "postconditions": ["Global[42] < 5"]
+  }
+}
