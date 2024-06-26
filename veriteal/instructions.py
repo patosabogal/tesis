@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Dict, Type
 
-from constants import CURRENT_TRANSACTION_INDEX, label_name, local_variable_name, phi_variable_name, scratch_slot_variable_name, transaction_field_access, transaction_array_field_access, \
+from veriteal.constants import CURRENT_TRANSACTION_INDEX, label_name, local_variable_name, phi_variable_name, scratch_slot_variable_name, transaction_field_access, transaction_array_field_access, \
     variable_assigment, global_map_access, local_map_access, RETURN_VARIABLE_NAME, EXIT_LABEL, transaction_fields, transaction_array_fields
-from methods import string_to_int
-from tealift import Instruction, BasicBlock
+from veriteal.methods import string_to_int
+from veriteal.tealift import Instruction, BasicBlock
 
 
 @dataclass

@@ -1,0 +1,11 @@
+# RUN
+En este directorio, con el venv sourceado.
+```
+python -m veriteal
+```
+# TESTS
+Para correr los tests
+```
+cd generator
+python -m unittest [path al test file]
+```

@@ -1,0 +1,73 @@
+global GroupSize
+    int 5
+    ==
+    assert
+
+    // verify the receiver of the assets is the one whose local state is updated
+    gtxna 1 Accounts 1
+    txn Sender
+    !=
+    assert
+
+    gtxna 1 Accounts 1
+    gtxn 2 AssetReceiver
+    ==
+    assert
+
+    gtxn 3 AssetReceiver
+    gtxn 3 Receiver
+    gtxn 3 TypeEnum
+    int pay
+    ==
+    select
+    gtxna 1 Accounts 1
+    ==
+    assert
+
+    // 2: AssetTransfer - from Pool to Pooler asset 1
+    gtxn 2 Sender
+    txn Sender
+    ==
+    assert
+
+    gtxn 2 AssetReceiver
+    gtxn 4 Sender
+    ==
+    assert
+
+    gtxn 3 Sender
+    txn Sender
+    ==
+    assert
+
+    // 3: AssetTransfer - from Pool to Pooler asset 2
+    gtxn 3 AssetReceiver
+    gtxn 3 Receiver
+    gtxn 3 TypeEnum
+    int pay
+    == // if algo
+    select
+    gtxn 4 Sender
+    ==
+    assert
+
+    // 4: AssetTransfer - from Pooler to Pool liquidity token
+    gtxn 4 Sender
+    txn Sender
+    !=
+    assert
+
+    gtxn 4 AssetReceiver
+    txn Sender
+    ==
+    assert
+
+    gtxn 1 Fee
+    gtxn 2 Fee
+    +
+    gtxn 3 Fee
+    +
+    store 1 // fee_total
+    b check_fees
+	check_fees:
+		return

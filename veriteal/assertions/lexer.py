@@ -1,5 +1,5 @@
 import ply.lex as lex
-from definitions import ROOT_DIR
+from veriteal.definitions import ROOT_DIR
 
 # List of token names.   This is always required
 tokens = (
@@ -29,7 +29,8 @@ tokens = (
    'CURRENT_TX',
    'DOT',
    'SENDER',
-   'APPLICATION_ARGS'
+   'APPLICATION_ARGS',
+   'APPROVES',
 )
 
 # Regular expression rules for simple tokens
@@ -134,6 +135,10 @@ def t_APPLICATION_ARGS(t):
 
 def t_CURRENT_TX(t):
     r'CurrentTx'
+    return t
+
+def t_APPROVES(t):
+    r'Approves'
     return t
 
 def t_ADDRESS(t):

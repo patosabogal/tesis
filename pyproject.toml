@@ -1,0 +1,5 @@
+[tool.pyright]
+include = ["veriteal"]
+exclude = ["**/node_modules",
+    "**/__pycache__",
+]

@@ -6,14 +6,15 @@ from pathlib import Path
 
 from jsonschema import Draft7Validator
 from referencing import Registry
-from assertions.parser import parser
 
-from constants import *
-from tealift import Tealift
 from algokit_utils import ApplicationSpecification, CallConfig
-from instructions import ParsedInstruction, operation_class
-from methods import method_procedure, Method
 from typing import List, Tuple, Type
+
+from veriteal.assertions.parser import parser
+from veriteal.constants import *
+from veriteal.tealift import Tealift
+from veriteal.instructions import ParsedInstruction, operation_class
+from veriteal.methods import method_procedure, Method
 
 # TODO: This needs to be moved somewhere else
 def verifier_procedure_declaration():
@@ -204,8 +205,8 @@ def main_contract_procedure(tealift: Tealift):
 
 
 def run_tealift(teal_file_path):
-    with open('artifacts/tealift.json', 'w+') as tealift_json:
-        subprocess.run(["npx","-y","ts-node", "../algorand-tealift/tealift/src/print.ts", teal_file_path], stdout=tealift_json)
+    with open('veriteal/artifacts/tealift.json', 'w+') as tealift_json:
+        subprocess.run(["npx","-y","ts-node", "algorand-tealift/tealift/src/print.ts", teal_file_path], stdout=tealift_json)
         tealift_json.seek(0)  # move file handle to begging of the file
         return Tealift.from_json(tealift_json.read())
 
@@ -293,9 +294,9 @@ def main():
     assertions_json_path = args.assertions_json if args.assertions_json  else f"{os.path.splitext(args.teal_file)[0]}_assertions.json"
     with open(interface_json_path, "r") as file:
         interface_json = file.read()
-    with open('schemas/interface.schema.json', 'r') as file:
+    with open('veriteal/schemas/interface.schema.json', 'r') as file:
         interface_schema = json.loads(file.read())
-    with open('schemas/assertions.schema.json', 'r') as file:
+    with open('veriteal/schemas/assertions.schema.json', 'r') as file:
         assertions_schema = json.loads(file.read())
     with open(assertions_json_path, "r") as file:
         assertions = json.loads(file.read())
@@ -352,10 +353,10 @@ def main():
     # Translate main contract with tealift
     boogie += main_contract_procedure(tealift)
 
-    with open("artifacts/output.bpl", "w") as output_file:
+    with open("veriteal/artifacts/output.bpl", "w") as output_file:
         output_file.write(boogie)
     # Run Corral
-    subprocess.run(["corral", "artifacts/output.bpl", "/main:verify_" ,f"/recursionBound:{args.recursionBound}"])
+    subprocess.run(["corral", "veriteal/artifacts/output.bpl", "/main:verify_" ,f"/recursionBound:{args.recursionBound}"])
 
 
 if __name__ == "__main__":

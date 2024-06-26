@@ -8471,13 +8471,13 @@ implementation verify_(){
 assume (forall key: int :: Global[key] == 0);
 assume true;
 call constructor_();
-assert Global[22] < 5;
+assert Global[42] < 5;
 while (true){
 havoc choice;
 if ((choice) == 0) {
 assume true;
 call constructor_();
-assert Global[22] < 5;
+assert Global[42] < 5;
 }
 }
 }
@@ -8551,8 +8551,8 @@ var scratch_63 : int;
 var local_1 : int;
 var local_3 : int;
 var local_0 : int;
-var local_2 : int;
 var local_6 : int;
+var local_2 : int;
 label_0:
 local_0 := 42;
 local_1 := Global[local_0];

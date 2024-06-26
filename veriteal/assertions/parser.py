@@ -1,10 +1,10 @@
 import ply.yacc as yacc
-from constants import GLOBAL_SLOTS, LOCAL_SLOTS
-from definitions import ROOT_DIR
-from methods import string_to_int
+from veriteal.constants import GLOBAL_SLOTS, LOCAL_SLOTS
+from veriteal.definitions import ROOT_DIR
+from veriteal.methods import string_to_int
 
 # Get the token map from the lexer. May look like it's not used but it's actually required.
-from .lexer import tokens
+from veriteal.assertions.lexer import tokens
 
 def  p_triple_tokens(p):
     '''
@@ -15,6 +15,7 @@ def  p_triple_tokens(p):
     boolean_expression : string_expression EQUALS string_term
     boolean_expression : storage_expression EQUALS string_term
     boolean_expression : storage_expression EQUALS numeric_expression
+    boolean_expression : approves_expression EQUALS boolean_term
     boolean_expression : storage_expression LESSER numeric_expression
     boolean_expression : storage_expression GREATER numeric_expression
     boolean_expression : storage_expression LESSER_OR_EQUALS numeric_expression
@@ -43,6 +44,9 @@ def  p_unary_tokens(p):
     string_expression : string_term
     string_term : string_factor
     storage_expression : storage_term
+    approves_expression : approves_term
+    approves_term : approves_factor
+    approves_factor : APPROVES
     '''
     p[0] = p[1]
 

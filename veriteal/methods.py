@@ -1,11 +1,12 @@
 # TODO: DO NOT * IMPORT
 from typing import List
 
-from constants import *
 from dataclasses import dataclass
 from algosdk import abi
 from Crypto.Hash import keccak
 from algokit_utils import MethodHints, OnCompleteActionName, CallConfig, MethodConfigDict
+
+from veriteal.constants import *
 
 ReservedApplicationArray = List[str]
 RequiredApplicationArray = List[Tuple[int, str]]
