@@ -70,4 +70,5 @@ global GroupSize
     store 1 // fee_total
     b check_fees
 	check_fees:
+	int 1
 		return

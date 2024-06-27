@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Dict, Type
 
 from veriteal.constants import CURRENT_TRANSACTION_INDEX, label_name, local_variable_name, phi_variable_name, scratch_slot_variable_name, transaction_field_access, transaction_array_field_access, \
-    variable_assigment, global_map_access, local_map_access, RETURN_VARIABLE_NAME, EXIT_LABEL, transaction_fields, transaction_array_fields
+    variable_assigment, global_map_access, local_map_access, RETURN_VARIABLE_NAME, EXIT_LABEL, transaction_fields, transaction_array_fields, global_fields, type_enums
 from veriteal.methods import string_to_int
 from veriteal.tealift import Instruction, BasicBlock
 
@@ -28,7 +28,10 @@ class ParsedInstruction:
 
     @staticmethod
     def returns_value() -> bool:
-        return ""
+        return False
+
+    def calls(self) -> bool:
+        return False
 
     def to_boogie(self) -> str:
         return ""
@@ -66,6 +69,7 @@ def binary_operation_builder(_operator: str, boogie_symbol: str,_is_boolean: boo
 Add = binary_operation_builder('add', '+' ,False)
 And = binary_operation_builder('and', '&&',True)
 Equals = binary_operation_builder('eq', '==',True)
+NotEquals = binary_operation_builder('ne', '!=',True)
 LowerThan = binary_operation_builder('lt', '<',True)
 
 
@@ -81,6 +85,8 @@ class Const(ParsedInstruction):
 
     @property
     def returned_variable(self):
+        if self.instruction.arguments[1] in type_enums.keys():
+            return type_enums[self.instruction.arguments[1]]
         if self.instruction.arguments[0] == 'uint64':
             return self.instruction.arguments[1]
         if self.instruction.arguments[0] == '[]byte':
@@ -99,10 +105,16 @@ class ExtConst(ParsedInstruction):
     def returns_value():
         return True
 
+    def calls(self):
+        return self.instruction.arguments[1] in transaction_fields
+
     @property
     def returned_variable(self):
-        # Its a transaction field access, aka, txn.
-        return transaction_field_access(self.instruction.arguments[1], CURRENT_TRANSACTION_INDEX)
+        # If its a transaction field access, aka, txn.
+        if self.instruction.arguments[1] in transaction_fields:
+            return transaction_field_access(self.instruction.arguments[1], CURRENT_TRANSACTION_INDEX)
+        elif self.instruction.arguments[1] in global_fields:
+            return (self.instruction.arguments[1])
     def to_boogie(self):
         return f"{self.returned_variable}"
 
@@ -116,35 +128,44 @@ class ExtConstArray(ParsedInstruction):
     def returns_value():
         return True
 
+    def calls(self):
+        return True
+
     @property
     def returned_variable(self):
         # Its a group transaction field access, aka, gtxn.
-        if self.instruction.arguments[0] in transaction_fields:
-            return transaction_field_access(self.instruction.arguments[0], self._get_variable(self.instruction.consumes[0]))
+        if self.instruction.arguments[1] in transaction_fields:
+            return transaction_field_access(self.instruction.arguments[1], self._get_variable(self.instruction.consumes[0]))
         else:
         # Its a transaction array field access, aka, txna.
-            return transaction_array_field_access(self.instruction.arguments[0], CURRENT_TRANSACTION_INDEX, self._get_variable(self.instruction.consumes[0]))
+            return transaction_array_field_access(self.instruction.arguments[1], CURRENT_TRANSACTION_INDEX, self._get_variable(self.instruction.consumes[0]))
     def to_boogie(self):
         return f"{self.returned_variable}"
 
-#TODO: Add support
-#@dataclass
-#class ExtConstArrayArray(ParsedInstruction):
-#    @staticmethod
-#    def operator():
-#        return 'ext_const_array_array'
-#
-#    @staticmethod
-#    def returns_value():
-#        return True
-#
-#    @property
-#    def returned_variable(self):
-#        # Its a group transaction array field access, aka, gtxna.
-#        if self.instruction.arguments[0] in transaction_array_fields:
-#            return transaction_array_field_access(self.instruction.arguments[0], CURRENT_TRANSACTION_INDEX, self._get_variable(self.instruction.consumes[0]))
-#    def to_boogie(self):
-#        return f"{self.returned_variable}"
+@dataclass
+class ExtConstArrayArray(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'ext_const_array_array'
+
+    @staticmethod
+    def returns_value():
+        return True
+
+    def calls(self):
+        return True
+
+    @property
+    def returned_variable(self):
+        # Its a group transaction array field access, aka, gtxna.
+        if self.instruction.arguments[1] in transaction_array_fields:
+            return transaction_array_field_access(
+                self.instruction.arguments[1],
+                self._get_variable(self.instruction.consumes[0]),
+                self._get_variable(self.instruction.consumes[1])
+            )
+    def to_boogie(self):
+        return f"{self.returned_variable}"
 
 @dataclass
 class Assert(ParsedInstruction):
@@ -209,6 +230,28 @@ else {{
     goto {self.false_path_label};
 }}
 """
+
+@dataclass
+class Select(ParsedInstruction):
+    @staticmethod
+    def operator():
+        return 'select'
+
+    @staticmethod
+    def returns_value():
+        return True
+
+    def calls(self):
+        return True
+
+    def to_boogie(self):
+        condition = self._get_variable(self.instruction.consumes[0])
+        on_zero = self._get_variable(self.instruction.consumes[1])
+        on_not_zero = self._get_variable(self.instruction.consumes[2])
+        return f"select({condition},{on_zero},{on_not_zero})"
+
+
+
 
 
 @dataclass
@@ -342,6 +385,8 @@ class DivModWHiQuo(ParsedInstruction):
 
 operations = [Add,
               Equals,
+              NotEquals,
+              Select,
               Assert,
               And,
               Const,
@@ -355,7 +400,9 @@ operations = [Add,
               LoadGlobal,
               StoreLocal,
               LoadLocal,
-              ExtConstArray
+              ExtConst,
+              ExtConstArray,
+              ExtConstArrayArray
               ]
 
 operation_class: Dict[str, Type[ParsedInstruction]] = {}

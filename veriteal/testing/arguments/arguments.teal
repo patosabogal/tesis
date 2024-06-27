@@ -1,0 +1,5 @@
+arg_0
+int 1
+==
+assert
+int 1

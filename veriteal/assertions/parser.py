@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from veriteal.constants import GLOBAL_SLOTS, LOCAL_SLOTS
+from veriteal.constants import CURRENT_TRANSACTION_INDEX, GLOBAL_SLOTS, LOCAL_SLOTS
 from veriteal.definitions import ROOT_DIR
 from veriteal.methods import string_to_int
 
@@ -16,6 +16,8 @@ def  p_triple_tokens(p):
     boolean_expression : storage_expression EQUALS string_term
     boolean_expression : storage_expression EQUALS numeric_expression
     boolean_expression : approves_expression EQUALS boolean_term
+    boolean_expression : gtxn_term EQUALS numeric_expression
+    boolean_expression : gtxn_term EQUALS string_term
     boolean_expression : storage_expression LESSER numeric_expression
     boolean_expression : storage_expression GREATER numeric_expression
     boolean_expression : storage_expression LESSER_OR_EQUALS numeric_expression
@@ -73,6 +75,43 @@ def p_local_storage_term(p):
     storage_term : LOCAL LBRACKET address_factor RBRACKET LBRACKET string_factor RBRACKET
     '''
     p[0] = f"{LOCAL_SLOTS}{p[2]}{p[3]}{p[4]}{p[5]}{p[6]}{p[7]}"
+
+
+def p_group_transaction_field_term(p):
+    '''
+    gtxn_term : GROUP_TXN LBRACKET numeric_factor RBRACKET DOT txn_field_factor
+    '''
+    p[0] = f"{p[6]}_{p[3]}"
+
+def p_group_transaction_array_field_term(p):
+    '''
+    gtxn_term : GROUP_TXN LBRACKET numeric_factor RBRACKET DOT txna_field_factor LBRACKET numeric_factor RBRACKET
+    '''
+    p[0] = f"{p[6]}_{p[3]}_{p[8]}"
+
+def p_txn_field_term(p):
+    '''
+    gtxn_term : txn_field_factor
+    '''
+    p[0] = f"{p[1]}_{CURRENT_TRANSACTION_INDEX}"
+
+def p_txna_field_term(p):
+    '''
+    gtxn_term : txna_field_factor LBRACKET numeric_factor RBRACKET
+    '''
+    p[0] = f"{p[1]}_{CURRENT_TRANSACTION_INDEX}_{p[3]}"
+
+def p_txn_field_factor(p):
+    '''
+    txn_field_factor : TXN_FIELD
+    '''
+    p[0] = p[1]
+
+def p_txna_field_factor(p):
+    '''
+    txna_field_factor : TXNA_FIELD
+    '''
+    p[0] = p[1]
 
 
 

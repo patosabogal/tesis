@@ -3,34 +3,34 @@ from veriteal.definitions import ROOT_DIR
 
 # List of token names.   This is always required
 tokens = (
-   'NUMBER',
-   'BOOL',
-   'PLUS',
-   'MINUS',
-   'TIMES',
-   'DIVIDE',
-   'LPAREN',
-   'RPAREN',
-   'QUOTE',
-   'DOUBLE_QUOTE',
-   'EQUALS',
-   'LESSER',
-   'LESSER_OR_EQUALS',
-   'GREATER',
-   'GREATER_OR_EQUALS',
-   'AND',
-   'OR',
-   'LOCAL',
-   'LBRACKET',
-   'RBRACKET',
-   'STRING',
-   'GLOBAL',
-   'ADDRESS',
-   'CURRENT_TX',
-   'DOT',
-   'SENDER',
-   'APPLICATION_ARGS',
-   'APPROVES',
+  'NUMBER',
+  'BOOL',
+  'PLUS',
+  'MINUS',
+  'TIMES',
+  'DIVIDE',
+  'LPAREN',
+  'RPAREN',
+  'QUOTE',
+  'DOUBLE_QUOTE',
+  'EQUALS',
+  'LESSER',
+  'LESSER_OR_EQUALS',
+  'GREATER',
+  'GREATER_OR_EQUALS',
+  'AND',
+  'OR',
+  'LOCAL',
+  'LBRACKET',
+  'RBRACKET',
+  'STRING',
+  'GLOBAL',
+  'TXN_FIELD',
+  'TXNA_FIELD',
+  'ADDRESS',
+  'DOT',
+  'APPROVES',
+  'GROUP_TXN'
 )
 
 # Regular expression rules for simple tokens
@@ -125,16 +125,16 @@ def t_LOCAL(t):
     r'Local'
     return t
 
-def t_SENDER(t):
-    r'Sender'
+def t_TXN_FIELD(t):
+    r'(Sender | CurrentTx)'
     return t
 
-def t_APPLICATION_ARGS(t):
-    r'ApplicationArgs'
+def t_TXNA_FIELD(t):
+    r'(ApplicationArgs)'
     return t
 
-def t_CURRENT_TX(t):
-    r'CurrentTx'
+def t_GROUP_TXN(t):
+    r'GroupTransaction'
     return t
 
 def t_APPROVES(t):

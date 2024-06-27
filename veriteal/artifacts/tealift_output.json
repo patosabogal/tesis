@@ -1,0 +1,697 @@
+{
+  "entrypoint": 0,
+  "basic_blocks": [
+    {
+      "incoming_edges": [],
+      "outgoing_edges": [],
+      "phis": [],
+      "instructions": [
+        {
+          "op": "ext_const",
+          "args": [
+            "uint64",
+            "GroupSize"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            5
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            1,
+            0
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            2
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array_array",
+          "args": [
+            "[]byte",
+            "Accounts"
+          ],
+          "consumes": [
+            4,
+            5
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ne",
+          "args": [],
+          "consumes": [
+            7,
+            6
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            8
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array_array",
+          "args": [
+            "[]byte",
+            "Accounts"
+          ],
+          "consumes": [
+            10,
+            11
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            2
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "AssetReceiver"
+          ],
+          "consumes": [
+            13
+          ]
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            14,
+            12
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            15
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "AssetReceiver"
+          ],
+          "consumes": [
+            17
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Receiver"
+          ],
+          "consumes": [
+            19
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "TypeEnum"
+          ],
+          "consumes": [
+            21
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            "pay"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            23,
+            22
+          ]
+        },
+        {
+          "op": "select",
+          "args": [],
+          "consumes": [
+            24,
+            18,
+            20
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array_array",
+          "args": [
+            "[]byte",
+            "Accounts"
+          ],
+          "consumes": [
+            26,
+            27
+          ]
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            28,
+            25
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            29
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            2
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            31
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            33,
+            32
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            34
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            2
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "AssetReceiver"
+          ],
+          "consumes": [
+            36
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            4
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            38
+          ]
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            39,
+            37
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            40
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            42
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            44,
+            43
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            45
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "AssetReceiver"
+          ],
+          "consumes": [
+            47
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Receiver"
+          ],
+          "consumes": [
+            49
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "TypeEnum"
+          ],
+          "consumes": [
+            51
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            "pay"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            53,
+            52
+          ]
+        },
+        {
+          "op": "select",
+          "args": [],
+          "consumes": [
+            54,
+            48,
+            50
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            4
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            56
+          ]
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            57,
+            55
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            58
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            4
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            60
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ne",
+          "args": [],
+          "consumes": [
+            62,
+            61
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            63
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            4
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "AssetReceiver"
+          ],
+          "consumes": [
+            65
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            67,
+            66
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            68
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "Fee"
+          ],
+          "consumes": [
+            70
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            2
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "Fee"
+          ],
+          "consumes": [
+            72
+          ]
+        },
+        {
+          "op": "add",
+          "args": [],
+          "consumes": [
+            73,
+            71
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            3
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "Fee"
+          ],
+          "consumes": [
+            75
+          ]
+        },
+        {
+          "op": "add",
+          "args": [],
+          "consumes": [
+            76,
+            74
+          ]
+        },
+        {
+          "op": "store_scratch",
+          "args": [
+            "1"
+          ],
+          "consumes": [
+            77
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            1
+          ],
+          "consumes": []
+        }
+      ],
+      "terminal": {
+        "op": "exit",
+        "args": [
+          "return"
+        ],
+        "consumes": [
+          79
+        ]
+      }
+    }
+  ]
+}

@@ -1,3 +1,21 @@
+var MinTxnFee : int;
+var MinBalance : int;
+var MaxTxnLife : int;
+var ZeroAddress : int;
+var GroupSize : int;
+var LogicSigVersion : int;
+var Round : int;
+var LatestTimestamp : int;
+var CurrentApplicationID : int;
+var CreatorAddress : int;
+var CurrentApplicationAddress : int;
+var GroupID : int;
+var OpcodeBudget : int;
+var CallerApplicationID : int;
+var CallerApplicationAddress : int;
+var AssetCreateMinBalance : int;
+var AssetOptInMinBalance : int;
+var GenesisHash : int;
 var OnCompletion_0 : int;
 var Sender_0 : int;
 var Fee_0 : int;
@@ -107,22 +125,22 @@ var Assets_0_12 : int;
 var Assets_0_13 : int;
 var Assets_0_14 : int;
 var Assets_0_15 : int;
-var args_0_0 : int;
-var args_0_1 : int;
-var args_0_2 : int;
-var args_0_3 : int;
-var args_0_4 : int;
-var args_0_5 : int;
-var args_0_6 : int;
-var args_0_7 : int;
-var args_0_8 : int;
-var args_0_9 : int;
-var args_0_10 : int;
-var args_0_11 : int;
-var args_0_12 : int;
-var args_0_13 : int;
-var args_0_14 : int;
-var args_0_15 : int;
+var ApplicationArgs_0_0 : int;
+var ApplicationArgs_0_1 : int;
+var ApplicationArgs_0_2 : int;
+var ApplicationArgs_0_3 : int;
+var ApplicationArgs_0_4 : int;
+var ApplicationArgs_0_5 : int;
+var ApplicationArgs_0_6 : int;
+var ApplicationArgs_0_7 : int;
+var ApplicationArgs_0_8 : int;
+var ApplicationArgs_0_9 : int;
+var ApplicationArgs_0_10 : int;
+var ApplicationArgs_0_11 : int;
+var ApplicationArgs_0_12 : int;
+var ApplicationArgs_0_13 : int;
+var ApplicationArgs_0_14 : int;
+var ApplicationArgs_0_15 : int;
 var OnCompletion_1 : int;
 var Sender_1 : int;
 var Fee_1 : int;
@@ -232,22 +250,22 @@ var Assets_1_12 : int;
 var Assets_1_13 : int;
 var Assets_1_14 : int;
 var Assets_1_15 : int;
-var args_1_0 : int;
-var args_1_1 : int;
-var args_1_2 : int;
-var args_1_3 : int;
-var args_1_4 : int;
-var args_1_5 : int;
-var args_1_6 : int;
-var args_1_7 : int;
-var args_1_8 : int;
-var args_1_9 : int;
-var args_1_10 : int;
-var args_1_11 : int;
-var args_1_12 : int;
-var args_1_13 : int;
-var args_1_14 : int;
-var args_1_15 : int;
+var ApplicationArgs_1_0 : int;
+var ApplicationArgs_1_1 : int;
+var ApplicationArgs_1_2 : int;
+var ApplicationArgs_1_3 : int;
+var ApplicationArgs_1_4 : int;
+var ApplicationArgs_1_5 : int;
+var ApplicationArgs_1_6 : int;
+var ApplicationArgs_1_7 : int;
+var ApplicationArgs_1_8 : int;
+var ApplicationArgs_1_9 : int;
+var ApplicationArgs_1_10 : int;
+var ApplicationArgs_1_11 : int;
+var ApplicationArgs_1_12 : int;
+var ApplicationArgs_1_13 : int;
+var ApplicationArgs_1_14 : int;
+var ApplicationArgs_1_15 : int;
 var OnCompletion_2 : int;
 var Sender_2 : int;
 var Fee_2 : int;
@@ -357,22 +375,22 @@ var Assets_2_12 : int;
 var Assets_2_13 : int;
 var Assets_2_14 : int;
 var Assets_2_15 : int;
-var args_2_0 : int;
-var args_2_1 : int;
-var args_2_2 : int;
-var args_2_3 : int;
-var args_2_4 : int;
-var args_2_5 : int;
-var args_2_6 : int;
-var args_2_7 : int;
-var args_2_8 : int;
-var args_2_9 : int;
-var args_2_10 : int;
-var args_2_11 : int;
-var args_2_12 : int;
-var args_2_13 : int;
-var args_2_14 : int;
-var args_2_15 : int;
+var ApplicationArgs_2_0 : int;
+var ApplicationArgs_2_1 : int;
+var ApplicationArgs_2_2 : int;
+var ApplicationArgs_2_3 : int;
+var ApplicationArgs_2_4 : int;
+var ApplicationArgs_2_5 : int;
+var ApplicationArgs_2_6 : int;
+var ApplicationArgs_2_7 : int;
+var ApplicationArgs_2_8 : int;
+var ApplicationArgs_2_9 : int;
+var ApplicationArgs_2_10 : int;
+var ApplicationArgs_2_11 : int;
+var ApplicationArgs_2_12 : int;
+var ApplicationArgs_2_13 : int;
+var ApplicationArgs_2_14 : int;
+var ApplicationArgs_2_15 : int;
 var OnCompletion_3 : int;
 var Sender_3 : int;
 var Fee_3 : int;
@@ -482,22 +500,22 @@ var Assets_3_12 : int;
 var Assets_3_13 : int;
 var Assets_3_14 : int;
 var Assets_3_15 : int;
-var args_3_0 : int;
-var args_3_1 : int;
-var args_3_2 : int;
-var args_3_3 : int;
-var args_3_4 : int;
-var args_3_5 : int;
-var args_3_6 : int;
-var args_3_7 : int;
-var args_3_8 : int;
-var args_3_9 : int;
-var args_3_10 : int;
-var args_3_11 : int;
-var args_3_12 : int;
-var args_3_13 : int;
-var args_3_14 : int;
-var args_3_15 : int;
+var ApplicationArgs_3_0 : int;
+var ApplicationArgs_3_1 : int;
+var ApplicationArgs_3_2 : int;
+var ApplicationArgs_3_3 : int;
+var ApplicationArgs_3_4 : int;
+var ApplicationArgs_3_5 : int;
+var ApplicationArgs_3_6 : int;
+var ApplicationArgs_3_7 : int;
+var ApplicationArgs_3_8 : int;
+var ApplicationArgs_3_9 : int;
+var ApplicationArgs_3_10 : int;
+var ApplicationArgs_3_11 : int;
+var ApplicationArgs_3_12 : int;
+var ApplicationArgs_3_13 : int;
+var ApplicationArgs_3_14 : int;
+var ApplicationArgs_3_15 : int;
 var OnCompletion_4 : int;
 var Sender_4 : int;
 var Fee_4 : int;
@@ -607,22 +625,22 @@ var Assets_4_12 : int;
 var Assets_4_13 : int;
 var Assets_4_14 : int;
 var Assets_4_15 : int;
-var args_4_0 : int;
-var args_4_1 : int;
-var args_4_2 : int;
-var args_4_3 : int;
-var args_4_4 : int;
-var args_4_5 : int;
-var args_4_6 : int;
-var args_4_7 : int;
-var args_4_8 : int;
-var args_4_9 : int;
-var args_4_10 : int;
-var args_4_11 : int;
-var args_4_12 : int;
-var args_4_13 : int;
-var args_4_14 : int;
-var args_4_15 : int;
+var ApplicationArgs_4_0 : int;
+var ApplicationArgs_4_1 : int;
+var ApplicationArgs_4_2 : int;
+var ApplicationArgs_4_3 : int;
+var ApplicationArgs_4_4 : int;
+var ApplicationArgs_4_5 : int;
+var ApplicationArgs_4_6 : int;
+var ApplicationArgs_4_7 : int;
+var ApplicationArgs_4_8 : int;
+var ApplicationArgs_4_9 : int;
+var ApplicationArgs_4_10 : int;
+var ApplicationArgs_4_11 : int;
+var ApplicationArgs_4_12 : int;
+var ApplicationArgs_4_13 : int;
+var ApplicationArgs_4_14 : int;
+var ApplicationArgs_4_15 : int;
 var OnCompletion_5 : int;
 var Sender_5 : int;
 var Fee_5 : int;
@@ -732,22 +750,22 @@ var Assets_5_12 : int;
 var Assets_5_13 : int;
 var Assets_5_14 : int;
 var Assets_5_15 : int;
-var args_5_0 : int;
-var args_5_1 : int;
-var args_5_2 : int;
-var args_5_3 : int;
-var args_5_4 : int;
-var args_5_5 : int;
-var args_5_6 : int;
-var args_5_7 : int;
-var args_5_8 : int;
-var args_5_9 : int;
-var args_5_10 : int;
-var args_5_11 : int;
-var args_5_12 : int;
-var args_5_13 : int;
-var args_5_14 : int;
-var args_5_15 : int;
+var ApplicationArgs_5_0 : int;
+var ApplicationArgs_5_1 : int;
+var ApplicationArgs_5_2 : int;
+var ApplicationArgs_5_3 : int;
+var ApplicationArgs_5_4 : int;
+var ApplicationArgs_5_5 : int;
+var ApplicationArgs_5_6 : int;
+var ApplicationArgs_5_7 : int;
+var ApplicationArgs_5_8 : int;
+var ApplicationArgs_5_9 : int;
+var ApplicationArgs_5_10 : int;
+var ApplicationArgs_5_11 : int;
+var ApplicationArgs_5_12 : int;
+var ApplicationArgs_5_13 : int;
+var ApplicationArgs_5_14 : int;
+var ApplicationArgs_5_15 : int;
 var OnCompletion_6 : int;
 var Sender_6 : int;
 var Fee_6 : int;
@@ -857,22 +875,22 @@ var Assets_6_12 : int;
 var Assets_6_13 : int;
 var Assets_6_14 : int;
 var Assets_6_15 : int;
-var args_6_0 : int;
-var args_6_1 : int;
-var args_6_2 : int;
-var args_6_3 : int;
-var args_6_4 : int;
-var args_6_5 : int;
-var args_6_6 : int;
-var args_6_7 : int;
-var args_6_8 : int;
-var args_6_9 : int;
-var args_6_10 : int;
-var args_6_11 : int;
-var args_6_12 : int;
-var args_6_13 : int;
-var args_6_14 : int;
-var args_6_15 : int;
+var ApplicationArgs_6_0 : int;
+var ApplicationArgs_6_1 : int;
+var ApplicationArgs_6_2 : int;
+var ApplicationArgs_6_3 : int;
+var ApplicationArgs_6_4 : int;
+var ApplicationArgs_6_5 : int;
+var ApplicationArgs_6_6 : int;
+var ApplicationArgs_6_7 : int;
+var ApplicationArgs_6_8 : int;
+var ApplicationArgs_6_9 : int;
+var ApplicationArgs_6_10 : int;
+var ApplicationArgs_6_11 : int;
+var ApplicationArgs_6_12 : int;
+var ApplicationArgs_6_13 : int;
+var ApplicationArgs_6_14 : int;
+var ApplicationArgs_6_15 : int;
 var OnCompletion_7 : int;
 var Sender_7 : int;
 var Fee_7 : int;
@@ -982,22 +1000,22 @@ var Assets_7_12 : int;
 var Assets_7_13 : int;
 var Assets_7_14 : int;
 var Assets_7_15 : int;
-var args_7_0 : int;
-var args_7_1 : int;
-var args_7_2 : int;
-var args_7_3 : int;
-var args_7_4 : int;
-var args_7_5 : int;
-var args_7_6 : int;
-var args_7_7 : int;
-var args_7_8 : int;
-var args_7_9 : int;
-var args_7_10 : int;
-var args_7_11 : int;
-var args_7_12 : int;
-var args_7_13 : int;
-var args_7_14 : int;
-var args_7_15 : int;
+var ApplicationArgs_7_0 : int;
+var ApplicationArgs_7_1 : int;
+var ApplicationArgs_7_2 : int;
+var ApplicationArgs_7_3 : int;
+var ApplicationArgs_7_4 : int;
+var ApplicationArgs_7_5 : int;
+var ApplicationArgs_7_6 : int;
+var ApplicationArgs_7_7 : int;
+var ApplicationArgs_7_8 : int;
+var ApplicationArgs_7_9 : int;
+var ApplicationArgs_7_10 : int;
+var ApplicationArgs_7_11 : int;
+var ApplicationArgs_7_12 : int;
+var ApplicationArgs_7_13 : int;
+var ApplicationArgs_7_14 : int;
+var ApplicationArgs_7_15 : int;
 var OnCompletion_8 : int;
 var Sender_8 : int;
 var Fee_8 : int;
@@ -1107,22 +1125,22 @@ var Assets_8_12 : int;
 var Assets_8_13 : int;
 var Assets_8_14 : int;
 var Assets_8_15 : int;
-var args_8_0 : int;
-var args_8_1 : int;
-var args_8_2 : int;
-var args_8_3 : int;
-var args_8_4 : int;
-var args_8_5 : int;
-var args_8_6 : int;
-var args_8_7 : int;
-var args_8_8 : int;
-var args_8_9 : int;
-var args_8_10 : int;
-var args_8_11 : int;
-var args_8_12 : int;
-var args_8_13 : int;
-var args_8_14 : int;
-var args_8_15 : int;
+var ApplicationArgs_8_0 : int;
+var ApplicationArgs_8_1 : int;
+var ApplicationArgs_8_2 : int;
+var ApplicationArgs_8_3 : int;
+var ApplicationArgs_8_4 : int;
+var ApplicationArgs_8_5 : int;
+var ApplicationArgs_8_6 : int;
+var ApplicationArgs_8_7 : int;
+var ApplicationArgs_8_8 : int;
+var ApplicationArgs_8_9 : int;
+var ApplicationArgs_8_10 : int;
+var ApplicationArgs_8_11 : int;
+var ApplicationArgs_8_12 : int;
+var ApplicationArgs_8_13 : int;
+var ApplicationArgs_8_14 : int;
+var ApplicationArgs_8_15 : int;
 var OnCompletion_9 : int;
 var Sender_9 : int;
 var Fee_9 : int;
@@ -1232,22 +1250,22 @@ var Assets_9_12 : int;
 var Assets_9_13 : int;
 var Assets_9_14 : int;
 var Assets_9_15 : int;
-var args_9_0 : int;
-var args_9_1 : int;
-var args_9_2 : int;
-var args_9_3 : int;
-var args_9_4 : int;
-var args_9_5 : int;
-var args_9_6 : int;
-var args_9_7 : int;
-var args_9_8 : int;
-var args_9_9 : int;
-var args_9_10 : int;
-var args_9_11 : int;
-var args_9_12 : int;
-var args_9_13 : int;
-var args_9_14 : int;
-var args_9_15 : int;
+var ApplicationArgs_9_0 : int;
+var ApplicationArgs_9_1 : int;
+var ApplicationArgs_9_2 : int;
+var ApplicationArgs_9_3 : int;
+var ApplicationArgs_9_4 : int;
+var ApplicationArgs_9_5 : int;
+var ApplicationArgs_9_6 : int;
+var ApplicationArgs_9_7 : int;
+var ApplicationArgs_9_8 : int;
+var ApplicationArgs_9_9 : int;
+var ApplicationArgs_9_10 : int;
+var ApplicationArgs_9_11 : int;
+var ApplicationArgs_9_12 : int;
+var ApplicationArgs_9_13 : int;
+var ApplicationArgs_9_14 : int;
+var ApplicationArgs_9_15 : int;
 var OnCompletion_10 : int;
 var Sender_10 : int;
 var Fee_10 : int;
@@ -1357,22 +1375,22 @@ var Assets_10_12 : int;
 var Assets_10_13 : int;
 var Assets_10_14 : int;
 var Assets_10_15 : int;
-var args_10_0 : int;
-var args_10_1 : int;
-var args_10_2 : int;
-var args_10_3 : int;
-var args_10_4 : int;
-var args_10_5 : int;
-var args_10_6 : int;
-var args_10_7 : int;
-var args_10_8 : int;
-var args_10_9 : int;
-var args_10_10 : int;
-var args_10_11 : int;
-var args_10_12 : int;
-var args_10_13 : int;
-var args_10_14 : int;
-var args_10_15 : int;
+var ApplicationArgs_10_0 : int;
+var ApplicationArgs_10_1 : int;
+var ApplicationArgs_10_2 : int;
+var ApplicationArgs_10_3 : int;
+var ApplicationArgs_10_4 : int;
+var ApplicationArgs_10_5 : int;
+var ApplicationArgs_10_6 : int;
+var ApplicationArgs_10_7 : int;
+var ApplicationArgs_10_8 : int;
+var ApplicationArgs_10_9 : int;
+var ApplicationArgs_10_10 : int;
+var ApplicationArgs_10_11 : int;
+var ApplicationArgs_10_12 : int;
+var ApplicationArgs_10_13 : int;
+var ApplicationArgs_10_14 : int;
+var ApplicationArgs_10_15 : int;
 var OnCompletion_11 : int;
 var Sender_11 : int;
 var Fee_11 : int;
@@ -1482,22 +1500,22 @@ var Assets_11_12 : int;
 var Assets_11_13 : int;
 var Assets_11_14 : int;
 var Assets_11_15 : int;
-var args_11_0 : int;
-var args_11_1 : int;
-var args_11_2 : int;
-var args_11_3 : int;
-var args_11_4 : int;
-var args_11_5 : int;
-var args_11_6 : int;
-var args_11_7 : int;
-var args_11_8 : int;
-var args_11_9 : int;
-var args_11_10 : int;
-var args_11_11 : int;
-var args_11_12 : int;
-var args_11_13 : int;
-var args_11_14 : int;
-var args_11_15 : int;
+var ApplicationArgs_11_0 : int;
+var ApplicationArgs_11_1 : int;
+var ApplicationArgs_11_2 : int;
+var ApplicationArgs_11_3 : int;
+var ApplicationArgs_11_4 : int;
+var ApplicationArgs_11_5 : int;
+var ApplicationArgs_11_6 : int;
+var ApplicationArgs_11_7 : int;
+var ApplicationArgs_11_8 : int;
+var ApplicationArgs_11_9 : int;
+var ApplicationArgs_11_10 : int;
+var ApplicationArgs_11_11 : int;
+var ApplicationArgs_11_12 : int;
+var ApplicationArgs_11_13 : int;
+var ApplicationArgs_11_14 : int;
+var ApplicationArgs_11_15 : int;
 var OnCompletion_12 : int;
 var Sender_12 : int;
 var Fee_12 : int;
@@ -1607,22 +1625,22 @@ var Assets_12_12 : int;
 var Assets_12_13 : int;
 var Assets_12_14 : int;
 var Assets_12_15 : int;
-var args_12_0 : int;
-var args_12_1 : int;
-var args_12_2 : int;
-var args_12_3 : int;
-var args_12_4 : int;
-var args_12_5 : int;
-var args_12_6 : int;
-var args_12_7 : int;
-var args_12_8 : int;
-var args_12_9 : int;
-var args_12_10 : int;
-var args_12_11 : int;
-var args_12_12 : int;
-var args_12_13 : int;
-var args_12_14 : int;
-var args_12_15 : int;
+var ApplicationArgs_12_0 : int;
+var ApplicationArgs_12_1 : int;
+var ApplicationArgs_12_2 : int;
+var ApplicationArgs_12_3 : int;
+var ApplicationArgs_12_4 : int;
+var ApplicationArgs_12_5 : int;
+var ApplicationArgs_12_6 : int;
+var ApplicationArgs_12_7 : int;
+var ApplicationArgs_12_8 : int;
+var ApplicationArgs_12_9 : int;
+var ApplicationArgs_12_10 : int;
+var ApplicationArgs_12_11 : int;
+var ApplicationArgs_12_12 : int;
+var ApplicationArgs_12_13 : int;
+var ApplicationArgs_12_14 : int;
+var ApplicationArgs_12_15 : int;
 var OnCompletion_13 : int;
 var Sender_13 : int;
 var Fee_13 : int;
@@ -1732,22 +1750,22 @@ var Assets_13_12 : int;
 var Assets_13_13 : int;
 var Assets_13_14 : int;
 var Assets_13_15 : int;
-var args_13_0 : int;
-var args_13_1 : int;
-var args_13_2 : int;
-var args_13_3 : int;
-var args_13_4 : int;
-var args_13_5 : int;
-var args_13_6 : int;
-var args_13_7 : int;
-var args_13_8 : int;
-var args_13_9 : int;
-var args_13_10 : int;
-var args_13_11 : int;
-var args_13_12 : int;
-var args_13_13 : int;
-var args_13_14 : int;
-var args_13_15 : int;
+var ApplicationArgs_13_0 : int;
+var ApplicationArgs_13_1 : int;
+var ApplicationArgs_13_2 : int;
+var ApplicationArgs_13_3 : int;
+var ApplicationArgs_13_4 : int;
+var ApplicationArgs_13_5 : int;
+var ApplicationArgs_13_6 : int;
+var ApplicationArgs_13_7 : int;
+var ApplicationArgs_13_8 : int;
+var ApplicationArgs_13_9 : int;
+var ApplicationArgs_13_10 : int;
+var ApplicationArgs_13_11 : int;
+var ApplicationArgs_13_12 : int;
+var ApplicationArgs_13_13 : int;
+var ApplicationArgs_13_14 : int;
+var ApplicationArgs_13_15 : int;
 var OnCompletion_14 : int;
 var Sender_14 : int;
 var Fee_14 : int;
@@ -1857,22 +1875,22 @@ var Assets_14_12 : int;
 var Assets_14_13 : int;
 var Assets_14_14 : int;
 var Assets_14_15 : int;
-var args_14_0 : int;
-var args_14_1 : int;
-var args_14_2 : int;
-var args_14_3 : int;
-var args_14_4 : int;
-var args_14_5 : int;
-var args_14_6 : int;
-var args_14_7 : int;
-var args_14_8 : int;
-var args_14_9 : int;
-var args_14_10 : int;
-var args_14_11 : int;
-var args_14_12 : int;
-var args_14_13 : int;
-var args_14_14 : int;
-var args_14_15 : int;
+var ApplicationArgs_14_0 : int;
+var ApplicationArgs_14_1 : int;
+var ApplicationArgs_14_2 : int;
+var ApplicationArgs_14_3 : int;
+var ApplicationArgs_14_4 : int;
+var ApplicationArgs_14_5 : int;
+var ApplicationArgs_14_6 : int;
+var ApplicationArgs_14_7 : int;
+var ApplicationArgs_14_8 : int;
+var ApplicationArgs_14_9 : int;
+var ApplicationArgs_14_10 : int;
+var ApplicationArgs_14_11 : int;
+var ApplicationArgs_14_12 : int;
+var ApplicationArgs_14_13 : int;
+var ApplicationArgs_14_14 : int;
+var ApplicationArgs_14_15 : int;
 var OnCompletion_15 : int;
 var Sender_15 : int;
 var Fee_15 : int;
@@ -1982,33 +2000,28 @@ var Assets_15_12 : int;
 var Assets_15_13 : int;
 var Assets_15_14 : int;
 var Assets_15_15 : int;
-var args_15_0 : int;
-var args_15_1 : int;
-var args_15_2 : int;
-var args_15_3 : int;
-var args_15_4 : int;
-var args_15_5 : int;
-var args_15_6 : int;
-var args_15_7 : int;
-var args_15_8 : int;
-var args_15_9 : int;
-var args_15_10 : int;
-var args_15_11 : int;
-var args_15_12 : int;
-var args_15_13 : int;
-var args_15_14 : int;
-var args_15_15 : int;
+var ApplicationArgs_15_0 : int;
+var ApplicationArgs_15_1 : int;
+var ApplicationArgs_15_2 : int;
+var ApplicationArgs_15_3 : int;
+var ApplicationArgs_15_4 : int;
+var ApplicationArgs_15_5 : int;
+var ApplicationArgs_15_6 : int;
+var ApplicationArgs_15_7 : int;
+var ApplicationArgs_15_8 : int;
+var ApplicationArgs_15_9 : int;
+var ApplicationArgs_15_10 : int;
+var ApplicationArgs_15_11 : int;
+var ApplicationArgs_15_12 : int;
+var ApplicationArgs_15_13 : int;
+var ApplicationArgs_15_14 : int;
+var ApplicationArgs_15_15 : int;
 var choice : int;
 var return_variable : int;
 var Global : [int] int;
 var Local : [int] [int] int;
-
-function to_int(x: bool) returns (int);
-axiom to_int(false) == 0;
-axiom to_int(true) == 1;
-
-procedure OnCompletion_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation OnCompletion_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure OnCompletion_variable_lookup(transaction_index: int)returns (variable: int);
+implementation OnCompletion_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := OnCompletion_0;
   }
@@ -2060,8 +2073,8 @@ implementation OnCompletion_variable_lookup_(transaction_index: int)returns (var
   return;
 }
 
-procedure Sender_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Sender_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Sender_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Sender_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Sender_0;
   }
@@ -2113,8 +2126,8 @@ implementation Sender_variable_lookup_(transaction_index: int)returns (variable:
   return;
 }
 
-procedure Fee_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Fee_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Fee_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Fee_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Fee_0;
   }
@@ -2166,8 +2179,8 @@ implementation Fee_variable_lookup_(transaction_index: int)returns (variable: in
   return;
 }
 
-procedure FirstValid_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation FirstValid_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure FirstValid_variable_lookup(transaction_index: int)returns (variable: int);
+implementation FirstValid_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := FirstValid_0;
   }
@@ -2219,8 +2232,8 @@ implementation FirstValid_variable_lookup_(transaction_index: int)returns (varia
   return;
 }
 
-procedure FirstValidTime_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation FirstValidTime_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure FirstValidTime_variable_lookup(transaction_index: int)returns (variable: int);
+implementation FirstValidTime_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := FirstValidTime_0;
   }
@@ -2272,8 +2285,8 @@ implementation FirstValidTime_variable_lookup_(transaction_index: int)returns (v
   return;
 }
 
-procedure LastValid_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation LastValid_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure LastValid_variable_lookup(transaction_index: int)returns (variable: int);
+implementation LastValid_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := LastValid_0;
   }
@@ -2325,8 +2338,8 @@ implementation LastValid_variable_lookup_(transaction_index: int)returns (variab
   return;
 }
 
-procedure Note_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Note_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Note_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Note_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Note_0;
   }
@@ -2378,8 +2391,8 @@ implementation Note_variable_lookup_(transaction_index: int)returns (variable: i
   return;
 }
 
-procedure Lease_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Lease_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Lease_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Lease_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Lease_0;
   }
@@ -2431,8 +2444,8 @@ implementation Lease_variable_lookup_(transaction_index: int)returns (variable: 
   return;
 }
 
-procedure Receiver_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Receiver_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Receiver_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Receiver_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Receiver_0;
   }
@@ -2484,8 +2497,8 @@ implementation Receiver_variable_lookup_(transaction_index: int)returns (variabl
   return;
 }
 
-procedure Amount_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Amount_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Amount_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Amount_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Amount_0;
   }
@@ -2537,8 +2550,8 @@ implementation Amount_variable_lookup_(transaction_index: int)returns (variable:
   return;
 }
 
-procedure CloseRemainderTo_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation CloseRemainderTo_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure CloseRemainderTo_variable_lookup(transaction_index: int)returns (variable: int);
+implementation CloseRemainderTo_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := CloseRemainderTo_0;
   }
@@ -2590,8 +2603,8 @@ implementation CloseRemainderTo_variable_lookup_(transaction_index: int)returns 
   return;
 }
 
-procedure VotePK_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation VotePK_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure VotePK_variable_lookup(transaction_index: int)returns (variable: int);
+implementation VotePK_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := VotePK_0;
   }
@@ -2643,8 +2656,8 @@ implementation VotePK_variable_lookup_(transaction_index: int)returns (variable:
   return;
 }
 
-procedure SelectionPK_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation SelectionPK_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure SelectionPK_variable_lookup(transaction_index: int)returns (variable: int);
+implementation SelectionPK_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := SelectionPK_0;
   }
@@ -2696,8 +2709,8 @@ implementation SelectionPK_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure VoteFirst_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation VoteFirst_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure VoteFirst_variable_lookup(transaction_index: int)returns (variable: int);
+implementation VoteFirst_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := VoteFirst_0;
   }
@@ -2749,8 +2762,8 @@ implementation VoteFirst_variable_lookup_(transaction_index: int)returns (variab
   return;
 }
 
-procedure VoteLast_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation VoteLast_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure VoteLast_variable_lookup(transaction_index: int)returns (variable: int);
+implementation VoteLast_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := VoteLast_0;
   }
@@ -2802,8 +2815,8 @@ implementation VoteLast_variable_lookup_(transaction_index: int)returns (variabl
   return;
 }
 
-procedure VoteKeyDilution_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation VoteKeyDilution_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure VoteKeyDilution_variable_lookup(transaction_index: int)returns (variable: int);
+implementation VoteKeyDilution_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := VoteKeyDilution_0;
   }
@@ -2855,8 +2868,8 @@ implementation VoteKeyDilution_variable_lookup_(transaction_index: int)returns (
   return;
 }
 
-procedure Type_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Type_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Type_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Type_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Type_0;
   }
@@ -2908,8 +2921,8 @@ implementation Type_variable_lookup_(transaction_index: int)returns (variable: i
   return;
 }
 
-procedure TypeEnum_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation TypeEnum_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure TypeEnum_variable_lookup(transaction_index: int)returns (variable: int);
+implementation TypeEnum_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := TypeEnum_0;
   }
@@ -2961,8 +2974,8 @@ implementation TypeEnum_variable_lookup_(transaction_index: int)returns (variabl
   return;
 }
 
-procedure XferAsset_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation XferAsset_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure XferAsset_variable_lookup(transaction_index: int)returns (variable: int);
+implementation XferAsset_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := XferAsset_0;
   }
@@ -3014,8 +3027,8 @@ implementation XferAsset_variable_lookup_(transaction_index: int)returns (variab
   return;
 }
 
-procedure AssetAmount_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation AssetAmount_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure AssetAmount_variable_lookup(transaction_index: int)returns (variable: int);
+implementation AssetAmount_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := AssetAmount_0;
   }
@@ -3067,8 +3080,8 @@ implementation AssetAmount_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure AssetSender_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation AssetSender_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure AssetSender_variable_lookup(transaction_index: int)returns (variable: int);
+implementation AssetSender_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := AssetSender_0;
   }
@@ -3120,8 +3133,8 @@ implementation AssetSender_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure AssetReceiver_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation AssetReceiver_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure AssetReceiver_variable_lookup(transaction_index: int)returns (variable: int);
+implementation AssetReceiver_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := AssetReceiver_0;
   }
@@ -3173,8 +3186,8 @@ implementation AssetReceiver_variable_lookup_(transaction_index: int)returns (va
   return;
 }
 
-procedure AssetCloseTo_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation AssetCloseTo_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure AssetCloseTo_variable_lookup(transaction_index: int)returns (variable: int);
+implementation AssetCloseTo_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := AssetCloseTo_0;
   }
@@ -3226,8 +3239,8 @@ implementation AssetCloseTo_variable_lookup_(transaction_index: int)returns (var
   return;
 }
 
-procedure GroupIndex_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation GroupIndex_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure GroupIndex_variable_lookup(transaction_index: int)returns (variable: int);
+implementation GroupIndex_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := GroupIndex_0;
   }
@@ -3279,8 +3292,8 @@ implementation GroupIndex_variable_lookup_(transaction_index: int)returns (varia
   return;
 }
 
-procedure TxID_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation TxID_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure TxID_variable_lookup(transaction_index: int)returns (variable: int);
+implementation TxID_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := TxID_0;
   }
@@ -3332,8 +3345,8 @@ implementation TxID_variable_lookup_(transaction_index: int)returns (variable: i
   return;
 }
 
-procedure ApplicationID_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ApplicationID_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ApplicationID_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ApplicationID_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ApplicationID_0;
   }
@@ -3385,8 +3398,8 @@ implementation ApplicationID_variable_lookup_(transaction_index: int)returns (va
   return;
 }
 
-procedure NumAppArgs_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumAppArgs_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumAppArgs_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumAppArgs_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumAppArgs_0;
   }
@@ -3438,8 +3451,8 @@ implementation NumAppArgs_variable_lookup_(transaction_index: int)returns (varia
   return;
 }
 
-procedure NumAccounts_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumAccounts_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumAccounts_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumAccounts_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumAccounts_0;
   }
@@ -3491,8 +3504,8 @@ implementation NumAccounts_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure ApprovalProgram_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ApprovalProgram_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ApprovalProgram_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ApprovalProgram_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ApprovalProgram_0;
   }
@@ -3544,8 +3557,8 @@ implementation ApprovalProgram_variable_lookup_(transaction_index: int)returns (
   return;
 }
 
-procedure ClearStateProgram_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ClearStateProgram_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ClearStateProgram_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ClearStateProgram_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ClearStateProgram_0;
   }
@@ -3597,8 +3610,8 @@ implementation ClearStateProgram_variable_lookup_(transaction_index: int)returns
   return;
 }
 
-procedure RekeyTo_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation RekeyTo_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure RekeyTo_variable_lookup(transaction_index: int)returns (variable: int);
+implementation RekeyTo_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := RekeyTo_0;
   }
@@ -3650,8 +3663,8 @@ implementation RekeyTo_variable_lookup_(transaction_index: int)returns (variable
   return;
 }
 
-procedure ConfigAsset_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAsset_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAsset_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAsset_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAsset_0;
   }
@@ -3703,8 +3716,8 @@ implementation ConfigAsset_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure ConfigAssetTotal_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetTotal_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetTotal_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetTotal_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetTotal_0;
   }
@@ -3756,8 +3769,8 @@ implementation ConfigAssetTotal_variable_lookup_(transaction_index: int)returns 
   return;
 }
 
-procedure ConfigAssetDecimals_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetDecimals_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetDecimals_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetDecimals_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetDecimals_0;
   }
@@ -3809,8 +3822,8 @@ implementation ConfigAssetDecimals_variable_lookup_(transaction_index: int)retur
   return;
 }
 
-procedure ConfigAssetDefaultFrozen_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetDefaultFrozen_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetDefaultFrozen_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetDefaultFrozen_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetDefaultFrozen_0;
   }
@@ -3862,8 +3875,8 @@ implementation ConfigAssetDefaultFrozen_variable_lookup_(transaction_index: int)
   return;
 }
 
-procedure ConfigAssetUnitName_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetUnitName_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetUnitName_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetUnitName_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetUnitName_0;
   }
@@ -3915,8 +3928,8 @@ implementation ConfigAssetUnitName_variable_lookup_(transaction_index: int)retur
   return;
 }
 
-procedure ConfigAssetName_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetName_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetName_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetName_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetName_0;
   }
@@ -3968,8 +3981,8 @@ implementation ConfigAssetName_variable_lookup_(transaction_index: int)returns (
   return;
 }
 
-procedure ConfigAssetURL_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetURL_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetURL_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetURL_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetURL_0;
   }
@@ -4021,8 +4034,8 @@ implementation ConfigAssetURL_variable_lookup_(transaction_index: int)returns (v
   return;
 }
 
-procedure ConfigAssetMetadataHash_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetMetadataHash_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetMetadataHash_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetMetadataHash_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetMetadataHash_0;
   }
@@ -4074,8 +4087,8 @@ implementation ConfigAssetMetadataHash_variable_lookup_(transaction_index: int)r
   return;
 }
 
-procedure ConfigAssetManager_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetManager_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetManager_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetManager_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetManager_0;
   }
@@ -4127,8 +4140,8 @@ implementation ConfigAssetManager_variable_lookup_(transaction_index: int)return
   return;
 }
 
-procedure ConfigAssetReserve_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetReserve_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetReserve_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetReserve_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetReserve_0;
   }
@@ -4180,8 +4193,8 @@ implementation ConfigAssetReserve_variable_lookup_(transaction_index: int)return
   return;
 }
 
-procedure ConfigAssetFreeze_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetFreeze_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetFreeze_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetFreeze_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetFreeze_0;
   }
@@ -4233,8 +4246,8 @@ implementation ConfigAssetFreeze_variable_lookup_(transaction_index: int)returns
   return;
 }
 
-procedure ConfigAssetClawback_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ConfigAssetClawback_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ConfigAssetClawback_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ConfigAssetClawback_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ConfigAssetClawback_0;
   }
@@ -4286,8 +4299,8 @@ implementation ConfigAssetClawback_variable_lookup_(transaction_index: int)retur
   return;
 }
 
-procedure FreezeAsset_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation FreezeAsset_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure FreezeAsset_variable_lookup(transaction_index: int)returns (variable: int);
+implementation FreezeAsset_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := FreezeAsset_0;
   }
@@ -4339,8 +4352,8 @@ implementation FreezeAsset_variable_lookup_(transaction_index: int)returns (vari
   return;
 }
 
-procedure FreezeAssetAccount_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation FreezeAssetAccount_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure FreezeAssetAccount_variable_lookup(transaction_index: int)returns (variable: int);
+implementation FreezeAssetAccount_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := FreezeAssetAccount_0;
   }
@@ -4392,8 +4405,8 @@ implementation FreezeAssetAccount_variable_lookup_(transaction_index: int)return
   return;
 }
 
-procedure FreezeAssetFrozen_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation FreezeAssetFrozen_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure FreezeAssetFrozen_variable_lookup(transaction_index: int)returns (variable: int);
+implementation FreezeAssetFrozen_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := FreezeAssetFrozen_0;
   }
@@ -4445,8 +4458,8 @@ implementation FreezeAssetFrozen_variable_lookup_(transaction_index: int)returns
   return;
 }
 
-procedure NumAssets_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumAssets_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumAssets_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumAssets_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumAssets_0;
   }
@@ -4498,8 +4511,8 @@ implementation NumAssets_variable_lookup_(transaction_index: int)returns (variab
   return;
 }
 
-procedure NumApplications_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumApplications_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumApplications_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumApplications_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumApplications_0;
   }
@@ -4551,8 +4564,8 @@ implementation NumApplications_variable_lookup_(transaction_index: int)returns (
   return;
 }
 
-procedure GlobalNumUint_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation GlobalNumUint_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure GlobalNumUint_variable_lookup(transaction_index: int)returns (variable: int);
+implementation GlobalNumUint_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := GlobalNumUint_0;
   }
@@ -4604,8 +4617,8 @@ implementation GlobalNumUint_variable_lookup_(transaction_index: int)returns (va
   return;
 }
 
-procedure GlobalNumByteSlice_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation GlobalNumByteSlice_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure GlobalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int);
+implementation GlobalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := GlobalNumByteSlice_0;
   }
@@ -4657,8 +4670,8 @@ implementation GlobalNumByteSlice_variable_lookup_(transaction_index: int)return
   return;
 }
 
-procedure LocalNumUint_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation LocalNumUint_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure LocalNumUint_variable_lookup(transaction_index: int)returns (variable: int);
+implementation LocalNumUint_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := LocalNumUint_0;
   }
@@ -4710,8 +4723,8 @@ implementation LocalNumUint_variable_lookup_(transaction_index: int)returns (var
   return;
 }
 
-procedure LocalNumByteSlice_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation LocalNumByteSlice_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure LocalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int);
+implementation LocalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := LocalNumByteSlice_0;
   }
@@ -4763,8 +4776,8 @@ implementation LocalNumByteSlice_variable_lookup_(transaction_index: int)returns
   return;
 }
 
-procedure ExtraProgramPages_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation ExtraProgramPages_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure ExtraProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
+implementation ExtraProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := ExtraProgramPages_0;
   }
@@ -4816,8 +4829,8 @@ implementation ExtraProgramPages_variable_lookup_(transaction_index: int)returns
   return;
 }
 
-procedure Nonparticipation_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation Nonparticipation_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure Nonparticipation_variable_lookup(transaction_index: int)returns (variable: int);
+implementation Nonparticipation_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := Nonparticipation_0;
   }
@@ -4869,8 +4882,8 @@ implementation Nonparticipation_variable_lookup_(transaction_index: int)returns 
   return;
 }
 
-procedure NumLogs_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumLogs_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumLogs_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumLogs_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumLogs_0;
   }
@@ -4922,8 +4935,8 @@ implementation NumLogs_variable_lookup_(transaction_index: int)returns (variable
   return;
 }
 
-procedure CreatedAssetID_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation CreatedAssetID_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure CreatedAssetID_variable_lookup(transaction_index: int)returns (variable: int);
+implementation CreatedAssetID_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := CreatedAssetID_0;
   }
@@ -4975,8 +4988,8 @@ implementation CreatedAssetID_variable_lookup_(transaction_index: int)returns (v
   return;
 }
 
-procedure CreatedApplicationID_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation CreatedApplicationID_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure CreatedApplicationID_variable_lookup(transaction_index: int)returns (variable: int);
+implementation CreatedApplicationID_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := CreatedApplicationID_0;
   }
@@ -5028,8 +5041,8 @@ implementation CreatedApplicationID_variable_lookup_(transaction_index: int)retu
   return;
 }
 
-procedure LastLog_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation LastLog_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure LastLog_variable_lookup(transaction_index: int)returns (variable: int);
+implementation LastLog_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := LastLog_0;
   }
@@ -5081,8 +5094,8 @@ implementation LastLog_variable_lookup_(transaction_index: int)returns (variable
   return;
 }
 
-procedure StateProofPK_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation StateProofPK_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure StateProofPK_variable_lookup(transaction_index: int)returns (variable: int);
+implementation StateProofPK_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := StateProofPK_0;
   }
@@ -5134,8 +5147,8 @@ implementation StateProofPK_variable_lookup_(transaction_index: int)returns (var
   return;
 }
 
-procedure NumApprovalProgramPages_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumApprovalProgramPages_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumApprovalProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumApprovalProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumApprovalProgramPages_0;
   }
@@ -5187,8 +5200,8 @@ implementation NumApprovalProgramPages_variable_lookup_(transaction_index: int)r
   return;
 }
 
-procedure NumClearStateProgramPages_variable_lookup_(transaction_index: int)returns (variable: int);
-implementation NumClearStateProgramPages_variable_lookup_(transaction_index: int)returns (variable: int){
+procedure NumClearStateProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
+implementation NumClearStateProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
   if (transaction_index == 0) {
     variable := NumClearStateProgramPages_0;
   }
@@ -5240,8 +5253,8 @@ implementation NumClearStateProgramPages_variable_lookup_(transaction_index: int
   return;
 }
 
-procedure Accounts_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int);
-implementation Accounts_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int){
+procedure Accounts_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
+implementation Accounts_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Accounts_0_0;
@@ -6045,8 +6058,8 @@ implementation Accounts_variable_lookup_(transaction_index: int, array_index: in
   return;
 }
 
-procedure Applications_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int);
-implementation Applications_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int){
+procedure Applications_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
+implementation Applications_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Applications_0_0;
@@ -6850,8 +6863,8 @@ implementation Applications_variable_lookup_(transaction_index: int, array_index
   return;
 }
 
-procedure Assets_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int);
-implementation Assets_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int){
+procedure Assets_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
+implementation Assets_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Assets_0_0;
@@ -7655,835 +7668,850 @@ implementation Assets_variable_lookup_(transaction_index: int, array_index: int)
   return;
 }
 
-procedure args_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int);
-implementation args_variable_lookup_(transaction_index: int, array_index: int)returns (variable: int){
+procedure ApplicationArgs_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
+implementation ApplicationArgs_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
   if (transaction_index == 0) {
     if (array_index == 0) {
-      variable := args_0_0;
+      variable := ApplicationArgs_0_0;
     }
     if (array_index == 1) {
-      variable := args_0_1;
+      variable := ApplicationArgs_0_1;
     }
     if (array_index == 2) {
-      variable := args_0_2;
+      variable := ApplicationArgs_0_2;
     }
     if (array_index == 3) {
-      variable := args_0_3;
+      variable := ApplicationArgs_0_3;
     }
     if (array_index == 4) {
-      variable := args_0_4;
+      variable := ApplicationArgs_0_4;
     }
     if (array_index == 5) {
-      variable := args_0_5;
+      variable := ApplicationArgs_0_5;
     }
     if (array_index == 6) {
-      variable := args_0_6;
+      variable := ApplicationArgs_0_6;
     }
     if (array_index == 7) {
-      variable := args_0_7;
+      variable := ApplicationArgs_0_7;
     }
     if (array_index == 8) {
-      variable := args_0_8;
+      variable := ApplicationArgs_0_8;
     }
     if (array_index == 9) {
-      variable := args_0_9;
+      variable := ApplicationArgs_0_9;
     }
     if (array_index == 10) {
-      variable := args_0_10;
+      variable := ApplicationArgs_0_10;
     }
     if (array_index == 11) {
-      variable := args_0_11;
+      variable := ApplicationArgs_0_11;
     }
     if (array_index == 12) {
-      variable := args_0_12;
+      variable := ApplicationArgs_0_12;
     }
     if (array_index == 13) {
-      variable := args_0_13;
+      variable := ApplicationArgs_0_13;
     }
     if (array_index == 14) {
-      variable := args_0_14;
+      variable := ApplicationArgs_0_14;
     }
     if (array_index == 15) {
-      variable := args_0_15;
+      variable := ApplicationArgs_0_15;
     }
   }
   if (transaction_index == 1) {
     if (array_index == 0) {
-      variable := args_1_0;
+      variable := ApplicationArgs_1_0;
     }
     if (array_index == 1) {
-      variable := args_1_1;
+      variable := ApplicationArgs_1_1;
     }
     if (array_index == 2) {
-      variable := args_1_2;
+      variable := ApplicationArgs_1_2;
     }
     if (array_index == 3) {
-      variable := args_1_3;
+      variable := ApplicationArgs_1_3;
     }
     if (array_index == 4) {
-      variable := args_1_4;
+      variable := ApplicationArgs_1_4;
     }
     if (array_index == 5) {
-      variable := args_1_5;
+      variable := ApplicationArgs_1_5;
     }
     if (array_index == 6) {
-      variable := args_1_6;
+      variable := ApplicationArgs_1_6;
     }
     if (array_index == 7) {
-      variable := args_1_7;
+      variable := ApplicationArgs_1_7;
     }
     if (array_index == 8) {
-      variable := args_1_8;
+      variable := ApplicationArgs_1_8;
     }
     if (array_index == 9) {
-      variable := args_1_9;
+      variable := ApplicationArgs_1_9;
     }
     if (array_index == 10) {
-      variable := args_1_10;
+      variable := ApplicationArgs_1_10;
     }
     if (array_index == 11) {
-      variable := args_1_11;
+      variable := ApplicationArgs_1_11;
     }
     if (array_index == 12) {
-      variable := args_1_12;
+      variable := ApplicationArgs_1_12;
     }
     if (array_index == 13) {
-      variable := args_1_13;
+      variable := ApplicationArgs_1_13;
     }
     if (array_index == 14) {
-      variable := args_1_14;
+      variable := ApplicationArgs_1_14;
     }
     if (array_index == 15) {
-      variable := args_1_15;
+      variable := ApplicationArgs_1_15;
     }
   }
   if (transaction_index == 2) {
     if (array_index == 0) {
-      variable := args_2_0;
+      variable := ApplicationArgs_2_0;
     }
     if (array_index == 1) {
-      variable := args_2_1;
+      variable := ApplicationArgs_2_1;
     }
     if (array_index == 2) {
-      variable := args_2_2;
+      variable := ApplicationArgs_2_2;
     }
     if (array_index == 3) {
-      variable := args_2_3;
+      variable := ApplicationArgs_2_3;
     }
     if (array_index == 4) {
-      variable := args_2_4;
+      variable := ApplicationArgs_2_4;
     }
     if (array_index == 5) {
-      variable := args_2_5;
+      variable := ApplicationArgs_2_5;
     }
     if (array_index == 6) {
-      variable := args_2_6;
+      variable := ApplicationArgs_2_6;
     }
     if (array_index == 7) {
-      variable := args_2_7;
+      variable := ApplicationArgs_2_7;
     }
     if (array_index == 8) {
-      variable := args_2_8;
+      variable := ApplicationArgs_2_8;
     }
     if (array_index == 9) {
-      variable := args_2_9;
+      variable := ApplicationArgs_2_9;
     }
     if (array_index == 10) {
-      variable := args_2_10;
+      variable := ApplicationArgs_2_10;
     }
     if (array_index == 11) {
-      variable := args_2_11;
+      variable := ApplicationArgs_2_11;
     }
     if (array_index == 12) {
-      variable := args_2_12;
+      variable := ApplicationArgs_2_12;
     }
     if (array_index == 13) {
-      variable := args_2_13;
+      variable := ApplicationArgs_2_13;
     }
     if (array_index == 14) {
-      variable := args_2_14;
+      variable := ApplicationArgs_2_14;
     }
     if (array_index == 15) {
-      variable := args_2_15;
+      variable := ApplicationArgs_2_15;
     }
   }
   if (transaction_index == 3) {
     if (array_index == 0) {
-      variable := args_3_0;
+      variable := ApplicationArgs_3_0;
     }
     if (array_index == 1) {
-      variable := args_3_1;
+      variable := ApplicationArgs_3_1;
     }
     if (array_index == 2) {
-      variable := args_3_2;
+      variable := ApplicationArgs_3_2;
     }
     if (array_index == 3) {
-      variable := args_3_3;
+      variable := ApplicationArgs_3_3;
     }
     if (array_index == 4) {
-      variable := args_3_4;
+      variable := ApplicationArgs_3_4;
     }
     if (array_index == 5) {
-      variable := args_3_5;
+      variable := ApplicationArgs_3_5;
     }
     if (array_index == 6) {
-      variable := args_3_6;
+      variable := ApplicationArgs_3_6;
     }
     if (array_index == 7) {
-      variable := args_3_7;
+      variable := ApplicationArgs_3_7;
     }
     if (array_index == 8) {
-      variable := args_3_8;
+      variable := ApplicationArgs_3_8;
     }
     if (array_index == 9) {
-      variable := args_3_9;
+      variable := ApplicationArgs_3_9;
     }
     if (array_index == 10) {
-      variable := args_3_10;
+      variable := ApplicationArgs_3_10;
     }
     if (array_index == 11) {
-      variable := args_3_11;
+      variable := ApplicationArgs_3_11;
     }
     if (array_index == 12) {
-      variable := args_3_12;
+      variable := ApplicationArgs_3_12;
     }
     if (array_index == 13) {
-      variable := args_3_13;
+      variable := ApplicationArgs_3_13;
     }
     if (array_index == 14) {
-      variable := args_3_14;
+      variable := ApplicationArgs_3_14;
     }
     if (array_index == 15) {
-      variable := args_3_15;
+      variable := ApplicationArgs_3_15;
     }
   }
   if (transaction_index == 4) {
     if (array_index == 0) {
-      variable := args_4_0;
+      variable := ApplicationArgs_4_0;
     }
     if (array_index == 1) {
-      variable := args_4_1;
+      variable := ApplicationArgs_4_1;
     }
     if (array_index == 2) {
-      variable := args_4_2;
+      variable := ApplicationArgs_4_2;
     }
     if (array_index == 3) {
-      variable := args_4_3;
+      variable := ApplicationArgs_4_3;
     }
     if (array_index == 4) {
-      variable := args_4_4;
+      variable := ApplicationArgs_4_4;
     }
     if (array_index == 5) {
-      variable := args_4_5;
+      variable := ApplicationArgs_4_5;
     }
     if (array_index == 6) {
-      variable := args_4_6;
+      variable := ApplicationArgs_4_6;
     }
     if (array_index == 7) {
-      variable := args_4_7;
+      variable := ApplicationArgs_4_7;
     }
     if (array_index == 8) {
-      variable := args_4_8;
+      variable := ApplicationArgs_4_8;
     }
     if (array_index == 9) {
-      variable := args_4_9;
+      variable := ApplicationArgs_4_9;
     }
     if (array_index == 10) {
-      variable := args_4_10;
+      variable := ApplicationArgs_4_10;
     }
     if (array_index == 11) {
-      variable := args_4_11;
+      variable := ApplicationArgs_4_11;
     }
     if (array_index == 12) {
-      variable := args_4_12;
+      variable := ApplicationArgs_4_12;
     }
     if (array_index == 13) {
-      variable := args_4_13;
+      variable := ApplicationArgs_4_13;
     }
     if (array_index == 14) {
-      variable := args_4_14;
+      variable := ApplicationArgs_4_14;
     }
     if (array_index == 15) {
-      variable := args_4_15;
+      variable := ApplicationArgs_4_15;
     }
   }
   if (transaction_index == 5) {
     if (array_index == 0) {
-      variable := args_5_0;
+      variable := ApplicationArgs_5_0;
     }
     if (array_index == 1) {
-      variable := args_5_1;
+      variable := ApplicationArgs_5_1;
     }
     if (array_index == 2) {
-      variable := args_5_2;
+      variable := ApplicationArgs_5_2;
     }
     if (array_index == 3) {
-      variable := args_5_3;
+      variable := ApplicationArgs_5_3;
     }
     if (array_index == 4) {
-      variable := args_5_4;
+      variable := ApplicationArgs_5_4;
     }
     if (array_index == 5) {
-      variable := args_5_5;
+      variable := ApplicationArgs_5_5;
     }
     if (array_index == 6) {
-      variable := args_5_6;
+      variable := ApplicationArgs_5_6;
     }
     if (array_index == 7) {
-      variable := args_5_7;
+      variable := ApplicationArgs_5_7;
     }
     if (array_index == 8) {
-      variable := args_5_8;
+      variable := ApplicationArgs_5_8;
     }
     if (array_index == 9) {
-      variable := args_5_9;
+      variable := ApplicationArgs_5_9;
     }
     if (array_index == 10) {
-      variable := args_5_10;
+      variable := ApplicationArgs_5_10;
     }
     if (array_index == 11) {
-      variable := args_5_11;
+      variable := ApplicationArgs_5_11;
     }
     if (array_index == 12) {
-      variable := args_5_12;
+      variable := ApplicationArgs_5_12;
     }
     if (array_index == 13) {
-      variable := args_5_13;
+      variable := ApplicationArgs_5_13;
     }
     if (array_index == 14) {
-      variable := args_5_14;
+      variable := ApplicationArgs_5_14;
     }
     if (array_index == 15) {
-      variable := args_5_15;
+      variable := ApplicationArgs_5_15;
     }
   }
   if (transaction_index == 6) {
     if (array_index == 0) {
-      variable := args_6_0;
+      variable := ApplicationArgs_6_0;
     }
     if (array_index == 1) {
-      variable := args_6_1;
+      variable := ApplicationArgs_6_1;
     }
     if (array_index == 2) {
-      variable := args_6_2;
+      variable := ApplicationArgs_6_2;
     }
     if (array_index == 3) {
-      variable := args_6_3;
+      variable := ApplicationArgs_6_3;
     }
     if (array_index == 4) {
-      variable := args_6_4;
+      variable := ApplicationArgs_6_4;
     }
     if (array_index == 5) {
-      variable := args_6_5;
+      variable := ApplicationArgs_6_5;
     }
     if (array_index == 6) {
-      variable := args_6_6;
+      variable := ApplicationArgs_6_6;
     }
     if (array_index == 7) {
-      variable := args_6_7;
+      variable := ApplicationArgs_6_7;
     }
     if (array_index == 8) {
-      variable := args_6_8;
+      variable := ApplicationArgs_6_8;
     }
     if (array_index == 9) {
-      variable := args_6_9;
+      variable := ApplicationArgs_6_9;
     }
     if (array_index == 10) {
-      variable := args_6_10;
+      variable := ApplicationArgs_6_10;
     }
     if (array_index == 11) {
-      variable := args_6_11;
+      variable := ApplicationArgs_6_11;
     }
     if (array_index == 12) {
-      variable := args_6_12;
+      variable := ApplicationArgs_6_12;
     }
     if (array_index == 13) {
-      variable := args_6_13;
+      variable := ApplicationArgs_6_13;
     }
     if (array_index == 14) {
-      variable := args_6_14;
+      variable := ApplicationArgs_6_14;
     }
     if (array_index == 15) {
-      variable := args_6_15;
+      variable := ApplicationArgs_6_15;
     }
   }
   if (transaction_index == 7) {
     if (array_index == 0) {
-      variable := args_7_0;
+      variable := ApplicationArgs_7_0;
     }
     if (array_index == 1) {
-      variable := args_7_1;
+      variable := ApplicationArgs_7_1;
     }
     if (array_index == 2) {
-      variable := args_7_2;
+      variable := ApplicationArgs_7_2;
     }
     if (array_index == 3) {
-      variable := args_7_3;
+      variable := ApplicationArgs_7_3;
     }
     if (array_index == 4) {
-      variable := args_7_4;
+      variable := ApplicationArgs_7_4;
     }
     if (array_index == 5) {
-      variable := args_7_5;
+      variable := ApplicationArgs_7_5;
     }
     if (array_index == 6) {
-      variable := args_7_6;
+      variable := ApplicationArgs_7_6;
     }
     if (array_index == 7) {
-      variable := args_7_7;
+      variable := ApplicationArgs_7_7;
     }
     if (array_index == 8) {
-      variable := args_7_8;
+      variable := ApplicationArgs_7_8;
     }
     if (array_index == 9) {
-      variable := args_7_9;
+      variable := ApplicationArgs_7_9;
     }
     if (array_index == 10) {
-      variable := args_7_10;
+      variable := ApplicationArgs_7_10;
     }
     if (array_index == 11) {
-      variable := args_7_11;
+      variable := ApplicationArgs_7_11;
     }
     if (array_index == 12) {
-      variable := args_7_12;
+      variable := ApplicationArgs_7_12;
     }
     if (array_index == 13) {
-      variable := args_7_13;
+      variable := ApplicationArgs_7_13;
     }
     if (array_index == 14) {
-      variable := args_7_14;
+      variable := ApplicationArgs_7_14;
     }
     if (array_index == 15) {
-      variable := args_7_15;
+      variable := ApplicationArgs_7_15;
     }
   }
   if (transaction_index == 8) {
     if (array_index == 0) {
-      variable := args_8_0;
+      variable := ApplicationArgs_8_0;
     }
     if (array_index == 1) {
-      variable := args_8_1;
+      variable := ApplicationArgs_8_1;
     }
     if (array_index == 2) {
-      variable := args_8_2;
+      variable := ApplicationArgs_8_2;
     }
     if (array_index == 3) {
-      variable := args_8_3;
+      variable := ApplicationArgs_8_3;
     }
     if (array_index == 4) {
-      variable := args_8_4;
+      variable := ApplicationArgs_8_4;
     }
     if (array_index == 5) {
-      variable := args_8_5;
+      variable := ApplicationArgs_8_5;
     }
     if (array_index == 6) {
-      variable := args_8_6;
+      variable := ApplicationArgs_8_6;
     }
     if (array_index == 7) {
-      variable := args_8_7;
+      variable := ApplicationArgs_8_7;
     }
     if (array_index == 8) {
-      variable := args_8_8;
+      variable := ApplicationArgs_8_8;
     }
     if (array_index == 9) {
-      variable := args_8_9;
+      variable := ApplicationArgs_8_9;
     }
     if (array_index == 10) {
-      variable := args_8_10;
+      variable := ApplicationArgs_8_10;
     }
     if (array_index == 11) {
-      variable := args_8_11;
+      variable := ApplicationArgs_8_11;
     }
     if (array_index == 12) {
-      variable := args_8_12;
+      variable := ApplicationArgs_8_12;
     }
     if (array_index == 13) {
-      variable := args_8_13;
+      variable := ApplicationArgs_8_13;
     }
     if (array_index == 14) {
-      variable := args_8_14;
+      variable := ApplicationArgs_8_14;
     }
     if (array_index == 15) {
-      variable := args_8_15;
+      variable := ApplicationArgs_8_15;
     }
   }
   if (transaction_index == 9) {
     if (array_index == 0) {
-      variable := args_9_0;
+      variable := ApplicationArgs_9_0;
     }
     if (array_index == 1) {
-      variable := args_9_1;
+      variable := ApplicationArgs_9_1;
     }
     if (array_index == 2) {
-      variable := args_9_2;
+      variable := ApplicationArgs_9_2;
     }
     if (array_index == 3) {
-      variable := args_9_3;
+      variable := ApplicationArgs_9_3;
     }
     if (array_index == 4) {
-      variable := args_9_4;
+      variable := ApplicationArgs_9_4;
     }
     if (array_index == 5) {
-      variable := args_9_5;
+      variable := ApplicationArgs_9_5;
     }
     if (array_index == 6) {
-      variable := args_9_6;
+      variable := ApplicationArgs_9_6;
     }
     if (array_index == 7) {
-      variable := args_9_7;
+      variable := ApplicationArgs_9_7;
     }
     if (array_index == 8) {
-      variable := args_9_8;
+      variable := ApplicationArgs_9_8;
     }
     if (array_index == 9) {
-      variable := args_9_9;
+      variable := ApplicationArgs_9_9;
     }
     if (array_index == 10) {
-      variable := args_9_10;
+      variable := ApplicationArgs_9_10;
     }
     if (array_index == 11) {
-      variable := args_9_11;
+      variable := ApplicationArgs_9_11;
     }
     if (array_index == 12) {
-      variable := args_9_12;
+      variable := ApplicationArgs_9_12;
     }
     if (array_index == 13) {
-      variable := args_9_13;
+      variable := ApplicationArgs_9_13;
     }
     if (array_index == 14) {
-      variable := args_9_14;
+      variable := ApplicationArgs_9_14;
     }
     if (array_index == 15) {
-      variable := args_9_15;
+      variable := ApplicationArgs_9_15;
     }
   }
   if (transaction_index == 10) {
     if (array_index == 0) {
-      variable := args_10_0;
+      variable := ApplicationArgs_10_0;
     }
     if (array_index == 1) {
-      variable := args_10_1;
+      variable := ApplicationArgs_10_1;
     }
     if (array_index == 2) {
-      variable := args_10_2;
+      variable := ApplicationArgs_10_2;
     }
     if (array_index == 3) {
-      variable := args_10_3;
+      variable := ApplicationArgs_10_3;
     }
     if (array_index == 4) {
-      variable := args_10_4;
+      variable := ApplicationArgs_10_4;
     }
     if (array_index == 5) {
-      variable := args_10_5;
+      variable := ApplicationArgs_10_5;
     }
     if (array_index == 6) {
-      variable := args_10_6;
+      variable := ApplicationArgs_10_6;
     }
     if (array_index == 7) {
-      variable := args_10_7;
+      variable := ApplicationArgs_10_7;
     }
     if (array_index == 8) {
-      variable := args_10_8;
+      variable := ApplicationArgs_10_8;
     }
     if (array_index == 9) {
-      variable := args_10_9;
+      variable := ApplicationArgs_10_9;
     }
     if (array_index == 10) {
-      variable := args_10_10;
+      variable := ApplicationArgs_10_10;
     }
     if (array_index == 11) {
-      variable := args_10_11;
+      variable := ApplicationArgs_10_11;
     }
     if (array_index == 12) {
-      variable := args_10_12;
+      variable := ApplicationArgs_10_12;
     }
     if (array_index == 13) {
-      variable := args_10_13;
+      variable := ApplicationArgs_10_13;
     }
     if (array_index == 14) {
-      variable := args_10_14;
+      variable := ApplicationArgs_10_14;
     }
     if (array_index == 15) {
-      variable := args_10_15;
+      variable := ApplicationArgs_10_15;
     }
   }
   if (transaction_index == 11) {
     if (array_index == 0) {
-      variable := args_11_0;
+      variable := ApplicationArgs_11_0;
     }
     if (array_index == 1) {
-      variable := args_11_1;
+      variable := ApplicationArgs_11_1;
     }
     if (array_index == 2) {
-      variable := args_11_2;
+      variable := ApplicationArgs_11_2;
     }
     if (array_index == 3) {
-      variable := args_11_3;
+      variable := ApplicationArgs_11_3;
     }
     if (array_index == 4) {
-      variable := args_11_4;
+      variable := ApplicationArgs_11_4;
     }
     if (array_index == 5) {
-      variable := args_11_5;
+      variable := ApplicationArgs_11_5;
     }
     if (array_index == 6) {
-      variable := args_11_6;
+      variable := ApplicationArgs_11_6;
     }
     if (array_index == 7) {
-      variable := args_11_7;
+      variable := ApplicationArgs_11_7;
     }
     if (array_index == 8) {
-      variable := args_11_8;
+      variable := ApplicationArgs_11_8;
     }
     if (array_index == 9) {
-      variable := args_11_9;
+      variable := ApplicationArgs_11_9;
     }
     if (array_index == 10) {
-      variable := args_11_10;
+      variable := ApplicationArgs_11_10;
     }
     if (array_index == 11) {
-      variable := args_11_11;
+      variable := ApplicationArgs_11_11;
     }
     if (array_index == 12) {
-      variable := args_11_12;
+      variable := ApplicationArgs_11_12;
     }
     if (array_index == 13) {
-      variable := args_11_13;
+      variable := ApplicationArgs_11_13;
     }
     if (array_index == 14) {
-      variable := args_11_14;
+      variable := ApplicationArgs_11_14;
     }
     if (array_index == 15) {
-      variable := args_11_15;
+      variable := ApplicationArgs_11_15;
     }
   }
   if (transaction_index == 12) {
     if (array_index == 0) {
-      variable := args_12_0;
+      variable := ApplicationArgs_12_0;
     }
     if (array_index == 1) {
-      variable := args_12_1;
+      variable := ApplicationArgs_12_1;
     }
     if (array_index == 2) {
-      variable := args_12_2;
+      variable := ApplicationArgs_12_2;
     }
     if (array_index == 3) {
-      variable := args_12_3;
+      variable := ApplicationArgs_12_3;
     }
     if (array_index == 4) {
-      variable := args_12_4;
+      variable := ApplicationArgs_12_4;
     }
     if (array_index == 5) {
-      variable := args_12_5;
+      variable := ApplicationArgs_12_5;
     }
     if (array_index == 6) {
-      variable := args_12_6;
+      variable := ApplicationArgs_12_6;
     }
     if (array_index == 7) {
-      variable := args_12_7;
+      variable := ApplicationArgs_12_7;
     }
     if (array_index == 8) {
-      variable := args_12_8;
+      variable := ApplicationArgs_12_8;
     }
     if (array_index == 9) {
-      variable := args_12_9;
+      variable := ApplicationArgs_12_9;
     }
     if (array_index == 10) {
-      variable := args_12_10;
+      variable := ApplicationArgs_12_10;
     }
     if (array_index == 11) {
-      variable := args_12_11;
+      variable := ApplicationArgs_12_11;
     }
     if (array_index == 12) {
-      variable := args_12_12;
+      variable := ApplicationArgs_12_12;
     }
     if (array_index == 13) {
-      variable := args_12_13;
+      variable := ApplicationArgs_12_13;
     }
     if (array_index == 14) {
-      variable := args_12_14;
+      variable := ApplicationArgs_12_14;
     }
     if (array_index == 15) {
-      variable := args_12_15;
+      variable := ApplicationArgs_12_15;
     }
   }
   if (transaction_index == 13) {
     if (array_index == 0) {
-      variable := args_13_0;
+      variable := ApplicationArgs_13_0;
     }
     if (array_index == 1) {
-      variable := args_13_1;
+      variable := ApplicationArgs_13_1;
     }
     if (array_index == 2) {
-      variable := args_13_2;
+      variable := ApplicationArgs_13_2;
     }
     if (array_index == 3) {
-      variable := args_13_3;
+      variable := ApplicationArgs_13_3;
     }
     if (array_index == 4) {
-      variable := args_13_4;
+      variable := ApplicationArgs_13_4;
     }
     if (array_index == 5) {
-      variable := args_13_5;
+      variable := ApplicationArgs_13_5;
     }
     if (array_index == 6) {
-      variable := args_13_6;
+      variable := ApplicationArgs_13_6;
     }
     if (array_index == 7) {
-      variable := args_13_7;
+      variable := ApplicationArgs_13_7;
     }
     if (array_index == 8) {
-      variable := args_13_8;
+      variable := ApplicationArgs_13_8;
     }
     if (array_index == 9) {
-      variable := args_13_9;
+      variable := ApplicationArgs_13_9;
     }
     if (array_index == 10) {
-      variable := args_13_10;
+      variable := ApplicationArgs_13_10;
     }
     if (array_index == 11) {
-      variable := args_13_11;
+      variable := ApplicationArgs_13_11;
     }
     if (array_index == 12) {
-      variable := args_13_12;
+      variable := ApplicationArgs_13_12;
     }
     if (array_index == 13) {
-      variable := args_13_13;
+      variable := ApplicationArgs_13_13;
     }
     if (array_index == 14) {
-      variable := args_13_14;
+      variable := ApplicationArgs_13_14;
     }
     if (array_index == 15) {
-      variable := args_13_15;
+      variable := ApplicationArgs_13_15;
     }
   }
   if (transaction_index == 14) {
     if (array_index == 0) {
-      variable := args_14_0;
+      variable := ApplicationArgs_14_0;
     }
     if (array_index == 1) {
-      variable := args_14_1;
+      variable := ApplicationArgs_14_1;
     }
     if (array_index == 2) {
-      variable := args_14_2;
+      variable := ApplicationArgs_14_2;
     }
     if (array_index == 3) {
-      variable := args_14_3;
+      variable := ApplicationArgs_14_3;
     }
     if (array_index == 4) {
-      variable := args_14_4;
+      variable := ApplicationArgs_14_4;
     }
     if (array_index == 5) {
-      variable := args_14_5;
+      variable := ApplicationArgs_14_5;
     }
     if (array_index == 6) {
-      variable := args_14_6;
+      variable := ApplicationArgs_14_6;
     }
     if (array_index == 7) {
-      variable := args_14_7;
+      variable := ApplicationArgs_14_7;
     }
     if (array_index == 8) {
-      variable := args_14_8;
+      variable := ApplicationArgs_14_8;
     }
     if (array_index == 9) {
-      variable := args_14_9;
+      variable := ApplicationArgs_14_9;
     }
     if (array_index == 10) {
-      variable := args_14_10;
+      variable := ApplicationArgs_14_10;
     }
     if (array_index == 11) {
-      variable := args_14_11;
+      variable := ApplicationArgs_14_11;
     }
     if (array_index == 12) {
-      variable := args_14_12;
+      variable := ApplicationArgs_14_12;
     }
     if (array_index == 13) {
-      variable := args_14_13;
+      variable := ApplicationArgs_14_13;
     }
     if (array_index == 14) {
-      variable := args_14_14;
+      variable := ApplicationArgs_14_14;
     }
     if (array_index == 15) {
-      variable := args_14_15;
+      variable := ApplicationArgs_14_15;
     }
   }
   if (transaction_index == 15) {
     if (array_index == 0) {
-      variable := args_15_0;
+      variable := ApplicationArgs_15_0;
     }
     if (array_index == 1) {
-      variable := args_15_1;
+      variable := ApplicationArgs_15_1;
     }
     if (array_index == 2) {
-      variable := args_15_2;
+      variable := ApplicationArgs_15_2;
     }
     if (array_index == 3) {
-      variable := args_15_3;
+      variable := ApplicationArgs_15_3;
     }
     if (array_index == 4) {
-      variable := args_15_4;
+      variable := ApplicationArgs_15_4;
     }
     if (array_index == 5) {
-      variable := args_15_5;
+      variable := ApplicationArgs_15_5;
     }
     if (array_index == 6) {
-      variable := args_15_6;
+      variable := ApplicationArgs_15_6;
     }
     if (array_index == 7) {
-      variable := args_15_7;
+      variable := ApplicationArgs_15_7;
     }
     if (array_index == 8) {
-      variable := args_15_8;
+      variable := ApplicationArgs_15_8;
     }
     if (array_index == 9) {
-      variable := args_15_9;
+      variable := ApplicationArgs_15_9;
     }
     if (array_index == 10) {
-      variable := args_15_10;
+      variable := ApplicationArgs_15_10;
     }
     if (array_index == 11) {
-      variable := args_15_11;
+      variable := ApplicationArgs_15_11;
     }
     if (array_index == 12) {
-      variable := args_15_12;
+      variable := ApplicationArgs_15_12;
     }
     if (array_index == 13) {
-      variable := args_15_13;
+      variable := ApplicationArgs_15_13;
     }
     if (array_index == 14) {
-      variable := args_15_14;
+      variable := ApplicationArgs_15_14;
     }
     if (array_index == 15) {
-      variable := args_15_15;
+      variable := ApplicationArgs_15_15;
     }
   }
   return;
 }
 
-procedure constructor_();
-implementation constructor_(){
-OnCompletion_0 := 0;
-call contract_();
+
+function to_int(x: bool) returns (int);
+axiom to_int(false) == 0;
+axiom to_int(true) == 1;
+
+procedure select(condition: int, on_zero: int, on_non_zero: int)returns (variable: int);
+implementation select(condition: int, on_zero: int, on_non_zero: int)returns (variable: int){
+  if (condition == 0) {
+    variable := on_zero;
+  } else {
+    variable := on_non_zero;
+  }
+  return;
 }
 
-procedure verify_();
-implementation verify_(){
+procedure constructor();
+implementation constructor(){
+OnCompletion_0 := 0;
+call contract();
+}
+
+procedure verify();
+implementation verify(){
 assume (forall key: int :: Global[key] == 0);
 assume true;
-call constructor_();
-assert Global[42] < 5;
+call constructor();
+assert ApplicationArgs_0_0 == 1;
 while (true){
 havoc choice;
 if ((choice) == 0) {
 assume true;
-call constructor_();
-assert Global[42] < 5;
+call constructor();
+assert ApplicationArgs_0_0 == 1;
 }
 }
 }
 
-procedure contract_();
-implementation contract_(){
+procedure contract();
+implementation contract(){
 var scratch_0 : int;
 var scratch_1 : int;
 var scratch_2 : int;
@@ -8548,20 +8576,157 @@ var scratch_60 : int;
 var scratch_61 : int;
 var scratch_62 : int;
 var scratch_63 : int;
-var local_1 : int;
-var local_3 : int;
-var local_0 : int;
+var local_47 : int;
+var local_42 : int;
+var local_13 : int;
+var local_79 : int;
+var local_17 : int;
+var local_68 : int;
+var local_70 : int;
+var local_5 : int;
+var local_74 : int;
+var local_49 : int;
+var local_52 : int;
+var local_54 : int;
+var local_53 : int;
+var local_20 : int;
+var local_12 : int;
 var local_6 : int;
+var local_18 : int;
+var local_50 : int;
+var local_1 : int;
+var local_23 : int;
+var local_71 : int;
+var local_76 : int;
+var local_60 : int;
+var local_55 : int;
+var local_26 : int;
+var local_0 : int;
+var local_66 : int;
+var local_57 : int;
+var local_25 : int;
+var local_10 : int;
+var local_61 : int;
+var local_43 : int;
+var local_67 : int;
+var local_75 : int;
+var local_8 : int;
+var local_62 : int;
+var local_19 : int;
+var local_22 : int;
+var local_27 : int;
+var local_48 : int;
+var local_21 : int;
+var local_24 : int;
+var local_32 : int;
+var local_15 : int;
+var local_14 : int;
+var local_28 : int;
+var local_36 : int;
+var local_34 : int;
+var local_11 : int;
+var local_65 : int;
+var local_40 : int;
+var local_63 : int;
+var local_39 : int;
+var local_44 : int;
+var local_56 : int;
+var local_77 : int;
 var local_2 : int;
+var local_31 : int;
+var local_29 : int;
+var local_7 : int;
+var local_33 : int;
+var local_38 : int;
+var local_73 : int;
+var local_51 : int;
+var local_37 : int;
+var local_58 : int;
+var local_72 : int;
+var local_45 : int;
+var local_4 : int;
 label_0:
-local_0 := 42;
-local_1 := Global[local_0];
-local_2 := 1;
-local_3 := local_2 + local_1;
-scratch_0 := local_3;
-Global[local_0] := local_3;
-local_6 := scratch_0;
-return_variable := local_6;
+local_0 := GroupSize;
+local_1 := 5;
+local_2 := to_int(local_1 == local_0);
+assume local_2 != 0;
+local_4 := 1;
+local_5 := 1;
+call local_6 := Accounts_variable_lookup(local_4, local_5);
+call local_7 := Sender_variable_lookup(0);
+local_8 := to_int(local_7 != local_6);
+assume local_8 != 0;
+local_10 := 1;
+local_11 := 1;
+call local_12 := Accounts_variable_lookup(local_10, local_11);
+local_13 := 2;
+call local_14 := AssetReceiver_variable_lookup(local_13);
+local_15 := to_int(local_14 == local_12);
+assume local_15 != 0;
+local_17 := 3;
+call local_18 := AssetReceiver_variable_lookup(local_17);
+local_19 := 3;
+call local_20 := Receiver_variable_lookup(local_19);
+local_21 := 3;
+call local_22 := TypeEnum_variable_lookup(local_21);
+local_23 := 1;
+local_24 := to_int(local_23 == local_22);
+call local_25 := select(local_24,local_18,local_20);
+local_26 := 1;
+local_27 := 1;
+call local_28 := Accounts_variable_lookup(local_26, local_27);
+local_29 := to_int(local_28 == local_25);
+assume local_29 != 0;
+local_31 := 2;
+call local_32 := Sender_variable_lookup(local_31);
+call local_33 := Sender_variable_lookup(0);
+local_34 := to_int(local_33 == local_32);
+assume local_34 != 0;
+local_36 := 2;
+call local_37 := AssetReceiver_variable_lookup(local_36);
+local_38 := 4;
+call local_39 := Sender_variable_lookup(local_38);
+local_40 := to_int(local_39 == local_37);
+assume local_40 != 0;
+local_42 := 3;
+call local_43 := Sender_variable_lookup(local_42);
+call local_44 := Sender_variable_lookup(0);
+local_45 := to_int(local_44 == local_43);
+assume local_45 != 0;
+local_47 := 3;
+call local_48 := AssetReceiver_variable_lookup(local_47);
+local_49 := 3;
+call local_50 := Receiver_variable_lookup(local_49);
+local_51 := 3;
+call local_52 := TypeEnum_variable_lookup(local_51);
+local_53 := 1;
+local_54 := to_int(local_53 == local_52);
+call local_55 := select(local_54,local_48,local_50);
+local_56 := 4;
+call local_57 := Sender_variable_lookup(local_56);
+local_58 := to_int(local_57 == local_55);
+assume local_58 != 0;
+local_60 := 4;
+call local_61 := Sender_variable_lookup(local_60);
+call local_62 := Sender_variable_lookup(0);
+local_63 := to_int(local_62 != local_61);
+assume local_63 != 0;
+local_65 := 4;
+call local_66 := AssetReceiver_variable_lookup(local_65);
+call local_67 := Sender_variable_lookup(0);
+local_68 := to_int(local_67 == local_66);
+assume local_68 != 0;
+local_70 := 1;
+call local_71 := Fee_variable_lookup(local_70);
+local_72 := 2;
+call local_73 := Fee_variable_lookup(local_72);
+local_74 := local_73 + local_71;
+local_75 := 3;
+call local_76 := Fee_variable_lookup(local_75);
+local_77 := local_76 + local_74;
+scratch_1 := local_77;
+local_79 := 1;
+return_variable := local_79;
 goto label_exit;
 label_exit:
 return;

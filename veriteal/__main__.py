@@ -38,6 +38,9 @@ def global_variables_initialization(variables: Tuple[int, int, int, int, int]) -
     max_transactions = TRANSACTIONS_MAX_SIZE  # Hardcoded for now. TODO: Handle group transactions
     global_variables = ""
     max_array_slots = TRANSACTIONS_ARRAYS_SIZE
+    for global_field in global_fields:
+        global_variables += int_variable_declaration(global_field)
+
     for transaction_index in range(max_transactions):
         for field in transaction_fields:
             global_variables += int_variable_declaration(transaction_field_variable_name(field, transaction_index))
@@ -49,6 +52,7 @@ def global_variables_initialization(variables: Tuple[int, int, int, int, int]) -
     global_variables += int_variable_declaration(RETURN_VARIABLE_NAME)
     global_variables += map_int_int_variable_declaration(GLOBAL_SLOTS)
     global_variables += map_int_map_int_int_variable_declaration(LOCAL_SLOTS)
+    global_variables += array_access_prodecures()
     global_variables += "\n"
     return global_variables
 
@@ -168,17 +172,18 @@ def main_contract_procedure(tealift: Tealift):
 
         for instruction_index, instruction in enumerate(block.instructions):
             try:
-                c: Type[ParsedInstruction]
-                c = operation_class[instruction.operation]
-                parsed_instruction: ParsedInstruction = c(instruction, instruction_index, block, block_index)
+                instruction_class = operation_class[instruction.operation]
+                parsed_instruction: ParsedInstruction = instruction_class(instruction, instruction_index, block, block_index)
                 parsed_instruction_boogie = parsed_instruction.to_boogie()
             except KeyError:
-                print("Operation not found")
+                print(f"Operation '{instruction.operation}' not found.")
                 continue
             if parsed_instruction.returns_value():
                 var_name = local_variable_name(instruction_index)
                 var_names.add(var_name)
                 parsed_instruction_boogie = variable_assigment(var_name, parsed_instruction_boogie)
+            if parsed_instruction.calls():
+                parsed_instruction_boogie = f"call {parsed_instruction_boogie}"
 
             main_procedure += parsed_instruction_boogie
             if (block_index, instruction_index) in phi_values:  # Check if value of a phi
@@ -205,7 +210,7 @@ def main_contract_procedure(tealift: Tealift):
 
 
 def run_tealift(teal_file_path):
-    with open('veriteal/artifacts/tealift.json', 'w+') as tealift_json:
+    with open('veriteal/artifacts/tealift_output.json', 'w+') as tealift_json:
         subprocess.run(["npx","-y","ts-node", "algorand-tealift/tealift/src/print.ts", teal_file_path], stdout=tealift_json)
         tealift_json.seek(0)  # move file handle to begging of the file
         return Tealift.from_json(tealift_json.read())
@@ -345,8 +350,9 @@ def main():
     boogie = global_variables_initialization(max_values)
     # Add functions and axioms
     boogie += functions_declarations()
+    # Add auxiliary procedures
+    boogie += auxiliary_procedures()
     # Define methods procedures
-    boogie += array_access_prodecures()
     boogie += methods_procedures(methods)
     # Create method harness
     boogie += verify_procedure(creation_method_name, methods_names, assertions)
@@ -356,7 +362,7 @@ def main():
     with open("veriteal/artifacts/output.bpl", "w") as output_file:
         output_file.write(boogie)
     # Run Corral
-    subprocess.run(["corral", "veriteal/artifacts/output.bpl", "/main:verify_" ,f"/recursionBound:{args.recursionBound}"])
+    subprocess.run(["corral", "veriteal/artifacts/output.bpl", f"/main:{VERIFY_PROCEDURE}" ,f"/recursionBound:{args.recursionBound}"])
 
 
 if __name__ == "__main__":

@@ -87,10 +87,10 @@ class Method:
             method['reserved']['accounts'],
         )
         required = RequiredArrays(
-            list(map(lambda key, value: (int(key), string_to_int(value)), method['required']['arguments'].items())),
-            list(map(lambda key, value: (int(key), value), method['required']['assets'].items())),
-            list(map(lambda key, value: (int(key), value), method['required']['applications'].items())),
-            list(map(lambda key, value: (int(key), value), method['required']['accounts'].items())),
+            list(map(lambda item: (int(item[0]), item[1]) if isinstance(item[1],int) else string_to_int(item[1]), method['required']['arguments'].items())),
+            list(map(lambda item: (int(item[0]), item[1]), method['required']['assets'].items())),
+            list(map(lambda item: (int(item[0]), item[1]), method['required']['applications'].items())),
+            list(map(lambda item: (int(item[0]),string_to_int(item[1])), method['required']['accounts'].items())),
         )
 
         opcode_int = method['opcode']

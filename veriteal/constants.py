@@ -31,8 +31,7 @@ LOCAL_SLOTS = "Local"
 
 # expects procedure name
 def procedure_name(name: str):
-    return f"{name}_"
-
+    return f"{name}"
 
 def procedure_return(return_tuple: Optional[Tuple[str,str]]):
     return_string = ""
@@ -94,10 +93,10 @@ def transaction_field_variable_name(field: str, transaction_index: int):
     return f"{field}_{transaction_index}"
 
 def transaction_field_access(field: str, transaction_index: str | int) -> str:
-    return f"call {field}_variable_lookup({transaction_index})"
+    return f"{field}_variable_lookup({transaction_index})"
 
 def transaction_array_field_access(array_field: str, transaction_index: str | int, array_index:  int | str) -> str:
-    return f"call {array_field}_variable_lookup({transaction_index}, {array_index})"
+    return f"{array_field}_variable_lookup({transaction_index}, {array_index})"
 
 def transaction_field_access_procedure(field: str) -> str:
     transaction_index_variable_name = "transaction_index"
@@ -135,12 +134,43 @@ def transaction_array_field_access_procedure(field: str) -> str:
     procedure_string += procedure_implementation_closure()
     return procedure_string
 
-transaction_array_fields = ['Accounts', 'Applications', 'Assets', 'args']
+transaction_array_fields = ['Accounts', 'Applications', 'Assets', 'ApplicationArgs']
 
 accounts_variable_name = array_variable_name(transaction_array_fields[0])
 applications_variable_name = array_variable_name(transaction_array_fields[1])
 assets_variable_name = array_variable_name(transaction_array_fields[2])
 arguments_variable_name = array_variable_name(transaction_array_fields[3])
+
+type_enums = {
+    "unknown": 0,
+    "pay": 1,
+    "keyreg": 2,
+    "acfg": 3,
+    "axfer": 4,
+    "afrz": 5,
+    "appl": 6
+}
+
+global_fields = [
+    "MinTxnFee",
+    "MinBalance",
+    "MaxTxnLife",
+    "ZeroAddress",
+    "GroupSize",
+    "LogicSigVersion",
+    "Round",
+    "LatestTimestamp",
+    "CurrentApplicationID",
+    "CreatorAddress",
+    "CurrentApplicationAddress",
+    "GroupID",
+    "OpcodeBudget",
+    "CallerApplicationID",
+    "CallerApplicationAddress",
+    "AssetCreateMinBalance",
+    "AssetOptInMinBalance",
+    "GenesisHash"
+]
 
 transaction_fields = [
   "OnCompletion",
@@ -258,8 +288,8 @@ def assume_default_theories():
     #TODO: assume scratch_slots 0 by default?
     return assume_global_slots_zero()
 
-def default_procedures():
-    return pow_procedure()
+def auxiliary_procedures():
+    return select_procedure()
 
 def pow_procedure():
     procedure_name = "pow";
@@ -280,6 +310,27 @@ def pow_procedure():
     procedure += f"  return;"
     procedure += procedure_implementation_closure()
     return procedure
+
+def select_procedure() -> str:
+    condition_variable_name = "condition"
+    on_zero_variable_name = "on_zero"
+    on_non_zero_variable_name = "on_non_zero"
+    return_variable_variable_name = "variable"
+    arguments = [(condition_variable_name, "int"),(on_zero_variable_name, "int"),(on_non_zero_variable_name, "int")]
+    return_tuple = (return_variable_variable_name, "int")
+    procedure_string = ""
+    procedure_string += procedure_declaration(f"select",arguments, return_tuple)
+    procedure_string += procedure_implementation_beginning(f"select",arguments, return_tuple)
+    procedure_string += f"  if ({condition_variable_name} == 0) {{\n"
+    procedure_string += f"    {return_variable_variable_name} := {on_zero_variable_name};\n"
+    procedure_string += f"  }} else {{\n"
+    procedure_string += f"    {return_variable_variable_name} := {on_non_zero_variable_name};\n"
+    procedure_string += f"  }}\n"
+    procedure_string += f"  return;\n"
+    procedure_string += procedure_implementation_closure()
+    return procedure_string
+
+
 
 def functions_declarations() -> str:
     return """function to_int(x: bool) returns (int);
