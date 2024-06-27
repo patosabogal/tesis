@@ -6,7 +6,7 @@ opcode_to_int = {
     "close_out": 2,
     "clear_state": 3,
     "update_application": 4,
-    "delete_application": 5
+    "delete_application": 5,
 }
 
 VERIFY_PROCEDURE = "verify"
@@ -33,14 +33,16 @@ LOCAL_SLOTS = "Local"
 def procedure_name(name: str):
     return f"{name}"
 
-def procedure_return(return_tuple: Optional[Tuple[str,str]]):
+
+def procedure_return(return_tuple: Optional[Tuple[str, str]]):
     return_string = ""
     if not (return_tuple is None):
         return_variable_name, return_variable_type = return_tuple
         return_string = f"returns ({return_variable_name}: {return_variable_type})"
     return return_string
 
-def procedure_arguments(arguments: Sequence[Tuple[str,str]]):
+
+def procedure_arguments(arguments: Sequence[Tuple[str, str]]):
     arguments_string = "("
     length = len(arguments)
     for index, argument in enumerate(arguments):
@@ -50,11 +52,22 @@ def procedure_arguments(arguments: Sequence[Tuple[str,str]]):
     arguments_string += ")"
     return arguments_string
 
-def procedure_declaration(name: str, arguments: Sequence[Tuple[str,str]] = [], return_tuple: Optional[Tuple[str, str]] = None):
+
+def procedure_declaration(
+    name: str,
+    arguments: Sequence[Tuple[str, str]] = [],
+    return_tuple: Optional[Tuple[str, str]] = None,
+):
     return f"procedure {procedure_name(name)}{procedure_arguments(arguments)}{procedure_return(return_tuple)};\n"
 
-def procedure_implementation_beginning(name: str, arguments: Sequence[Tuple[str,str]] = [], return_tuple: Optional[Tuple[str, str]] = None):
+
+def procedure_implementation_beginning(
+    name: str,
+    arguments: Sequence[Tuple[str, str]] = [],
+    return_tuple: Optional[Tuple[str, str]] = None,
+):
     return f"implementation {procedure_name(name)}{procedure_arguments(arguments)}{procedure_return(return_tuple)}{{\n"
+
 
 def procedure_implementation_closure():
     return "}\n\n"
@@ -63,8 +76,10 @@ def procedure_implementation_closure():
 def procedure_call(name: str):
     return f"call {procedure_name(name)}();\n"
 
+
 def main_contract_call():
     return procedure_call(MAIN_CONTRACT_PROCEDURE_NAME)
+
 
 def type_variable_declaration(type_name: str):
     def fn(var_name: str):
@@ -72,12 +87,15 @@ def type_variable_declaration(type_name: str):
 
     return fn
 
+
 int_variable_declaration = type_variable_declaration("int")
 map_int_int_variable_declaration = type_variable_declaration("[int] int")
 map_int_map_int_int_variable_declaration = type_variable_declaration("[int] [int] int")
 
+
 def scratch_slot_variable_name(slot_index: int | str):
     return f"scratch_{slot_index}"
+
 
 # expects transaction and array index
 def array_variable_name(array: str):
@@ -86,17 +104,26 @@ def array_variable_name(array: str):
 
     return fn
 
-def transaction_array_variable_name(array: str, transaction_index: int, array_index: int):
+
+def transaction_array_variable_name(
+    array: str, transaction_index: int, array_index: int
+):
     return f"{array}_{transaction_index}_{array_index}"
+
 
 def transaction_field_variable_name(field: str, transaction_index: int):
     return f"{field}_{transaction_index}"
 
+
 def transaction_field_access(field: str, transaction_index: str | int) -> str:
     return f"{field}_variable_lookup({transaction_index})"
 
-def transaction_array_field_access(array_field: str, transaction_index: str | int, array_index:  int | str) -> str:
+
+def transaction_array_field_access(
+    array_field: str, transaction_index: str | int, array_index: int | str
+) -> str:
     return f"{array_field}_variable_lookup({transaction_index}, {array_index})"
+
 
 def transaction_field_access_procedure(field: str) -> str:
     transaction_index_variable_name = "transaction_index"
@@ -104,29 +131,47 @@ def transaction_field_access_procedure(field: str) -> str:
     arguments = [(transaction_index_variable_name, "int")]
     return_tuple = (return_variable_variable_name, "int")
     procedure_string = ""
-    procedure_string += procedure_declaration(f"{field}_variable_lookup",arguments, return_tuple)
-    procedure_string += procedure_implementation_beginning(f"{field}_variable_lookup",arguments, return_tuple)
+    procedure_string += procedure_declaration(
+        f"{field}_variable_lookup", arguments, return_tuple
+    )
+    procedure_string += procedure_implementation_beginning(
+        f"{field}_variable_lookup", arguments, return_tuple
+    )
     for transaction_index in range(0, TRANSACTIONS_MAX_SIZE):
-        procedure_string += f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
+        procedure_string += (
+            f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
+        )
         procedure_string += f"    {return_variable_variable_name} := {transaction_field_variable_name(field, transaction_index)};\n"
         procedure_string += f"  }}\n"
     procedure_string += f"  return;\n"
     procedure_string += procedure_implementation_closure()
     return procedure_string
 
+
 def transaction_array_field_access_procedure(field: str) -> str:
     transaction_index_variable_name = "transaction_index"
     array_index_variable_name = "array_index"
     return_variable_variable_name = "variable"
-    arguments = [(transaction_index_variable_name, "int"), (array_index_variable_name, "int")]
+    arguments = [
+        (transaction_index_variable_name, "int"),
+        (array_index_variable_name, "int"),
+    ]
     return_tuple = (return_variable_variable_name, "int")
     procedure_string = ""
-    procedure_string += procedure_declaration(f"{field}_variable_lookup",arguments, return_tuple)
-    procedure_string += procedure_implementation_beginning(f"{field}_variable_lookup",arguments, return_tuple)
+    procedure_string += procedure_declaration(
+        f"{field}_variable_lookup", arguments, return_tuple
+    )
+    procedure_string += procedure_implementation_beginning(
+        f"{field}_variable_lookup", arguments, return_tuple
+    )
     for transaction_index in range(0, TRANSACTIONS_MAX_SIZE):
-        procedure_string += f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
+        procedure_string += (
+            f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
+        )
         for array_index in range(0, TRANSACTIONS_ARRAYS_SIZE):
-            procedure_string += f"    if ({array_index_variable_name} == {array_index}) {{\n"
+            procedure_string += (
+                f"    if ({array_index_variable_name} == {array_index}) {{\n"
+            )
             procedure_string += f"      {return_variable_variable_name} := {transaction_array_variable_name(field, transaction_index, array_index)};\n"
             procedure_string += f"    }}\n"
         procedure_string += f"  }}\n"
@@ -134,7 +179,8 @@ def transaction_array_field_access_procedure(field: str) -> str:
     procedure_string += procedure_implementation_closure()
     return procedure_string
 
-transaction_array_fields = ['Accounts', 'Applications', 'Assets', 'ApplicationArgs']
+
+transaction_array_fields = ["Accounts", "Applications", "Assets", "ApplicationArgs"]
 
 accounts_variable_name = array_variable_name(transaction_array_fields[0])
 applications_variable_name = array_variable_name(transaction_array_fields[1])
@@ -148,7 +194,7 @@ type_enums = {
     "acfg": 3,
     "axfer": 4,
     "afrz": 5,
-    "appl": 6
+    "appl": 6,
 }
 
 global_fields = [
@@ -169,74 +215,77 @@ global_fields = [
     "CallerApplicationAddress",
     "AssetCreateMinBalance",
     "AssetOptInMinBalance",
-    "GenesisHash"
+    "GenesisHash",
 ]
 
 transaction_fields = [
-  "OnCompletion",
-  "Sender",
-  "Fee",
-  "FirstValid",
-  "FirstValidTime",
-  "LastValid",
-  "Note",
-  "Lease",
-  "Receiver",
-  "Amount",
-  "CloseRemainderTo",
-  "VotePK",
-  "SelectionPK",
-  "VoteFirst",
-  "VoteLast",
-  "VoteKeyDilution",
-  "Type",
-  "TypeEnum",
-  "XferAsset",
-  "AssetAmount",
-  "AssetSender",
-  "AssetReceiver",
-  "AssetCloseTo",
-  "GroupIndex",
-  "TxID",
-  "ApplicationID",
-  "NumAppArgs",
-  "NumAccounts",
-  "ApprovalProgram",
-  "ClearStateProgram",
-  "RekeyTo",
-  "ConfigAsset",
-  "ConfigAssetTotal",
-  "ConfigAssetDecimals",
-  "ConfigAssetDefaultFrozen",
-  "ConfigAssetUnitName",
-  "ConfigAssetName",
-  "ConfigAssetURL",
-  "ConfigAssetMetadataHash",
-  "ConfigAssetManager",
-  "ConfigAssetReserve",
-  "ConfigAssetFreeze",
-  "ConfigAssetClawback",
-  "FreezeAsset",
-  "FreezeAssetAccount",
-  "FreezeAssetFrozen",
-  "NumAssets",
-  "NumApplications",
-  "GlobalNumUint",
-  "GlobalNumByteSlice",
-  "LocalNumUint",
-  "LocalNumByteSlice",
-  "ExtraProgramPages",
-  "Nonparticipation",
-  "NumLogs",
-  "CreatedAssetID",
-  "CreatedApplicationID",
-  "LastLog",
-  "StateProofPK",
-  "NumApprovalProgramPages",
-  "NumClearStateProgramPages"
+    "OnCompletion",
+    "Sender",
+    "Fee",
+    "FirstValid",
+    "FirstValidTime",
+    "LastValid",
+    "Note",
+    "Lease",
+    "Receiver",
+    "Amount",
+    "CloseRemainderTo",
+    "VotePK",
+    "SelectionPK",
+    "VoteFirst",
+    "VoteLast",
+    "VoteKeyDilution",
+    "Type",
+    "TypeEnum",
+    "XferAsset",
+    "AssetAmount",
+    "AssetSender",
+    "AssetReceiver",
+    "AssetCloseTo",
+    "GroupIndex",
+    "TxID",
+    "ApplicationID",
+    "NumAppArgs",
+    "NumAccounts",
+    "ApprovalProgram",
+    "ClearStateProgram",
+    "RekeyTo",
+    "ConfigAsset",
+    "ConfigAssetTotal",
+    "ConfigAssetDecimals",
+    "ConfigAssetDefaultFrozen",
+    "ConfigAssetUnitName",
+    "ConfigAssetName",
+    "ConfigAssetURL",
+    "ConfigAssetMetadataHash",
+    "ConfigAssetManager",
+    "ConfigAssetReserve",
+    "ConfigAssetFreeze",
+    "ConfigAssetClawback",
+    "FreezeAsset",
+    "FreezeAssetAccount",
+    "FreezeAssetFrozen",
+    "NumAssets",
+    "NumApplications",
+    "GlobalNumUint",
+    "GlobalNumByteSlice",
+    "LocalNumUint",
+    "LocalNumByteSlice",
+    "ExtraProgramPages",
+    "Nonparticipation",
+    "NumLogs",
+    "CreatedAssetID",
+    "CreatedApplicationID",
+    "LastLog",
+    "StateProofPK",
+    "NumApprovalProgramPages",
+    "NumClearStateProgramPages",
 ]
 
-on_completion_variable_name = transaction_field_variable_name(transaction_fields[0], CURRENT_TRANSACTION_INDEX)
+on_completion_variable_name = transaction_field_variable_name(
+    transaction_fields[0], CURRENT_TRANSACTION_INDEX
+)
+
 
 def global_map_access(key):
     return f"{GLOBAL_SLOTS}[{key}]"
@@ -281,18 +330,22 @@ def havoc_variable(var_name: str):
 def variable_assigment(var_name: str, value: int | str):
     return f"{var_name} := {value};\n"
 
+
 def assume_global_slots_zero():
     return f"assume (forall key: int :: {GLOBAL_SLOTS}[key] == 0);\n"
 
+
 def assume_default_theories():
-    #TODO: assume scratch_slots 0 by default?
+    # TODO: assume scratch_slots 0 by default?
     return assume_global_slots_zero()
+
 
 def auxiliary_procedures():
     return select_procedure()
 
+
 def pow_procedure():
-    procedure_name = "pow";
+    procedure_name = "pow"
     i = "i"
     x = "x"
     n = "n"
@@ -300,7 +353,9 @@ def pow_procedure():
     arguments = [(x, "int"), (n, "int")]
     return_type = (r, "int")
     procedure = procedure_declaration(procedure_name, arguments, return_type)
-    procedure += procedure_implementation_beginning(procedure_name, arguments, return_type)
+    procedure += procedure_implementation_beginning(
+        procedure_name, arguments, return_type
+    )
     procedure += int_variable_declaration(i)
     procedure += variable_assigment(i, 0)
     procedure += variable_assigment(r, 1)
@@ -311,25 +366,35 @@ def pow_procedure():
     procedure += procedure_implementation_closure()
     return procedure
 
+
 def select_procedure() -> str:
     condition_variable_name = "condition"
     on_zero_variable_name = "on_zero"
     on_non_zero_variable_name = "on_non_zero"
     return_variable_variable_name = "variable"
-    arguments = [(condition_variable_name, "int"),(on_zero_variable_name, "int"),(on_non_zero_variable_name, "int")]
+    arguments = [
+        (condition_variable_name, "int"),
+        (on_zero_variable_name, "int"),
+        (on_non_zero_variable_name, "int"),
+    ]
     return_tuple = (return_variable_variable_name, "int")
     procedure_string = ""
-    procedure_string += procedure_declaration(f"select",arguments, return_tuple)
-    procedure_string += procedure_implementation_beginning(f"select",arguments, return_tuple)
+    procedure_string += procedure_declaration(f"select", arguments, return_tuple)
+    procedure_string += procedure_implementation_beginning(
+        f"select", arguments, return_tuple
+    )
     procedure_string += f"  if ({condition_variable_name} == 0) {{\n"
-    procedure_string += f"    {return_variable_variable_name} := {on_zero_variable_name};\n"
+    procedure_string += (
+        f"    {return_variable_variable_name} := {on_zero_variable_name};\n"
+    )
     procedure_string += f"  }} else {{\n"
-    procedure_string += f"    {return_variable_variable_name} := {on_non_zero_variable_name};\n"
+    procedure_string += (
+        f"    {return_variable_variable_name} := {on_non_zero_variable_name};\n"
+    )
     procedure_string += f"  }}\n"
     procedure_string += f"  return;\n"
     procedure_string += procedure_implementation_closure()
     return procedure_string
-
 
 
 def functions_declarations() -> str:
@@ -338,4 +403,3 @@ axiom to_int(false) == 0;
 axiom to_int(true) == 1;
 
 """
-

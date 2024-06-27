@@ -4,7 +4,12 @@ from typing import List
 from dataclasses import dataclass
 from algosdk import abi
 from Crypto.Hash import keccak
-from algokit_utils import MethodHints, OnCompleteActionName, CallConfig, MethodConfigDict
+from algokit_utils import (
+    MethodHints,
+    OnCompleteActionName,
+    CallConfig,
+    MethodConfigDict,
+)
 
 from veriteal.constants import *
 
@@ -42,7 +47,9 @@ class Method:
         arguments_index = 1  # 0 is method signature
         accounts_index = 1  # 0 is sender
         applications_index = 1  # 0 is current_application_id
-        assets_index = 0  # starts empty unless transaction is an asset_transfer, which is not
+        assets_index = (
+            0  # starts empty unless transaction is an asset_transfer, which is not
+        )
         reserved_arguments = []
         reserved_assets = []
         reserved_accounts = []
@@ -64,11 +71,22 @@ class Method:
                     assets_index += 1
 
         required = RequiredArrays(required_arguments, [], [], [])
-        reserved = ReservedArrays(reserved_arguments, reserved_assets, reserved_applications, reserved_accounts)
+        reserved = ReservedArrays(
+            reserved_arguments,
+            reserved_assets,
+            reserved_applications,
+            reserved_accounts,
+        )
         opcode, config = list(hint.call_config.items())[0]
         opcode_int = opcode_to_int[opcode]
 
-        return Method(method.name, opcode_int, required, reserved, constructor=config == CallConfig.CREATE)
+        return Method(
+            method.name,
+            opcode_int,
+            required,
+            reserved,
+            constructor=config == CallConfig.CREATE,
+        )
 
     @staticmethod
     def from_bare_call(opcode: OnCompleteActionName, call_config: CallConfig):
@@ -76,27 +94,63 @@ class Method:
         reserved = ReservedArrays([], [], [], [])
         opcode_int = opcode_to_int[opcode]
 
-        return Method(opcode, opcode_int, required, reserved, constructor=call_config == CallConfig.CREATE)
+        return Method(
+            opcode,
+            opcode_int,
+            required,
+            reserved,
+            constructor=call_config == CallConfig.CREATE,
+        )
 
     @staticmethod
     def from_dict(method: dict):
         reserved = ReservedArrays(
-            method['reserved']['arguments'],
-            method['reserved']['assets'],
-            method['reserved']['applications'],
-            method['reserved']['accounts'],
+            method["reserved"]["arguments"],
+            method["reserved"]["assets"],
+            method["reserved"]["applications"],
+            method["reserved"]["accounts"],
         )
         required = RequiredArrays(
-            list(map(lambda item: (int(item[0]), item[1]) if isinstance(item[1],int) else string_to_int(item[1]), method['required']['arguments'].items())),
-            list(map(lambda item: (int(item[0]), item[1]), method['required']['assets'].items())),
-            list(map(lambda item: (int(item[0]), item[1]), method['required']['applications'].items())),
-            list(map(lambda item: (int(item[0]),string_to_int(item[1])), method['required']['accounts'].items())),
+            list(
+                map(
+                    lambda item: (
+                        (int(item[0]), item[1])
+                        if isinstance(item[1], int)
+                        else string_to_int(item[1])
+                    ),
+                    method["required"]["arguments"].items(),
+                )
+            ),
+            list(
+                map(
+                    lambda item: (int(item[0]), item[1]),
+                    method["required"]["assets"].items(),
+                )
+            ),
+            list(
+                map(
+                    lambda item: (int(item[0]), item[1]),
+                    method["required"]["applications"].items(),
+                )
+            ),
+            list(
+                map(
+                    lambda item: (int(item[0]), string_to_int(item[1])),
+                    method["required"]["accounts"].items(),
+                )
+            ),
         )
 
-        opcode_int = method['opcode']
-        name = method['name']
+        opcode_int = method["opcode"]
+        name = method["name"]
 
-        return Method(name, opcode_int, required, reserved, constructor=name == DEFAULT_CONTRACT_CREATION_METHOD)
+        return Method(
+            name,
+            opcode_int,
+            required,
+            reserved,
+            constructor=name == DEFAULT_CONTRACT_CREATION_METHOD,
+        )
 
 
 def method_initialization(method_name: str):
@@ -112,7 +166,7 @@ def method_closure():
 
 
 def string_to_int(string: str):
-    return bytes_to_int(string.encode('raw_unicode_escape'))
+    return bytes_to_int(string.encode("raw_unicode_escape"))
 
 
 def bytes_to_int(bytes_string: bytes):
@@ -158,8 +212,10 @@ def method_variables_assigment(method: Method):
     def required_mapping_function_builder(variable_name):
         def required_mapping_function(current):
             index, value = current
-            #TODO: TEST, might not wrk, probably needs to cast to int
-            return variable_assigment(variable_name(CURRENT_TRANSACTION_INDEX, index), value)
+            # TODO: TEST, might not wrk, probably needs to cast to int
+            return variable_assigment(
+                variable_name(CURRENT_TRANSACTION_INDEX, index), value
+            )
 
         return required_mapping_function
 
@@ -169,25 +225,53 @@ def method_variables_assigment(method: Method):
 
         return reserved_mapping_function
 
-    required_arguments_mapping = required_mapping_function_builder(arguments_variable_name)
+    required_arguments_mapping = required_mapping_function_builder(
+        arguments_variable_name
+    )
     required_assets_mapping = required_mapping_function_builder(assets_variable_name)
-    required_applications_mapping = required_mapping_function_builder(applications_variable_name)
-    required_accounts_mapping = required_mapping_function_builder(accounts_variable_name)
+    required_applications_mapping = required_mapping_function_builder(
+        applications_variable_name
+    )
+    required_accounts_mapping = required_mapping_function_builder(
+        accounts_variable_name
+    )
 
-    reserved_arguments_mapping = reserved_mapping_function_builder(arguments_variable_name)
+    reserved_arguments_mapping = reserved_mapping_function_builder(
+        arguments_variable_name
+    )
     reserved_assets_mapping = reserved_mapping_function_builder(assets_variable_name)
-    reserved_applications_mapping = reserved_mapping_function_builder(applications_variable_name)
-    reserved_accounts_mapping = reserved_mapping_function_builder(accounts_variable_name)
+    reserved_applications_mapping = reserved_mapping_function_builder(
+        applications_variable_name
+    )
+    reserved_accounts_mapping = reserved_mapping_function_builder(
+        accounts_variable_name
+    )
 
-    procedure_variables += separator.join(map(required_arguments_mapping, method.required.arguments))
-    procedure_variables += separator.join(map(required_assets_mapping, method.required.assets))
-    procedure_variables += separator.join(map(required_applications_mapping, method.required.applications))
-    procedure_variables += separator.join(map(required_accounts_mapping, method.required.accounts))
+    procedure_variables += separator.join(
+        map(required_arguments_mapping, method.required.arguments)
+    )
+    procedure_variables += separator.join(
+        map(required_assets_mapping, method.required.assets)
+    )
+    procedure_variables += separator.join(
+        map(required_applications_mapping, method.required.applications)
+    )
+    procedure_variables += separator.join(
+        map(required_accounts_mapping, method.required.accounts)
+    )
 
-    procedure_variables += separator.join(map(reserved_arguments_mapping, method.reserved.arguments))
-    procedure_variables += separator.join(map(reserved_assets_mapping, method.reserved.assets))
-    procedure_variables += separator.join(map(reserved_applications_mapping, method.reserved.applications))
-    procedure_variables += separator.join(map(reserved_accounts_mapping, method.reserved.accounts))
+    procedure_variables += separator.join(
+        map(reserved_arguments_mapping, method.reserved.arguments)
+    )
+    procedure_variables += separator.join(
+        map(reserved_assets_mapping, method.reserved.assets)
+    )
+    procedure_variables += separator.join(
+        map(reserved_applications_mapping, method.reserved.applications)
+    )
+    procedure_variables += separator.join(
+        map(reserved_accounts_mapping, method.reserved.accounts)
+    )
 
     return procedure_variables
 
@@ -227,12 +311,10 @@ def method_variables_assigment(method: Method):
 def method_procedure(method: Method) -> str:
     procedure = method_initialization(method.name)
     procedure += method_variables_assigment(method)
-    procedure += variable_assigment(
-        on_completion_variable_name,
-        method.opcode
-    )
+    procedure += variable_assigment(on_completion_variable_name, method.opcode)
     procedure += method_closure()
     return procedure
+
 
 # TODO: MERGE METHOD_PROCEDURE AND BARE_CALL_PROCEDURE
 # def method_procedure(method: abi.Method, hint: MethodHints) -> str:

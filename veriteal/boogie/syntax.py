@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Union, List, Optional
 
-class BoogieSyntax():
+
+class BoogieSyntax:
     def __eq__(self, other):
         if isinstance(other, BoogieSyntax) or isinstance(other, str):
             return str(self) == other
@@ -14,12 +15,12 @@ class Type(BoogieSyntax):
 
 class Int(Type):
     def __str__(self):
-        return 'int'
+        return "int"
 
 
 class Bool(Type):
     def __str__(self):
-        return 'bool'
+        return "bool"
 
 
 @dataclass(eq=False)
@@ -28,7 +29,7 @@ class Map(Type):
     valueType: Type
 
     def __str__(self):
-        return f'[{self.keyType}] {self.valueType}'
+        return f"[{self.keyType}] {self.valueType}"
 
 
 @dataclass(eq=False)
@@ -45,6 +46,7 @@ class MapVariableAccess(Variable):
 
     def __str__(self):
         return f"{self.name}[{self.key}]"
+
 
 Value = Union[Variable, int]
 
@@ -77,12 +79,14 @@ class JumpIfZero(Instruction):
     not_zero_label: Label
 
     def __str__(self):
-        return f"if({self.variable} == 0) {{" \
-               f"goto {self.zero_label};" \
-               f"}}"\
-               f"else {{"\
-               f"goto {self.not_zero_label};"\
-               f"}}"
+        return (
+            f"if({self.variable} == 0) {{"
+            f"goto {self.zero_label};"
+            f"}}"
+            f"else {{"
+            f"goto {self.not_zero_label};"
+            f"}}"
+        )
 
 
 @dataclass(eq=False)
@@ -128,7 +132,9 @@ class Function(BoogieSyntax):
 
     def _function_declaration(self):
         separator = ", "
-        parameters = separator.join(map(lambda parameter: str(parameter), self.parameters))
+        parameters = separator.join(
+            map(lambda parameter: str(parameter), self.parameters)
+        )
         return f"function {self.name}({parameters}) returns ({self.return_type});\n"
 
     def _axioms(self):
@@ -150,13 +156,17 @@ class Procedure(BoogieSyntax):
     def _procedure_declaration(self):
         separator = ", "
         parameters = separator.join(map(str, self.parameters))
-        return_string = f" returns ({self.return_var})" if self.return_var is not None else ""
+        return_string = (
+            f" returns ({self.return_var})" if self.return_var is not None else ""
+        )
         return f"procedure {self.name}({parameters}){return_string};\n"
 
     def _implementation_aperture(self):
         separator = ", "
         parameters = separator.join(map(str, self.parameters))
-        return_string = f" returns ({self.return_var})" if self.return_var is not None else ""
+        return_string = (
+            f" returns ({self.return_var})" if self.return_var is not None else ""
+        )
         return f"implementation {self.name}({parameters}){return_string} {{\n"
 
     def _implementation_body(self):
@@ -168,10 +178,12 @@ class Procedure(BoogieSyntax):
         return f"}}\n"
 
     def __str__(self):
-        return self._procedure_declaration()\
-            + self._implementation_aperture()\
-            + self._implementation_body()\
+        return (
+            self._procedure_declaration()
+            + self._implementation_aperture()
+            + self._implementation_body()
             + self._implementation_closure()
+        )
 
 
 class Boogie(BoogieSyntax):
@@ -186,5 +198,5 @@ class Boogie(BoogieSyntax):
         separator = ""
         return separator.join(list(_globals) + list(_functions) + list(_procedures))
 
-# TODO: implement more instructions
 
+# TODO: implement more instructions

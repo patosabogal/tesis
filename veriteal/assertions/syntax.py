@@ -18,6 +18,6 @@ class Assertions:
     @classmethod
     def from_json(cls, json_object):
         return cls(
-                json_object['method_name'],
-                json_object['assertions'],
-                )
+            json_object["method_name"],
+            json_object["assertions"],
+        )
