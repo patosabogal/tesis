@@ -34,21 +34,21 @@ def array_access_prodecures():
 
 
 # TODO: This needs to be moved somewhere else
-# TODO: This is a mock. Needs to be implemented.
 def global_variables_initialization(variables: Tuple[int, int, int, int, int]) -> str:
     # For now we are initializing all variables
     (max_arguments, max_transactions, max_applications, max_assets, max_accounts) = (
         variables
     )
-    max_transactions = (
-        TRANSACTIONS_MAX_SIZE  # Hardcoded for now. TODO: Handle group transactions
-    )
+
     global_variables = ""
-    max_array_slots = TRANSACTIONS_ARRAYS_SIZE
     for global_field in global_fields:
         global_variables += int_variable_declaration(global_field)
 
-    for transaction_index in range(max_transactions):
+    global_variables += int_variable_declaration(CURRENT_TRANSACTION)
+
+    def declare_transaction_fields(transaction_index):
+        global_variables = ""
+        max_array_slots = TRANSACTIONS_ARRAYS_SIZE
         for field in transaction_fields:
             global_variables += int_variable_declaration(
                 transaction_field_variable_name(field, transaction_index)
@@ -60,7 +60,14 @@ def global_variables_initialization(variables: Tuple[int, int, int, int, int]) -
                         array_field, transaction_index, array_index
                     )
                 )
+        return global_variables
 
+    max_transactions = (
+        TRANSACTIONS_MAX_SIZE  # Hardcoded for now. TODO: Handle group transactions
+    )
+    for transaction_index in range(max_transactions):
+        global_variables += declare_transaction_fields(transaction_index)
+    global_variables += declare_transaction_fields(CURRENT_TRANSACTION)
     global_variables += int_variable_declaration(CHOICE_VARIABLE_NAME)
     global_variables += int_variable_declaration(RETURN_VARIABLE_NAME)
     global_variables += map_int_int_variable_declaration(GLOBAL_SLOTS)

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Dict, Type
 
 from veriteal.constants import (
-    CURRENT_TRANSACTION_INDEX,
+    CURRENT_TRANSACTION,
     label_name,
     local_variable_name,
     phi_variable_name,
@@ -71,11 +71,11 @@ def binary_operation_builder(
 
         @property
         def lhs(self):
-            return self._get_variable(self.instruction.consumes[0])
+            return self._get_variable(self.instruction.consumes[1])
 
         @property
         def rhs(self):
-            return self._get_variable(self.instruction.consumes[1])
+            return self._get_variable(self.instruction.consumes[0])
 
         def to_boogie(self):
             string = f"{self.lhs} {boogie_symbol} {self.rhs}"
@@ -90,7 +90,10 @@ Add = binary_operation_builder("add", "+", False)
 And = binary_operation_builder("and", "&&", True)
 Equals = binary_operation_builder("eq", "==", True)
 NotEquals = binary_operation_builder("ne", "!=", True)
-LowerThan = binary_operation_builder("lt", "<", True)
+LesserThan = binary_operation_builder("lt", "<", True)
+GreaterThan = binary_operation_builder("gt", ">", True)
+GreaterThanOrEquals = binary_operation_builder("ge", ">=", True)
+LesserThanOrEquals = binary_operation_builder("le", "<=", True)
 
 
 @dataclass
@@ -134,7 +137,7 @@ class ExtConst(ParsedInstruction):
         # If its a transaction field access, aka, txn.
         if self.instruction.arguments[1] in transaction_fields:
             return transaction_field_access(
-                self.instruction.arguments[1], CURRENT_TRANSACTION_INDEX
+                self.instruction.arguments[1], CURRENT_TRANSACTION
             )
         elif self.instruction.arguments[1] in global_fields:
             return self.instruction.arguments[1]
@@ -168,7 +171,7 @@ class ExtConstArray(ParsedInstruction):
             # Its a transaction array field access, aka, txna.
             return transaction_array_field_access(
                 self.instruction.arguments[1],
-                CURRENT_TRANSACTION_INDEX,
+                CURRENT_TRANSACTION,
                 self._get_variable(self.instruction.consumes[0]),
             )
 
@@ -432,7 +435,10 @@ operations = [
     Const,
     Exit,
     Jump,
-    LowerThan,
+    LesserThan,
+    LesserThanOrEquals,
+    GreaterThan,
+    GreaterThanOrEquals,
     SwitchOnZero,
     StoreScratch,
     LoadScratch,

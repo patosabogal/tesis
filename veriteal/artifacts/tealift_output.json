@@ -678,9 +678,116 @@
           "op": "const",
           "args": [
             "uint64",
-            1
+            "0"
           ],
           "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": [
+            79
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ne",
+          "args": [],
+          "consumes": [
+            81,
+            80
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            82
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            "0"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "[]byte",
+            "Receiver"
+          ],
+          "consumes": [
+            84
+          ]
+        },
+        {
+          "op": "ext_const",
+          "args": [
+            "[]byte",
+            "Sender"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "eq",
+          "args": [],
+          "consumes": [
+            86,
+            85
+          ]
+        },
+        {
+          "op": "assert",
+          "args": [],
+          "consumes": [
+            87
+          ]
+        },
+        {
+          "op": "const",
+          "args": [
+            "uint64",
+            "0"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ext_const_array",
+          "args": [
+            "uint64",
+            "Amount"
+          ],
+          "consumes": [
+            89
+          ]
+        },
+        {
+          "op": "load_scratch",
+          "args": [
+            "1"
+          ],
+          "consumes": []
+        },
+        {
+          "op": "ge",
+          "args": [],
+          "consumes": [
+            91,
+            90
+          ]
         }
       ],
       "terminal": {
@@ -689,7 +796,7 @@
           "return"
         ],
         "consumes": [
-          79
+          92
         ]
       }
     }

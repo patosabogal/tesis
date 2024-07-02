@@ -5,57 +5,31 @@ from veriteal.definitions import ROOT_DIR
 tokens = (
     "NUMBER",
     "BOOL",
-    "PLUS",
-    "MINUS",
-    "TIMES",
-    "DIVIDE",
+    "EQUALITY_OPERATOR",
+    "NUMERIC_BOOLEAN_OPERATOR",
+    "BOOLEAN_BOOLEAN_OPERATOR",
+    "NUMERIC_NUMERIC_OPERATOR",
     "LPAREN",
     "RPAREN",
     "QUOTE",
     "DOUBLE_QUOTE",
-    "EQUALS",
-    "LESSER",
-    "LESSER_OR_EQUALS",
-    "GREATER",
-    "GREATER_OR_EQUALS",
-    "AND",
-    "OR",
-    "LOCAL",
     "LBRACKET",
     "RBRACKET",
     "STRING",
-    "GLOBAL",
+    "LOCAL_STORAGE",
+    "GLOBAL_STORAGE",
     "TXN_FIELD",
     "TXNA_FIELD",
     "ADDRESS",
     "DOT",
     "APPROVES",
     "GROUP_TXN",
+    "GLOBAL_FIELD",
 )
 
 # Regular expression rules for simple tokens
 # Tokens can also be defined as functio.
 # A regular expression rule with some action code:
-
-
-def t_PLUS(t):
-    r"\+"
-    return t
-
-
-def t_MINUS(t):
-    r"-"
-    return t
-
-
-def t_TIMES(t):
-    r"\*"
-    return t
-
-
-def t_DIVIDE(t):
-    r"/"
-    return t
 
 
 def t_LPAREN(t):
@@ -93,38 +67,23 @@ def t_DOT(t):
     return t
 
 
-def t_EQUALS(t):
-    r"\=\="
+def t_EQUALITY_OPERATOR(t):
+    r"(\=\=|\!\=)"
     return t
 
 
-def t_LESSER(t):
-    r"\<"
+def t_NUMERIC_BOOLEAN_OPERATOR(t):
+    r"(\<\= | \< | \>\= | \>)"
     return t
 
 
-def t_LESSER_OR_EQUALS(t):
-    r"\<\="
+def t_BOOLEAN_BOOLEAN_OPERATOR(t):
+    r"(\&\& | \|\|)"
     return t
 
 
-def t_GREATER(t):
-    r"\>"
-    return t
-
-
-def t_GREATER_OR_EQUALS(t):
-    r"\>\="
-    return t
-
-
-def t_AND(t):
-    r"\&\&"
-    return t
-
-
-def t_OR(t):
-    r"or"
+def t_NUMERIC_NUMERIC_OPERATOR(t):
+    r"(\+ | \- | \* \/)"
     return t
 
 
@@ -138,28 +97,33 @@ def t_NUMBER(t):
     return t
 
 
-def t_GLOBAL(t):
+def t_GLOBAL_STORAGE(t):
     r"Global"
     return t
 
 
-def t_LOCAL(t):
+def t_LOCAL_STORAGE(t):
     r"Local"
     return t
 
 
 def t_TXN_FIELD(t):
-    r"(Sender | CurrentTx)"
+    r"(Sender | CurrentTx | Fee | Receiver | Amount | AssetReceiver | XferAsset)"
     return t
 
 
 def t_TXNA_FIELD(t):
-    r"(ApplicationArgs)"
+    r"(ApplicationArgs | Accounts)"
     return t
 
 
 def t_GROUP_TXN(t):
     r"GroupTransaction"
+    return t
+
+
+def t_GLOBAL_FIELD(t):
+    r"(GroupSize)"
     return t
 
 

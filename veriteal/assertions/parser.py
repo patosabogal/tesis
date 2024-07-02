@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from veriteal.constants import CURRENT_TRANSACTION_INDEX, GLOBAL_SLOTS, LOCAL_SLOTS
+from veriteal.constants import CURRENT_TRANSACTION, GLOBAL_SLOTS, LOCAL_SLOTS
 from veriteal.definitions import ROOT_DIR
 from veriteal.methods import string_to_int
 
@@ -9,28 +9,25 @@ from veriteal.assertions.lexer import tokens
 
 def p_triple_tokens(p):
     """
-    boolean_expression : boolean_expression AND boolean_term
-    boolean_expression : boolean_expression OR boolean_term
-    boolean_expression : boolean_expression EQUALS boolean_term
-    boolean_expression : numeric_expression EQUALS numeric_term
-    boolean_expression : string_expression EQUALS string_term
-    boolean_expression : storage_expression EQUALS string_term
-    boolean_expression : storage_expression EQUALS numeric_expression
-    boolean_expression : approves_expression EQUALS boolean_term
-    boolean_expression : gtxn_term EQUALS numeric_expression
-    boolean_expression : gtxn_term EQUALS string_term
-    boolean_expression : storage_expression LESSER numeric_expression
-    boolean_expression : storage_expression GREATER numeric_expression
-    boolean_expression : storage_expression LESSER_OR_EQUALS numeric_expression
-    boolean_expression : storage_expression GREATER_OR_EQUALS numeric_expression
-    boolean_expression : numeric_expression LESSER numeric_term
-    boolean_expression : numeric_expression LESSER_OR_EQUALS numeric_term
-    boolean_expression : numeric_expression GREATER numeric_term
-    boolean_expression : numeric_expression GREATER_OR_EQUALS numeric_term
-    numeric_expression : numeric_expression PLUS numeric_term
-    numeric_expression : numeric_expression MINUS numeric_term
-    numeric_term : numeric_term TIMES numeric_factor
-    numeric_term : numeric_term DIVIDE numeric_factor
+    boolean_expression : boolean_expression BOOLEAN_BOOLEAN_OPERATOR boolean_term
+    boolean_expression : boolean_expression EQUALITY_OPERATOR boolean_term
+    boolean_expression : numeric_expression EQUALITY_OPERATOR numeric_term
+    boolean_expression : string_expression EQUALITY_OPERATOR string_term
+    boolean_expression : storage_expression EQUALITY_OPERATOR string_term
+    boolean_expression : storage_expression EQUALITY_OPERATOR numeric_expression
+    boolean_expression : approves_expression EQUALITY_OPERATOR boolean_term
+    boolean_expression : gtxn_expression EQUALITY_OPERATOR string_term
+    boolean_expression : gtxn_expression EQUALITY_OPERATOR gtxn_term
+    boolean_expression : gtxn_expression EQUALITY_OPERATOR numeric_term
+    boolean_expression : numeric_expression EQUALITY_OPERATOR gtxn_term
+    boolean_expression : global_field_expression EQUALITY_OPERATOR numeric_expression
+    boolean_expression : gtxn_expression NUMERIC_BOOLEAN_OPERATOR numeric_expression
+    boolean_expression : storage_expression NUMERIC_BOOLEAN_OPERATOR numeric_expression
+    boolean_expression : numeric_expression NUMERIC_BOOLEAN_OPERATOR numeric_term
+    numeric_expression : numeric_expression NUMERIC_NUMERIC_OPERATOR numeric_term
+    numeric_expression : gtxn_expression NUMERIC_NUMERIC_OPERATOR numeric_term
+    numeric_expression : gtxn_expression NUMERIC_NUMERIC_OPERATOR gtxn_term
+    numeric_expression : numeric_expression NUMERIC_NUMERIC_OPERATOR gtxn_term
     numeric_factor : LPAREN numeric_expression RPAREN
     boolean_factor : LPAREN boolean_expression RPAREN
     """
@@ -51,6 +48,10 @@ def p_unary_tokens(p):
     approves_expression : approves_term
     approves_term : approves_factor
     approves_factor : APPROVES
+    gtxn_expression : gtxn_term
+    global_field_expression : global_field_term
+    global_field_term : global_field_factor
+    global_field_factor : GLOBAL_FIELD
     """
     p[0] = p[1]
 
@@ -68,16 +69,16 @@ def p_string_address_factor(p):
 
 def p_global_storage_term(p):
     """
-    storage_term : GLOBAL LBRACKET numeric_factor RBRACKET
-    storage_term : GLOBAL LBRACKET string_factor RBRACKET
+    storage_term : GLOBAL_STORAGE LBRACKET numeric_factor RBRACKET
+    storage_term : GLOBAL_STORAGE LBRACKET string_factor RBRACKET
     """
     p[0] = f"{GLOBAL_SLOTS}{p[2]}{p[3]}{p[4]}"
 
 
 def p_local_storage_term(p):
     """
-    storage_term : LOCAL LBRACKET address_factor RBRACKET LBRACKET RBRACKET
-    storage_term : LOCAL LBRACKET address_factor RBRACKET LBRACKET string_factor RBRACKET
+    storage_term : LOCAL_STORAGE LBRACKET address_factor RBRACKET LBRACKET RBRACKET
+    storage_term : LOCAL_STORAGE LBRACKET address_factor RBRACKET LBRACKET string_factor RBRACKET
     """
     p[0] = f"{LOCAL_SLOTS}{p[2]}{p[3]}{p[4]}{p[5]}{p[6]}{p[7]}"
 
@@ -100,14 +101,14 @@ def p_txn_field_term(p):
     """
     gtxn_term : txn_field_factor
     """
-    p[0] = f"{p[1]}_{CURRENT_TRANSACTION_INDEX}"
+    p[0] = f"{p[1]}_{CURRENT_TRANSACTION}"
 
 
 def p_txna_field_term(p):
     """
     gtxn_term : txna_field_factor LBRACKET numeric_factor RBRACKET
     """
-    p[0] = f"{p[1]}_{CURRENT_TRANSACTION_INDEX}_{p[3]}"
+    p[0] = f"{p[1]}_{CURRENT_TRANSACTION}_{p[3]}"
 
 
 def p_txn_field_factor(p):

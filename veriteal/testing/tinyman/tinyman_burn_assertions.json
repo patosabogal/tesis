@@ -1,6 +1,22 @@
 {
   "constructor": {
     "preconditions": ["true"],
-    "postconditions": ["ApplicationArgs[0] == 1"]
+    "postconditions": [
+			"GroupSize == 5",
+			"GroupTransaction[0].Sender != Sender",
+			"GroupTransaction[0].Receiver == Sender",
+			"GroupTransaction[0].Amount >= (GroupTransaction[1].Fee + GroupTransaction[2].Fee + GroupTransaction[3].Fee)",
+			"GroupTransaction[1].Accounts[1] != Sender",
+			"GroupTransaction[1].Accounts[1] == GroupTransaction[2].AssetReceiver",
+			"(GroupTransaction[1].Accounts[1] == GroupTransaction[3].AssetReceiver) || (GroupTransaction[1].Accounts[1] == GroupTransaction[3].Receiver)",
+			"GroupTransaction[2].Sender == Sender",
+			"GroupTransaction[2].AssetReceiver == GroupTransaction[4].Sender",
+			"GroupTransaction[3].Sender == Sender",
+			"(GroupTransaction[4].Sender == GroupTransaction[3].AssetReceiver) || (GroupTransaction[4].Sender == GroupTransaction[3].Receiver)",
+			"GroupTransaction[4].Sender != Sender",
+			"GroupTransaction[4].AssetReceiver == Sender",
+			"GroupTransaction[2].XferAsset == 42",
+			"GroupTransaction[3].XferAsset == 43"
+		]
   }
 }

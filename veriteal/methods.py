@@ -187,19 +187,19 @@ def bytes_to_int(bytes_string: bytes):
 #        match arg.type:
 #            case abi.UintType() | abi.BoolType() | abi.StringType():
 #                procedure_variables += int_variable_declaration(
-#                    arguments_variable_name(CURRENT_TRANSACTION_INDEX, arguments_index))
+#                    arguments_variable_name(CURRENT_TRANSACTION, arguments_index))
 #                arguments_index += 1
 #            case abi.ABIReferenceType.ACCOUNT:
 #                procedure_variables += int_variable_declaration(
-#                    accounts_variable_name(CURRENT_TRANSACTION_INDEX, accounts_index))
+#                    accounts_variable_name(CURRENT_TRANSACTION, accounts_index))
 #                accounts_index += 1
 #            case abi.ABIReferenceType.APPLICATION:
 #                procedure_variables += int_variable_declaration(
-#                    applications_variable_name(CURRENT_TRANSACTION_INDEX, applications_index))
+#                    applications_variable_name(CURRENT_TRANSACTION, applications_index))
 #                applications_index += 1
 #            case abi.ABIReferenceType.ASSET:
 #                procedure_variables += int_variable_declaration(
-#                    assets_variable_name(CURRENT_TRANSACTION_INDEX, assets_index))
+#                    assets_variable_name(CURRENT_TRANSACTION, assets_index))
 #                assets_index += 1
 #
 #    return procedure_variables
@@ -213,15 +213,13 @@ def method_variables_assigment(method: Method):
         def required_mapping_function(current):
             index, value = current
             # TODO: TEST, might not wrk, probably needs to cast to int
-            return variable_assigment(
-                variable_name(CURRENT_TRANSACTION_INDEX, index), value
-            )
+            return variable_assigment(variable_name(CURRENT_TRANSACTION, index), value)
 
         return required_mapping_function
 
     def reserved_mapping_function_builder(variable_name):
         def reserved_mapping_function(current):
-            return havoc_variable(variable_name(CURRENT_TRANSACTION_INDEX, current))
+            return havoc_variable(variable_name(CURRENT_TRANSACTION, current))
 
         return reserved_mapping_function
 
@@ -277,7 +275,7 @@ def method_variables_assigment(method: Method):
 
 
 # def method_variables_assigment(method: abi.Method):
-#    procedure_variables = variable_assigment(arguments_variable_name(CURRENT_TRANSACTION_INDEX, SELECTOR_INDEX),
+#    procedure_variables = variable_assigment(arguments_variable_name(CURRENT_TRANSACTION, SELECTOR_INDEX),
 #                                             bytes_to_int(method.get_selector()))
 #    arguments_index = 1  # 0 is method signature
 #    accounts_index = 1  # 0 is sender
@@ -288,17 +286,17 @@ def method_variables_assigment(method: Method):
 #        match arg.type:
 #            case abi.UintType() | abi.BoolType() | abi.StringType():
 #                procedure_variables += havoc_variable(
-#                    arguments_variable_name(CURRENT_TRANSACTION_INDEX, arguments_index))
+#                    arguments_variable_name(CURRENT_TRANSACTION, arguments_index))
 #                arguments_index += 1
 #            case abi.ABIReferenceType.ACCOUNT:
-#                procedure_variables += havoc_variable(accounts_variable_name(CURRENT_TRANSACTION_INDEX, accounts_index))
+#                procedure_variables += havoc_variable(accounts_variable_name(CURRENT_TRANSACTION, accounts_index))
 #                accounts_index += 1
 #            case abi.ABIReferenceType.APPLICATION:
 #                procedure_variables += havoc_variable(
-#                    applications_variable_name(CURRENT_TRANSACTION_INDEX, applications_index))
+#                    applications_variable_name(CURRENT_TRANSACTION, applications_index))
 #                applications_index += 1
 #            case abi.ABIReferenceType.ASSET:
-#                procedure_variables += havoc_variable(assets_variable_name(CURRENT_TRANSACTION_INDEX, assets_index))
+#                procedure_variables += havoc_variable(assets_variable_name(CURRENT_TRANSACTION, assets_index))
 #                assets_index += 1
 #
 #    return procedure_variables
@@ -324,7 +322,7 @@ def method_procedure(method: Method) -> str:
 #    procedure = method_initialization(method.name)
 #    procedure += method_variables_assigment(method)
 #    procedure += variable_assigment(
-#        on_completion_variable_name(CURRENT_TRANSACTION_INDEX),
+#        on_completion_variable_name(CURRENT_TRANSACTION),
 #        opcode_to_int[get_on_completion_from_hint(hint)]
 #    )
 #    procedure += method_closure()
@@ -334,7 +332,7 @@ def method_procedure(method: Method) -> str:
 # def bare_call_procedure(opcode: OnCompleteActionName):
 #    procedure = procedure_declaration(opcode)
 #    procedure += procedure_implementation_beginning(opcode)
-#    procedure += variable_assigment(on_completion_variable_name(CURRENT_TRANSACTION_INDEX), opcode_to_int[opcode])
+#    procedure += variable_assigment(on_completion_variable_name(CURRENT_TRANSACTION), opcode_to_int[opcode])
 #    procedure += main_contract_call()
 #    procedure += procedure_implementation_closure()
 #    return procedure

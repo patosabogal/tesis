@@ -1,0 +1,71 @@
+ // ensure Accounts[1] is the Pooler (sender of txn 4)
+		arg_0
+		pop
+    txna Accounts 1
+    gtxn 4 Sender
+    ==
+    assert
+
+    gtxn 4 AssetAmount // burn_amount
+    load 71 // asset1_supply
+    mulw // burn_amount * asset1_supply
+    load 4 // issued_liquidity_tokens
+    int 1
+    mulw // uint128 issued_liquidity_tokens
+    divmodw  // (burn_amount * asset1_supply) / issued_liquidity_tokens
+    pop
+    pop
+    swap
+    pop
+    // only low quotient remains on stack
+    //
+    dup // calculated_asset1_out
+    store 16 // calculated_asset1_out
+    load 52 // gtxn 2 AssetAmount
+    // Note: the next line will fail if asset1_out > calculated_asset1_out
+    - // excess_asset_1 = calculated_asset1_out - asset1_out
+    store 201 // excess_asset_1
+
+
+    gtxn 4 AssetAmount // burn_amount
+    load 72 // asset2_supply
+    mulw // burn_amount * asset1_supply
+    load 4 // issued_liquidity_tokens
+    int 1
+    mulw // uint128 issued_liquidity_tokens
+
+    divmodw // (burn_amount * asset2_supply) / issued_liquidity_tokens
+    pop
+    pop
+    swap
+    pop
+    // only low quotient remains on stack
+    dup
+    store 17 // calculated_asset2_out
+    load 53 // gtxn_3_amount ASA or Algo asset2_out
+    // Note: the next line will fail if asset2_out > calculated_asset2_out
+    - // excess_asset_2 = calculated_asset2_out - asset2_out
+    store 202 // excess_asset_2
+
+    // ensure the calculated amounts are not 0
+    load 16
+    load 17
+    &&
+    assert
+
+    load 71 // asset1_supply
+    load 16 // calculated_asset1_out
+    -
+    store 81 // final_asset1_supply
+
+    load 72 // asset2_supply
+    load 17 // calculated_asset2_out
+    -
+    store 82 // final_asset2_supply
+
+    load 4 // issued_liquidity_tokens
+    gtxn 4 AssetAmount // burn_amount
+    -
+    store 83 // final_issued_liquidity_tokens
+		int 1
+

@@ -7,4 +7,6 @@ tealift
 _tealift
 .idea/
 __pycache__/
+env/
 generator/artifacts
+*.png

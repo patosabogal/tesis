@@ -70,5 +70,20 @@ global GroupSize
     store 1 // fee_total
     b check_fees
 	check_fees:
-	int 1
-		return
+    // ensure gtxn 0 amount covers all fees
+     // ensure Pool is not paying the fee
+    gtxn 0 Sender
+    txn Sender
+    !=
+    assert
+
+     // ensure Pool is receiving the fee
+    gtxn 0 Receiver
+    txn Sender
+    ==
+    assert
+
+    gtxn 0 Amount
+    load 1 // fee_total
+    >=
+    return

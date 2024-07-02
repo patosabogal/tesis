@@ -23,7 +23,8 @@ ARGUMENTS_MAX_SIZE = 16
 FOREIGNS_MAX_COMBINED_SIZE = 8
 ACCOUNTS_MAX_SIZE = 4
 SELECTOR_INDEX = 0
-CURRENT_TRANSACTION_INDEX = 0
+CURRENT_TRANSACTION = "CurrentTx"
+CURRENT_TRANSACTION_INDEX = -1
 MAIN_CONTRACT_PROCEDURE_NAME = "contract"
 GLOBAL_SLOTS = "Global"
 LOCAL_SLOTS = "Local"
@@ -106,12 +107,12 @@ def array_variable_name(array: str):
 
 
 def transaction_array_variable_name(
-    array: str, transaction_index: int, array_index: int
+    array: str, transaction_index: int | str, array_index: int
 ):
     return f"{array}_{transaction_index}_{array_index}"
 
 
-def transaction_field_variable_name(field: str, transaction_index: int):
+def transaction_field_variable_name(field: str, transaction_index: int | str):
     return f"{field}_{transaction_index}"
 
 
@@ -137,6 +138,11 @@ def transaction_field_access_procedure(field: str) -> str:
     procedure_string += procedure_implementation_beginning(
         f"{field}_variable_lookup", arguments, return_tuple
     )
+    procedure_string += (
+        f"  if ({transaction_index_variable_name} == {CURRENT_TRANSACTION_INDEX}) {{\n"
+    )
+    procedure_string += f"    {return_variable_variable_name} := {transaction_field_variable_name(field, CURRENT_TRANSACTION)};\n"
+    procedure_string += f"  }}\n"
     for transaction_index in range(0, TRANSACTIONS_MAX_SIZE):
         procedure_string += (
             f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
@@ -164,6 +170,17 @@ def transaction_array_field_access_procedure(field: str) -> str:
     procedure_string += procedure_implementation_beginning(
         f"{field}_variable_lookup", arguments, return_tuple
     )
+
+    procedure_string += (
+        f"  if ({transaction_index_variable_name} == {CURRENT_TRANSACTION_INDEX}) {{\n"
+    )
+    for array_index in range(0, TRANSACTIONS_ARRAYS_SIZE):
+        procedure_string += (
+            f"    if ({array_index_variable_name} == {array_index}) {{\n"
+        )
+        procedure_string += f"      {return_variable_variable_name} := {transaction_array_variable_name(field, CURRENT_TRANSACTION, array_index)};\n"
+        procedure_string += f"    }}\n"
+    procedure_string += f"  }}\n"
     for transaction_index in range(0, TRANSACTIONS_MAX_SIZE):
         procedure_string += (
             f"  if ({transaction_index_variable_name} == {transaction_index}) {{\n"
@@ -283,7 +300,7 @@ transaction_fields = [
 ]
 
 on_completion_variable_name = transaction_field_variable_name(
-    transaction_fields[0], CURRENT_TRANSACTION_INDEX
+    transaction_fields[0], CURRENT_TRANSACTION
 )
 
 
@@ -318,6 +335,7 @@ def label_name(name: int | str):
 
 EXIT_LABEL = label_name("exit")
 EXIT_LABEL_BLOCK = f"""{EXIT_LABEL}:
+assume {RETURN_VARIABLE_NAME} > 0;
 return;\n"""
 
 
@@ -335,9 +353,13 @@ def assume_global_slots_zero():
     return f"assume (forall key: int :: {GLOBAL_SLOTS}[key] == 0);\n"
 
 
+def assume_current_tx_index():
+    return f"assume {CURRENT_TRANSACTION} == {CURRENT_TRANSACTION_INDEX};\n"
+
+
 def assume_default_theories():
     # TODO: assume scratch_slots 0 by default?
-    return assume_global_slots_zero()
+    return assume_global_slots_zero() + assume_current_tx_index()
 
 
 def auxiliary_procedures():

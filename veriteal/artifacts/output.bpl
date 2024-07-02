@@ -16,6 +16,7 @@ var CallerApplicationAddress : int;
 var AssetCreateMinBalance : int;
 var AssetOptInMinBalance : int;
 var GenesisHash : int;
+var CurrentTx : int;
 var OnCompletion_0 : int;
 var Sender_0 : int;
 var Fee_0 : int;
@@ -2016,12 +2017,140 @@ var ApplicationArgs_15_12 : int;
 var ApplicationArgs_15_13 : int;
 var ApplicationArgs_15_14 : int;
 var ApplicationArgs_15_15 : int;
+var OnCompletion_CurrentTx : int;
+var Sender_CurrentTx : int;
+var Fee_CurrentTx : int;
+var FirstValid_CurrentTx : int;
+var FirstValidTime_CurrentTx : int;
+var LastValid_CurrentTx : int;
+var Note_CurrentTx : int;
+var Lease_CurrentTx : int;
+var Receiver_CurrentTx : int;
+var Amount_CurrentTx : int;
+var CloseRemainderTo_CurrentTx : int;
+var VotePK_CurrentTx : int;
+var SelectionPK_CurrentTx : int;
+var VoteFirst_CurrentTx : int;
+var VoteLast_CurrentTx : int;
+var VoteKeyDilution_CurrentTx : int;
+var Type_CurrentTx : int;
+var TypeEnum_CurrentTx : int;
+var XferAsset_CurrentTx : int;
+var AssetAmount_CurrentTx : int;
+var AssetSender_CurrentTx : int;
+var AssetReceiver_CurrentTx : int;
+var AssetCloseTo_CurrentTx : int;
+var GroupIndex_CurrentTx : int;
+var TxID_CurrentTx : int;
+var ApplicationID_CurrentTx : int;
+var NumAppArgs_CurrentTx : int;
+var NumAccounts_CurrentTx : int;
+var ApprovalProgram_CurrentTx : int;
+var ClearStateProgram_CurrentTx : int;
+var RekeyTo_CurrentTx : int;
+var ConfigAsset_CurrentTx : int;
+var ConfigAssetTotal_CurrentTx : int;
+var ConfigAssetDecimals_CurrentTx : int;
+var ConfigAssetDefaultFrozen_CurrentTx : int;
+var ConfigAssetUnitName_CurrentTx : int;
+var ConfigAssetName_CurrentTx : int;
+var ConfigAssetURL_CurrentTx : int;
+var ConfigAssetMetadataHash_CurrentTx : int;
+var ConfigAssetManager_CurrentTx : int;
+var ConfigAssetReserve_CurrentTx : int;
+var ConfigAssetFreeze_CurrentTx : int;
+var ConfigAssetClawback_CurrentTx : int;
+var FreezeAsset_CurrentTx : int;
+var FreezeAssetAccount_CurrentTx : int;
+var FreezeAssetFrozen_CurrentTx : int;
+var NumAssets_CurrentTx : int;
+var NumApplications_CurrentTx : int;
+var GlobalNumUint_CurrentTx : int;
+var GlobalNumByteSlice_CurrentTx : int;
+var LocalNumUint_CurrentTx : int;
+var LocalNumByteSlice_CurrentTx : int;
+var ExtraProgramPages_CurrentTx : int;
+var Nonparticipation_CurrentTx : int;
+var NumLogs_CurrentTx : int;
+var CreatedAssetID_CurrentTx : int;
+var CreatedApplicationID_CurrentTx : int;
+var LastLog_CurrentTx : int;
+var StateProofPK_CurrentTx : int;
+var NumApprovalProgramPages_CurrentTx : int;
+var NumClearStateProgramPages_CurrentTx : int;
+var Accounts_CurrentTx_0 : int;
+var Accounts_CurrentTx_1 : int;
+var Accounts_CurrentTx_2 : int;
+var Accounts_CurrentTx_3 : int;
+var Accounts_CurrentTx_4 : int;
+var Accounts_CurrentTx_5 : int;
+var Accounts_CurrentTx_6 : int;
+var Accounts_CurrentTx_7 : int;
+var Accounts_CurrentTx_8 : int;
+var Accounts_CurrentTx_9 : int;
+var Accounts_CurrentTx_10 : int;
+var Accounts_CurrentTx_11 : int;
+var Accounts_CurrentTx_12 : int;
+var Accounts_CurrentTx_13 : int;
+var Accounts_CurrentTx_14 : int;
+var Accounts_CurrentTx_15 : int;
+var Applications_CurrentTx_0 : int;
+var Applications_CurrentTx_1 : int;
+var Applications_CurrentTx_2 : int;
+var Applications_CurrentTx_3 : int;
+var Applications_CurrentTx_4 : int;
+var Applications_CurrentTx_5 : int;
+var Applications_CurrentTx_6 : int;
+var Applications_CurrentTx_7 : int;
+var Applications_CurrentTx_8 : int;
+var Applications_CurrentTx_9 : int;
+var Applications_CurrentTx_10 : int;
+var Applications_CurrentTx_11 : int;
+var Applications_CurrentTx_12 : int;
+var Applications_CurrentTx_13 : int;
+var Applications_CurrentTx_14 : int;
+var Applications_CurrentTx_15 : int;
+var Assets_CurrentTx_0 : int;
+var Assets_CurrentTx_1 : int;
+var Assets_CurrentTx_2 : int;
+var Assets_CurrentTx_3 : int;
+var Assets_CurrentTx_4 : int;
+var Assets_CurrentTx_5 : int;
+var Assets_CurrentTx_6 : int;
+var Assets_CurrentTx_7 : int;
+var Assets_CurrentTx_8 : int;
+var Assets_CurrentTx_9 : int;
+var Assets_CurrentTx_10 : int;
+var Assets_CurrentTx_11 : int;
+var Assets_CurrentTx_12 : int;
+var Assets_CurrentTx_13 : int;
+var Assets_CurrentTx_14 : int;
+var Assets_CurrentTx_15 : int;
+var ApplicationArgs_CurrentTx_0 : int;
+var ApplicationArgs_CurrentTx_1 : int;
+var ApplicationArgs_CurrentTx_2 : int;
+var ApplicationArgs_CurrentTx_3 : int;
+var ApplicationArgs_CurrentTx_4 : int;
+var ApplicationArgs_CurrentTx_5 : int;
+var ApplicationArgs_CurrentTx_6 : int;
+var ApplicationArgs_CurrentTx_7 : int;
+var ApplicationArgs_CurrentTx_8 : int;
+var ApplicationArgs_CurrentTx_9 : int;
+var ApplicationArgs_CurrentTx_10 : int;
+var ApplicationArgs_CurrentTx_11 : int;
+var ApplicationArgs_CurrentTx_12 : int;
+var ApplicationArgs_CurrentTx_13 : int;
+var ApplicationArgs_CurrentTx_14 : int;
+var ApplicationArgs_CurrentTx_15 : int;
 var choice : int;
 var return_variable : int;
 var Global : [int] int;
 var Local : [int] [int] int;
 procedure OnCompletion_variable_lookup(transaction_index: int)returns (variable: int);
 implementation OnCompletion_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := OnCompletion_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := OnCompletion_0;
   }
@@ -2075,6 +2204,9 @@ implementation OnCompletion_variable_lookup(transaction_index: int)returns (vari
 
 procedure Sender_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Sender_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Sender_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Sender_0;
   }
@@ -2128,6 +2260,9 @@ implementation Sender_variable_lookup(transaction_index: int)returns (variable: 
 
 procedure Fee_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Fee_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Fee_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Fee_0;
   }
@@ -2181,6 +2316,9 @@ implementation Fee_variable_lookup(transaction_index: int)returns (variable: int
 
 procedure FirstValid_variable_lookup(transaction_index: int)returns (variable: int);
 implementation FirstValid_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := FirstValid_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := FirstValid_0;
   }
@@ -2234,6 +2372,9 @@ implementation FirstValid_variable_lookup(transaction_index: int)returns (variab
 
 procedure FirstValidTime_variable_lookup(transaction_index: int)returns (variable: int);
 implementation FirstValidTime_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := FirstValidTime_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := FirstValidTime_0;
   }
@@ -2287,6 +2428,9 @@ implementation FirstValidTime_variable_lookup(transaction_index: int)returns (va
 
 procedure LastValid_variable_lookup(transaction_index: int)returns (variable: int);
 implementation LastValid_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := LastValid_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := LastValid_0;
   }
@@ -2340,6 +2484,9 @@ implementation LastValid_variable_lookup(transaction_index: int)returns (variabl
 
 procedure Note_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Note_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Note_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Note_0;
   }
@@ -2393,6 +2540,9 @@ implementation Note_variable_lookup(transaction_index: int)returns (variable: in
 
 procedure Lease_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Lease_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Lease_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Lease_0;
   }
@@ -2446,6 +2596,9 @@ implementation Lease_variable_lookup(transaction_index: int)returns (variable: i
 
 procedure Receiver_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Receiver_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Receiver_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Receiver_0;
   }
@@ -2499,6 +2652,9 @@ implementation Receiver_variable_lookup(transaction_index: int)returns (variable
 
 procedure Amount_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Amount_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Amount_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Amount_0;
   }
@@ -2552,6 +2708,9 @@ implementation Amount_variable_lookup(transaction_index: int)returns (variable: 
 
 procedure CloseRemainderTo_variable_lookup(transaction_index: int)returns (variable: int);
 implementation CloseRemainderTo_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := CloseRemainderTo_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := CloseRemainderTo_0;
   }
@@ -2605,6 +2764,9 @@ implementation CloseRemainderTo_variable_lookup(transaction_index: int)returns (
 
 procedure VotePK_variable_lookup(transaction_index: int)returns (variable: int);
 implementation VotePK_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := VotePK_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := VotePK_0;
   }
@@ -2658,6 +2820,9 @@ implementation VotePK_variable_lookup(transaction_index: int)returns (variable: 
 
 procedure SelectionPK_variable_lookup(transaction_index: int)returns (variable: int);
 implementation SelectionPK_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := SelectionPK_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := SelectionPK_0;
   }
@@ -2711,6 +2876,9 @@ implementation SelectionPK_variable_lookup(transaction_index: int)returns (varia
 
 procedure VoteFirst_variable_lookup(transaction_index: int)returns (variable: int);
 implementation VoteFirst_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := VoteFirst_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := VoteFirst_0;
   }
@@ -2764,6 +2932,9 @@ implementation VoteFirst_variable_lookup(transaction_index: int)returns (variabl
 
 procedure VoteLast_variable_lookup(transaction_index: int)returns (variable: int);
 implementation VoteLast_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := VoteLast_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := VoteLast_0;
   }
@@ -2817,6 +2988,9 @@ implementation VoteLast_variable_lookup(transaction_index: int)returns (variable
 
 procedure VoteKeyDilution_variable_lookup(transaction_index: int)returns (variable: int);
 implementation VoteKeyDilution_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := VoteKeyDilution_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := VoteKeyDilution_0;
   }
@@ -2870,6 +3044,9 @@ implementation VoteKeyDilution_variable_lookup(transaction_index: int)returns (v
 
 procedure Type_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Type_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Type_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Type_0;
   }
@@ -2923,6 +3100,9 @@ implementation Type_variable_lookup(transaction_index: int)returns (variable: in
 
 procedure TypeEnum_variable_lookup(transaction_index: int)returns (variable: int);
 implementation TypeEnum_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := TypeEnum_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := TypeEnum_0;
   }
@@ -2976,6 +3156,9 @@ implementation TypeEnum_variable_lookup(transaction_index: int)returns (variable
 
 procedure XferAsset_variable_lookup(transaction_index: int)returns (variable: int);
 implementation XferAsset_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := XferAsset_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := XferAsset_0;
   }
@@ -3029,6 +3212,9 @@ implementation XferAsset_variable_lookup(transaction_index: int)returns (variabl
 
 procedure AssetAmount_variable_lookup(transaction_index: int)returns (variable: int);
 implementation AssetAmount_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := AssetAmount_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := AssetAmount_0;
   }
@@ -3082,6 +3268,9 @@ implementation AssetAmount_variable_lookup(transaction_index: int)returns (varia
 
 procedure AssetSender_variable_lookup(transaction_index: int)returns (variable: int);
 implementation AssetSender_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := AssetSender_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := AssetSender_0;
   }
@@ -3135,6 +3324,9 @@ implementation AssetSender_variable_lookup(transaction_index: int)returns (varia
 
 procedure AssetReceiver_variable_lookup(transaction_index: int)returns (variable: int);
 implementation AssetReceiver_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := AssetReceiver_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := AssetReceiver_0;
   }
@@ -3188,6 +3380,9 @@ implementation AssetReceiver_variable_lookup(transaction_index: int)returns (var
 
 procedure AssetCloseTo_variable_lookup(transaction_index: int)returns (variable: int);
 implementation AssetCloseTo_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := AssetCloseTo_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := AssetCloseTo_0;
   }
@@ -3241,6 +3436,9 @@ implementation AssetCloseTo_variable_lookup(transaction_index: int)returns (vari
 
 procedure GroupIndex_variable_lookup(transaction_index: int)returns (variable: int);
 implementation GroupIndex_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := GroupIndex_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := GroupIndex_0;
   }
@@ -3294,6 +3492,9 @@ implementation GroupIndex_variable_lookup(transaction_index: int)returns (variab
 
 procedure TxID_variable_lookup(transaction_index: int)returns (variable: int);
 implementation TxID_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := TxID_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := TxID_0;
   }
@@ -3347,6 +3548,9 @@ implementation TxID_variable_lookup(transaction_index: int)returns (variable: in
 
 procedure ApplicationID_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ApplicationID_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ApplicationID_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ApplicationID_0;
   }
@@ -3400,6 +3604,9 @@ implementation ApplicationID_variable_lookup(transaction_index: int)returns (var
 
 procedure NumAppArgs_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumAppArgs_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumAppArgs_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumAppArgs_0;
   }
@@ -3453,6 +3660,9 @@ implementation NumAppArgs_variable_lookup(transaction_index: int)returns (variab
 
 procedure NumAccounts_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumAccounts_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumAccounts_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumAccounts_0;
   }
@@ -3506,6 +3716,9 @@ implementation NumAccounts_variable_lookup(transaction_index: int)returns (varia
 
 procedure ApprovalProgram_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ApprovalProgram_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ApprovalProgram_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ApprovalProgram_0;
   }
@@ -3559,6 +3772,9 @@ implementation ApprovalProgram_variable_lookup(transaction_index: int)returns (v
 
 procedure ClearStateProgram_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ClearStateProgram_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ClearStateProgram_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ClearStateProgram_0;
   }
@@ -3612,6 +3828,9 @@ implementation ClearStateProgram_variable_lookup(transaction_index: int)returns 
 
 procedure RekeyTo_variable_lookup(transaction_index: int)returns (variable: int);
 implementation RekeyTo_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := RekeyTo_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := RekeyTo_0;
   }
@@ -3665,6 +3884,9 @@ implementation RekeyTo_variable_lookup(transaction_index: int)returns (variable:
 
 procedure ConfigAsset_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAsset_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAsset_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAsset_0;
   }
@@ -3718,6 +3940,9 @@ implementation ConfigAsset_variable_lookup(transaction_index: int)returns (varia
 
 procedure ConfigAssetTotal_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetTotal_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetTotal_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetTotal_0;
   }
@@ -3771,6 +3996,9 @@ implementation ConfigAssetTotal_variable_lookup(transaction_index: int)returns (
 
 procedure ConfigAssetDecimals_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetDecimals_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetDecimals_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetDecimals_0;
   }
@@ -3824,6 +4052,9 @@ implementation ConfigAssetDecimals_variable_lookup(transaction_index: int)return
 
 procedure ConfigAssetDefaultFrozen_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetDefaultFrozen_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetDefaultFrozen_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetDefaultFrozen_0;
   }
@@ -3877,6 +4108,9 @@ implementation ConfigAssetDefaultFrozen_variable_lookup(transaction_index: int)r
 
 procedure ConfigAssetUnitName_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetUnitName_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetUnitName_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetUnitName_0;
   }
@@ -3930,6 +4164,9 @@ implementation ConfigAssetUnitName_variable_lookup(transaction_index: int)return
 
 procedure ConfigAssetName_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetName_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetName_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetName_0;
   }
@@ -3983,6 +4220,9 @@ implementation ConfigAssetName_variable_lookup(transaction_index: int)returns (v
 
 procedure ConfigAssetURL_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetURL_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetURL_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetURL_0;
   }
@@ -4036,6 +4276,9 @@ implementation ConfigAssetURL_variable_lookup(transaction_index: int)returns (va
 
 procedure ConfigAssetMetadataHash_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetMetadataHash_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetMetadataHash_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetMetadataHash_0;
   }
@@ -4089,6 +4332,9 @@ implementation ConfigAssetMetadataHash_variable_lookup(transaction_index: int)re
 
 procedure ConfigAssetManager_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetManager_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetManager_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetManager_0;
   }
@@ -4142,6 +4388,9 @@ implementation ConfigAssetManager_variable_lookup(transaction_index: int)returns
 
 procedure ConfigAssetReserve_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetReserve_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetReserve_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetReserve_0;
   }
@@ -4195,6 +4444,9 @@ implementation ConfigAssetReserve_variable_lookup(transaction_index: int)returns
 
 procedure ConfigAssetFreeze_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetFreeze_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetFreeze_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetFreeze_0;
   }
@@ -4248,6 +4500,9 @@ implementation ConfigAssetFreeze_variable_lookup(transaction_index: int)returns 
 
 procedure ConfigAssetClawback_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ConfigAssetClawback_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ConfigAssetClawback_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ConfigAssetClawback_0;
   }
@@ -4301,6 +4556,9 @@ implementation ConfigAssetClawback_variable_lookup(transaction_index: int)return
 
 procedure FreezeAsset_variable_lookup(transaction_index: int)returns (variable: int);
 implementation FreezeAsset_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := FreezeAsset_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := FreezeAsset_0;
   }
@@ -4354,6 +4612,9 @@ implementation FreezeAsset_variable_lookup(transaction_index: int)returns (varia
 
 procedure FreezeAssetAccount_variable_lookup(transaction_index: int)returns (variable: int);
 implementation FreezeAssetAccount_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := FreezeAssetAccount_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := FreezeAssetAccount_0;
   }
@@ -4407,6 +4668,9 @@ implementation FreezeAssetAccount_variable_lookup(transaction_index: int)returns
 
 procedure FreezeAssetFrozen_variable_lookup(transaction_index: int)returns (variable: int);
 implementation FreezeAssetFrozen_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := FreezeAssetFrozen_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := FreezeAssetFrozen_0;
   }
@@ -4460,6 +4724,9 @@ implementation FreezeAssetFrozen_variable_lookup(transaction_index: int)returns 
 
 procedure NumAssets_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumAssets_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumAssets_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumAssets_0;
   }
@@ -4513,6 +4780,9 @@ implementation NumAssets_variable_lookup(transaction_index: int)returns (variabl
 
 procedure NumApplications_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumApplications_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumApplications_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumApplications_0;
   }
@@ -4566,6 +4836,9 @@ implementation NumApplications_variable_lookup(transaction_index: int)returns (v
 
 procedure GlobalNumUint_variable_lookup(transaction_index: int)returns (variable: int);
 implementation GlobalNumUint_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := GlobalNumUint_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := GlobalNumUint_0;
   }
@@ -4619,6 +4892,9 @@ implementation GlobalNumUint_variable_lookup(transaction_index: int)returns (var
 
 procedure GlobalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int);
 implementation GlobalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := GlobalNumByteSlice_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := GlobalNumByteSlice_0;
   }
@@ -4672,6 +4948,9 @@ implementation GlobalNumByteSlice_variable_lookup(transaction_index: int)returns
 
 procedure LocalNumUint_variable_lookup(transaction_index: int)returns (variable: int);
 implementation LocalNumUint_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := LocalNumUint_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := LocalNumUint_0;
   }
@@ -4725,6 +5004,9 @@ implementation LocalNumUint_variable_lookup(transaction_index: int)returns (vari
 
 procedure LocalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int);
 implementation LocalNumByteSlice_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := LocalNumByteSlice_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := LocalNumByteSlice_0;
   }
@@ -4778,6 +5060,9 @@ implementation LocalNumByteSlice_variable_lookup(transaction_index: int)returns 
 
 procedure ExtraProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
 implementation ExtraProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := ExtraProgramPages_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := ExtraProgramPages_0;
   }
@@ -4831,6 +5116,9 @@ implementation ExtraProgramPages_variable_lookup(transaction_index: int)returns 
 
 procedure Nonparticipation_variable_lookup(transaction_index: int)returns (variable: int);
 implementation Nonparticipation_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := Nonparticipation_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := Nonparticipation_0;
   }
@@ -4884,6 +5172,9 @@ implementation Nonparticipation_variable_lookup(transaction_index: int)returns (
 
 procedure NumLogs_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumLogs_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumLogs_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumLogs_0;
   }
@@ -4937,6 +5228,9 @@ implementation NumLogs_variable_lookup(transaction_index: int)returns (variable:
 
 procedure CreatedAssetID_variable_lookup(transaction_index: int)returns (variable: int);
 implementation CreatedAssetID_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := CreatedAssetID_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := CreatedAssetID_0;
   }
@@ -4990,6 +5284,9 @@ implementation CreatedAssetID_variable_lookup(transaction_index: int)returns (va
 
 procedure CreatedApplicationID_variable_lookup(transaction_index: int)returns (variable: int);
 implementation CreatedApplicationID_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := CreatedApplicationID_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := CreatedApplicationID_0;
   }
@@ -5043,6 +5340,9 @@ implementation CreatedApplicationID_variable_lookup(transaction_index: int)retur
 
 procedure LastLog_variable_lookup(transaction_index: int)returns (variable: int);
 implementation LastLog_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := LastLog_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := LastLog_0;
   }
@@ -5096,6 +5396,9 @@ implementation LastLog_variable_lookup(transaction_index: int)returns (variable:
 
 procedure StateProofPK_variable_lookup(transaction_index: int)returns (variable: int);
 implementation StateProofPK_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := StateProofPK_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := StateProofPK_0;
   }
@@ -5149,6 +5452,9 @@ implementation StateProofPK_variable_lookup(transaction_index: int)returns (vari
 
 procedure NumApprovalProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumApprovalProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumApprovalProgramPages_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumApprovalProgramPages_0;
   }
@@ -5202,6 +5508,9 @@ implementation NumApprovalProgramPages_variable_lookup(transaction_index: int)re
 
 procedure NumClearStateProgramPages_variable_lookup(transaction_index: int)returns (variable: int);
 implementation NumClearStateProgramPages_variable_lookup(transaction_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    variable := NumClearStateProgramPages_CurrentTx;
+  }
   if (transaction_index == 0) {
     variable := NumClearStateProgramPages_0;
   }
@@ -5255,6 +5564,56 @@ implementation NumClearStateProgramPages_variable_lookup(transaction_index: int)
 
 procedure Accounts_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
 implementation Accounts_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    if (array_index == 0) {
+      variable := Accounts_CurrentTx_0;
+    }
+    if (array_index == 1) {
+      variable := Accounts_CurrentTx_1;
+    }
+    if (array_index == 2) {
+      variable := Accounts_CurrentTx_2;
+    }
+    if (array_index == 3) {
+      variable := Accounts_CurrentTx_3;
+    }
+    if (array_index == 4) {
+      variable := Accounts_CurrentTx_4;
+    }
+    if (array_index == 5) {
+      variable := Accounts_CurrentTx_5;
+    }
+    if (array_index == 6) {
+      variable := Accounts_CurrentTx_6;
+    }
+    if (array_index == 7) {
+      variable := Accounts_CurrentTx_7;
+    }
+    if (array_index == 8) {
+      variable := Accounts_CurrentTx_8;
+    }
+    if (array_index == 9) {
+      variable := Accounts_CurrentTx_9;
+    }
+    if (array_index == 10) {
+      variable := Accounts_CurrentTx_10;
+    }
+    if (array_index == 11) {
+      variable := Accounts_CurrentTx_11;
+    }
+    if (array_index == 12) {
+      variable := Accounts_CurrentTx_12;
+    }
+    if (array_index == 13) {
+      variable := Accounts_CurrentTx_13;
+    }
+    if (array_index == 14) {
+      variable := Accounts_CurrentTx_14;
+    }
+    if (array_index == 15) {
+      variable := Accounts_CurrentTx_15;
+    }
+  }
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Accounts_0_0;
@@ -6060,6 +6419,56 @@ implementation Accounts_variable_lookup(transaction_index: int, array_index: int
 
 procedure Applications_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
 implementation Applications_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    if (array_index == 0) {
+      variable := Applications_CurrentTx_0;
+    }
+    if (array_index == 1) {
+      variable := Applications_CurrentTx_1;
+    }
+    if (array_index == 2) {
+      variable := Applications_CurrentTx_2;
+    }
+    if (array_index == 3) {
+      variable := Applications_CurrentTx_3;
+    }
+    if (array_index == 4) {
+      variable := Applications_CurrentTx_4;
+    }
+    if (array_index == 5) {
+      variable := Applications_CurrentTx_5;
+    }
+    if (array_index == 6) {
+      variable := Applications_CurrentTx_6;
+    }
+    if (array_index == 7) {
+      variable := Applications_CurrentTx_7;
+    }
+    if (array_index == 8) {
+      variable := Applications_CurrentTx_8;
+    }
+    if (array_index == 9) {
+      variable := Applications_CurrentTx_9;
+    }
+    if (array_index == 10) {
+      variable := Applications_CurrentTx_10;
+    }
+    if (array_index == 11) {
+      variable := Applications_CurrentTx_11;
+    }
+    if (array_index == 12) {
+      variable := Applications_CurrentTx_12;
+    }
+    if (array_index == 13) {
+      variable := Applications_CurrentTx_13;
+    }
+    if (array_index == 14) {
+      variable := Applications_CurrentTx_14;
+    }
+    if (array_index == 15) {
+      variable := Applications_CurrentTx_15;
+    }
+  }
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Applications_0_0;
@@ -6865,6 +7274,56 @@ implementation Applications_variable_lookup(transaction_index: int, array_index:
 
 procedure Assets_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
 implementation Assets_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    if (array_index == 0) {
+      variable := Assets_CurrentTx_0;
+    }
+    if (array_index == 1) {
+      variable := Assets_CurrentTx_1;
+    }
+    if (array_index == 2) {
+      variable := Assets_CurrentTx_2;
+    }
+    if (array_index == 3) {
+      variable := Assets_CurrentTx_3;
+    }
+    if (array_index == 4) {
+      variable := Assets_CurrentTx_4;
+    }
+    if (array_index == 5) {
+      variable := Assets_CurrentTx_5;
+    }
+    if (array_index == 6) {
+      variable := Assets_CurrentTx_6;
+    }
+    if (array_index == 7) {
+      variable := Assets_CurrentTx_7;
+    }
+    if (array_index == 8) {
+      variable := Assets_CurrentTx_8;
+    }
+    if (array_index == 9) {
+      variable := Assets_CurrentTx_9;
+    }
+    if (array_index == 10) {
+      variable := Assets_CurrentTx_10;
+    }
+    if (array_index == 11) {
+      variable := Assets_CurrentTx_11;
+    }
+    if (array_index == 12) {
+      variable := Assets_CurrentTx_12;
+    }
+    if (array_index == 13) {
+      variable := Assets_CurrentTx_13;
+    }
+    if (array_index == 14) {
+      variable := Assets_CurrentTx_14;
+    }
+    if (array_index == 15) {
+      variable := Assets_CurrentTx_15;
+    }
+  }
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := Assets_0_0;
@@ -7670,6 +8129,56 @@ implementation Assets_variable_lookup(transaction_index: int, array_index: int)r
 
 procedure ApplicationArgs_variable_lookup(transaction_index: int, array_index: int)returns (variable: int);
 implementation ApplicationArgs_variable_lookup(transaction_index: int, array_index: int)returns (variable: int){
+  if (transaction_index == -1) {
+    if (array_index == 0) {
+      variable := ApplicationArgs_CurrentTx_0;
+    }
+    if (array_index == 1) {
+      variable := ApplicationArgs_CurrentTx_1;
+    }
+    if (array_index == 2) {
+      variable := ApplicationArgs_CurrentTx_2;
+    }
+    if (array_index == 3) {
+      variable := ApplicationArgs_CurrentTx_3;
+    }
+    if (array_index == 4) {
+      variable := ApplicationArgs_CurrentTx_4;
+    }
+    if (array_index == 5) {
+      variable := ApplicationArgs_CurrentTx_5;
+    }
+    if (array_index == 6) {
+      variable := ApplicationArgs_CurrentTx_6;
+    }
+    if (array_index == 7) {
+      variable := ApplicationArgs_CurrentTx_7;
+    }
+    if (array_index == 8) {
+      variable := ApplicationArgs_CurrentTx_8;
+    }
+    if (array_index == 9) {
+      variable := ApplicationArgs_CurrentTx_9;
+    }
+    if (array_index == 10) {
+      variable := ApplicationArgs_CurrentTx_10;
+    }
+    if (array_index == 11) {
+      variable := ApplicationArgs_CurrentTx_11;
+    }
+    if (array_index == 12) {
+      variable := ApplicationArgs_CurrentTx_12;
+    }
+    if (array_index == 13) {
+      variable := ApplicationArgs_CurrentTx_13;
+    }
+    if (array_index == 14) {
+      variable := ApplicationArgs_CurrentTx_14;
+    }
+    if (array_index == 15) {
+      variable := ApplicationArgs_CurrentTx_15;
+    }
+  }
   if (transaction_index == 0) {
     if (array_index == 0) {
       variable := ApplicationArgs_0_0;
@@ -8490,22 +8999,51 @@ implementation select(condition: int, on_zero: int, on_non_zero: int)returns (va
 
 procedure constructor();
 implementation constructor(){
-OnCompletion_0 := 0;
+OnCompletion_CurrentTx := 0;
 call contract();
 }
 
 procedure verify();
 implementation verify(){
 assume (forall key: int :: Global[key] == 0);
+assume CurrentTx == -1;
 assume true;
 call constructor();
-assert ApplicationArgs_0_0 == 1;
+assert GroupSize == 5;
+assert Sender_0 != Sender_CurrentTx;
+assert Receiver_0 == Sender_CurrentTx;
+assert Amount_0 >= ( Fee_1 + Fee_2 + Fee_3 );
+assert Accounts_1_1 != Sender_CurrentTx;
+assert Accounts_1_1 == AssetReceiver_2;
+assert ( Accounts_1_1 == AssetReceiver_3 ) || ( Accounts_1_1 == Receiver_3 );
+assert Sender_2 == Sender_CurrentTx;
+assert AssetReceiver_2 == Sender_4;
+assert Sender_3 == Sender_CurrentTx;
+assert ( Sender_4 == AssetReceiver_3 ) || ( Sender_4 == Receiver_3 );
+assert Sender_4 != Sender_CurrentTx;
+assert AssetReceiver_4 == Sender_CurrentTx;
+assert XferAsset_2 == 42;
+assert XferAsset_3 == 43;
 while (true){
 havoc choice;
 if ((choice) == 0) {
 assume true;
 call constructor();
-assert ApplicationArgs_0_0 == 1;
+assert GroupSize == 5;
+assert Sender_0 != Sender_CurrentTx;
+assert Receiver_0 == Sender_CurrentTx;
+assert Amount_0 >= ( Fee_1 + Fee_2 + Fee_3 );
+assert Accounts_1_1 != Sender_CurrentTx;
+assert Accounts_1_1 == AssetReceiver_2;
+assert ( Accounts_1_1 == AssetReceiver_3 ) || ( Accounts_1_1 == Receiver_3 );
+assert Sender_2 == Sender_CurrentTx;
+assert AssetReceiver_2 == Sender_4;
+assert Sender_3 == Sender_CurrentTx;
+assert ( Sender_4 == AssetReceiver_3 ) || ( Sender_4 == Receiver_3 );
+assert Sender_4 != Sender_CurrentTx;
+assert AssetReceiver_4 == Sender_CurrentTx;
+assert XferAsset_2 == 42;
+assert XferAsset_3 == 43;
 }
 }
 }
@@ -8576,92 +9114,103 @@ var scratch_60 : int;
 var scratch_61 : int;
 var scratch_62 : int;
 var scratch_63 : int;
-var local_47 : int;
-var local_42 : int;
-var local_13 : int;
-var local_79 : int;
-var local_17 : int;
-var local_68 : int;
-var local_70 : int;
-var local_5 : int;
-var local_74 : int;
-var local_49 : int;
-var local_52 : int;
-var local_54 : int;
-var local_53 : int;
-var local_20 : int;
-var local_12 : int;
+var local_81 : int;
+var local_60 : int;
+var local_66 : int;
+var local_75 : int;
+var local_2 : int;
+var local_10 : int;
 var local_6 : int;
-var local_18 : int;
-var local_50 : int;
+var local_80 : int;
+var local_28 : int;
+var local_42 : int;
+var local_74 : int;
+var local_52 : int;
+var local_77 : int;
+var local_19 : int;
 var local_1 : int;
 var local_23 : int;
-var local_71 : int;
-var local_76 : int;
-var local_60 : int;
-var local_55 : int;
-var local_26 : int;
-var local_0 : int;
-var local_66 : int;
-var local_57 : int;
-var local_25 : int;
-var local_10 : int;
-var local_61 : int;
-var local_43 : int;
-var local_67 : int;
-var local_75 : int;
-var local_8 : int;
-var local_62 : int;
-var local_19 : int;
-var local_22 : int;
-var local_27 : int;
-var local_48 : int;
-var local_21 : int;
-var local_24 : int;
-var local_32 : int;
-var local_15 : int;
-var local_14 : int;
-var local_28 : int;
-var local_36 : int;
-var local_34 : int;
-var local_11 : int;
-var local_65 : int;
-var local_40 : int;
-var local_63 : int;
-var local_39 : int;
-var local_44 : int;
-var local_56 : int;
-var local_77 : int;
-var local_2 : int;
-var local_31 : int;
-var local_29 : int;
-var local_7 : int;
-var local_33 : int;
-var local_38 : int;
-var local_73 : int;
-var local_51 : int;
-var local_37 : int;
-var local_58 : int;
 var local_72 : int;
+var local_7 : int;
+var local_92 : int;
+var local_31 : int;
+var local_18 : int;
+var local_68 : int;
+var local_47 : int;
+var local_89 : int;
+var local_67 : int;
+var local_27 : int;
+var local_36 : int;
+var local_44 : int;
+var local_82 : int;
+var local_11 : int;
+var local_8 : int;
+var local_21 : int;
 var local_45 : int;
+var local_37 : int;
+var local_20 : int;
+var local_90 : int;
+var local_24 : int;
+var local_26 : int;
+var local_86 : int;
+var local_87 : int;
+var local_53 : int;
+var local_49 : int;
+var local_58 : int;
+var local_57 : int;
 var local_4 : int;
+var local_13 : int;
+var local_51 : int;
+var local_56 : int;
+var local_85 : int;
+var local_17 : int;
+var local_29 : int;
+var local_25 : int;
+var local_73 : int;
+var local_14 : int;
+var local_48 : int;
+var local_55 : int;
+var local_5 : int;
+var local_91 : int;
+var local_22 : int;
+var local_70 : int;
+var local_43 : int;
+var local_38 : int;
+var local_63 : int;
+var local_15 : int;
+var local_34 : int;
+var local_40 : int;
+var local_71 : int;
+var local_61 : int;
+var local_12 : int;
+var local_50 : int;
+var local_62 : int;
+var local_76 : int;
+var local_33 : int;
+var local_84 : int;
+var local_32 : int;
+var local_0 : int;
+var local_65 : int;
+var local_54 : int;
+var local_39 : int;
+var local_79 : int;
 label_0:
 local_0 := GroupSize;
 local_1 := 5;
-local_2 := to_int(local_1 == local_0);
+local_2 := to_int(local_0 == local_1);
 assume local_2 != 0;
 local_4 := 1;
 local_5 := 1;
 call local_6 := Accounts_variable_lookup(local_4, local_5);
-call local_7 := Sender_variable_lookup(0);
-local_8 := to_int(local_7 != local_6);
+call local_7 := Sender_variable_lookup(CurrentTx);
+local_8 := to_int(local_6 != local_7);
 assume local_8 != 0;
 local_10 := 1;
 local_11 := 1;
 call local_12 := Accounts_variable_lookup(local_10, local_11);
 local_13 := 2;
 call local_14 := AssetReceiver_variable_lookup(local_13);
-local_15 := to_int(local_14 == local_12);
+local_15 := to_int(local_12 == local_14);
 assume local_15 != 0;
 local_17 := 3;
 call local_18 := AssetReceiver_variable_lookup(local_17);
@@ -8670,28 +9219,28 @@ call local_20 := Receiver_variable_lookup(local_19);
 local_21 := 3;
 call local_22 := TypeEnum_variable_lookup(local_21);
 local_23 := 1;
-local_24 := to_int(local_23 == local_22);
+local_24 := to_int(local_22 == local_23);
 call local_25 := select(local_24,local_18,local_20);
 local_26 := 1;
 local_27 := 1;
 call local_28 := Accounts_variable_lookup(local_26, local_27);
-local_29 := to_int(local_28 == local_25);
+local_29 := to_int(local_25 == local_28);
 assume local_29 != 0;
 local_31 := 2;
 call local_32 := Sender_variable_lookup(local_31);
-call local_33 := Sender_variable_lookup(0);
-local_34 := to_int(local_33 == local_32);
+call local_33 := Sender_variable_lookup(CurrentTx);
+local_34 := to_int(local_32 == local_33);
 assume local_34 != 0;
 local_36 := 2;
 call local_37 := AssetReceiver_variable_lookup(local_36);
 local_38 := 4;
 call local_39 := Sender_variable_lookup(local_38);
-local_40 := to_int(local_39 == local_37);
+local_40 := to_int(local_37 == local_39);
 assume local_40 != 0;
 local_42 := 3;
 call local_43 := Sender_variable_lookup(local_42);
-call local_44 := Sender_variable_lookup(0);
-local_45 := to_int(local_44 == local_43);
+call local_44 := Sender_variable_lookup(CurrentTx);
+local_45 := to_int(local_43 == local_44);
 assume local_45 != 0;
 local_47 := 3;
 call local_48 := AssetReceiver_variable_lookup(local_47);
@@ -8700,35 +9249,49 @@ call local_50 := Receiver_variable_lookup(local_49);
 local_51 := 3;
 call local_52 := TypeEnum_variable_lookup(local_51);
 local_53 := 1;
-local_54 := to_int(local_53 == local_52);
+local_54 := to_int(local_52 == local_53);
 call local_55 := select(local_54,local_48,local_50);
 local_56 := 4;
 call local_57 := Sender_variable_lookup(local_56);
-local_58 := to_int(local_57 == local_55);
+local_58 := to_int(local_55 == local_57);
 assume local_58 != 0;
 local_60 := 4;
 call local_61 := Sender_variable_lookup(local_60);
-call local_62 := Sender_variable_lookup(0);
-local_63 := to_int(local_62 != local_61);
+call local_62 := Sender_variable_lookup(CurrentTx);
+local_63 := to_int(local_61 != local_62);
 assume local_63 != 0;
 local_65 := 4;
 call local_66 := AssetReceiver_variable_lookup(local_65);
-call local_67 := Sender_variable_lookup(0);
-local_68 := to_int(local_67 == local_66);
+call local_67 := Sender_variable_lookup(CurrentTx);
+local_68 := to_int(local_66 == local_67);
 assume local_68 != 0;
 local_70 := 1;
 call local_71 := Fee_variable_lookup(local_70);
 local_72 := 2;
 call local_73 := Fee_variable_lookup(local_72);
-local_74 := local_73 + local_71;
+local_74 := local_71 + local_73;
 local_75 := 3;
 call local_76 := Fee_variable_lookup(local_75);
-local_77 := local_76 + local_74;
+local_77 := local_74 + local_76;
 scratch_1 := local_77;
-local_79 := 1;
-return_variable := local_79;
+local_79 := 0;
+call local_80 := Sender_variable_lookup(local_79);
+call local_81 := Sender_variable_lookup(CurrentTx);
+local_82 := to_int(local_80 != local_81);
+assume local_82 != 0;
+local_84 := 0;
+call local_85 := Receiver_variable_lookup(local_84);
+call local_86 := Sender_variable_lookup(CurrentTx);
+local_87 := to_int(local_85 == local_86);
+assume local_87 != 0;
+local_89 := 0;
+call local_90 := Amount_variable_lookup(local_89);
+local_91 := scratch_1;
+local_92 := to_int(local_90 >= local_91);
+return_variable := local_92;
 goto label_exit;
 label_exit:
+assume return_variable > 0;
 return;
 }
 
