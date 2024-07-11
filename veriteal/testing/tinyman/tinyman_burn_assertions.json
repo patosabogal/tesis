@@ -15,8 +15,7 @@
 			"(GroupTransaction[4].Sender == GroupTransaction[3].AssetReceiver) || (GroupTransaction[4].Sender == GroupTransaction[3].Receiver)",
 			"GroupTransaction[4].Sender != Sender",
 			"GroupTransaction[4].AssetReceiver == Sender",
-			"GroupTransaction[2].XferAsset == 42",
-			"GroupTransaction[3].XferAsset == 43"
+			"GroupTransaction[2].XferAsset != GroupTransaction[3].XferAsset"
 		]
   }
 }

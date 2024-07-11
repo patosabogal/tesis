@@ -317,8 +317,8 @@ def phi_value_name(blocks_index: int, phi_index: int):
     return f"phi_value_{blocks_index}_{phi_index}"
 
 
-def phi_variable_name(blocks_index: int, phi_index: int):
-    return f"phi_{blocks_index}_{phi_index}"
+def phi_variable_name(blocks_index: int, instruction_index: int, consumes_index: int):
+    return f"phi_{blocks_index}_{instruction_index}_{consumes_index}"
 
 
 def local_variable_name(instructions_index: int):
@@ -423,5 +423,8 @@ def functions_declarations() -> str:
     return """function to_int(x: bool) returns (int);
 axiom to_int(false) == 0;
 axiom to_int(true) == 1;
+
+function to_bool(x: int) returns (bool);
+axiom (forall x: int :: (x != 0 && to_bool(x) == true) || (x == 0 && to_bool(x) == false));
 
 """

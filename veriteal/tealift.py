@@ -113,7 +113,7 @@ class Tealift:
                 )
         return res
 
-    def phis_values(self):
+    def phis_values2(self):
         phis_dict = {}
         for basic_block_index, basic_block in enumerate(self.basic_blocks):
             for phi_index, phi in enumerate(basic_block.phis):
@@ -128,6 +128,27 @@ class Tealift:
                     values.append((basic_block_index, phi_index))
                     phis_dict[(incoming_edge, phi[incoming_edges_index])] = values
         return phis_dict
+
+    def phi_consumed_to_consumer(self):
+        phis_dict = {}
+        for basic_block_index, basic_block in enumerate(self.basic_blocks):
+            for instruction_index, instruction in enumerate(basic_block.instructions):
+                for consumes_index, consumes in enumerate(instruction.consumes):
+                    if consumes < 0: #Consumes a phi value
+                        values = []
+                        for incoming_edge in basic_block.incoming_edges:
+                            for consumed_instruction in basic_block.phis[abs(consumes)-1]:
+                                values = phis_dict.get(
+                                    (incoming_edge, consumed_instruction), []
+                                )
+                                # Append new value
+                                phi = (basic_block_index, instruction_index, consumes_index)
+                                if not phi in values:
+                                    values.append(phi)
+                                phis_dict[(incoming_edge, consumed_instruction)] = values
+        return phis_dict
+
+
 
     @property
     def instructions(self):

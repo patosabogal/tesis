@@ -1,0 +1,6 @@
+{
+  "constructor": {
+    "preconditions": ["true"],
+    "postconditions": ["true"]
+  }
+}

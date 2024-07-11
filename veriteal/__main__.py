@@ -178,29 +178,10 @@ def methods_harness(methods: List[str], assertions_json):
 # TODO: This needs to be moved somewhere else
 def main_contract_procedure(tealift: Tealift):
     var_names = set()
-    phi_values = tealift.phis_values()
+    phi_values = tealift.phi_consumed_to_consumer()
     main_procedure = ""
-
     for block_index, block in enumerate(tealift.basic_blocks):
         main_procedure += label_declaration(block_index)
-        for phi_index, _ in enumerate(block.phis):  # Assign value to the phi
-            phi_var_name = phi_variable_name(block_index, phi_index)
-            phi_val_name = phi_value_name(block_index, phi_index)
-            var_names.add(phi_var_name)
-            var_names.add(phi_val_name)
-            main_procedure += variable_assigment(phi_var_name, phi_val_name)
-            if (
-                block_index,
-                -(phi_index + 1),
-            ) in phi_values:  # Checks if value of another phi
-                values = phi_values[(block_index, -(phi_index + 1))]
-                for value in values:
-                    other_phi_block_index, other_phi_index = value
-                    main_procedure += variable_assigment(
-                        phi_value_name(other_phi_block_index, other_phi_index),
-                        phi_var_name,
-                    )
-
         for instruction_index, instruction in enumerate(block.instructions):
             try:
                 instruction_class = operation_class[instruction.operation]
@@ -227,9 +208,10 @@ def main_contract_procedure(tealift: Tealift):
             ) in phi_values:  # Check if value of a phi
                 values = phi_values.get((block_index, instruction_index), [])
                 for value in values:
-                    phi_block_index, phi_index = value
-                    phi_val_name = phi_value_name(phi_block_index, phi_index)
-                    main_procedure += variable_assigment(phi_val_name, var_name)
+                    phi_block_index, phi_instruction_index, phi_consumes_index = value
+                    phi_var_name = phi_variable_name(phi_block_index, phi_instruction_index, phi_consumes_index)
+                    var_names.add(phi_var_name)
+                    main_procedure += variable_assigment(phi_var_name, var_name)
 
     procedure_variables_declaration = ""
     for slot in range(SCRATCH_SLOTS):
